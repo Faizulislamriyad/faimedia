@@ -1,0 +1,494 @@
+body {
+    background: linear-gradient(to right, #bda3fe, #9fdefe);
+    margin: 0;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+/* === About Section === */
+.about {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 35px;
+    border-radius: 0 0 10px 10px;
+    margin: 0 0 0 0;
+    text-transform: uppercase;
+    color: rgb(0, 0, 0);
+    font-family: Arial, Helvetica, sans-serif;
+}
+.about span {
+    color: rgb(0, 102, 255);
+}
+.about p {
+    color: black;
+    text-transform: capitalize;
+}
+
+.about a {
+    text-decoration: none;
+    color: rgb(238, 0, 255);
+    font-weight: bold;
+}
+
+/* === Team Members Section === */
+.Member {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.Member h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+/* Team Member Cards */
+.Member > div {
+    display: inline-block;
+    background: #f3ffc2;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 15px;
+    width: 220px;
+    padding: 20px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.Member > div:hover {
+    transform: scale(1.05);
+}
+
+.Member img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 20%;
+    margin-bottom: 15px;
+}
+
+.Member h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.Member h4 {
+    font-size: 16px;
+    color: #007bff;
+    margin: 5px 0;
+}
+
+/* Social Media Modal */
+#Socal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 1000;
+    overflow: auto;
+}
+
+/* Modal Content Box */
+#Socal .modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    position: relative;
+}
+
+/* Close Button */
+#Socal .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    color: red;
+}
+
+/* Social Links in Modal */
+#Socal a {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 15px;
+    background: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+#Socal a:hover {
+    background: #0056b3;
+}
+
+/* === About FAI Media Section === */
+.abf {
+    padding: 10px 10px;
+    max-width: 900px;
+    margin: 40px auto;
+    background-color:transparent;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.abf h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #fffafa;
+    text-align: center;
+    text-transform: capitalize;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.abf a {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    text-shadow: 1px 1px 5px rgba(0, 64, 255, 0.625);
+}
+.abf h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: black;
+    margin-top: 25px;
+}
+.abf p {
+    color: black;
+    margin: 12px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+.abf strong {
+    color: #000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.abf .signature {
+    text-align: center;
+    font-weight: bold;
+    color: #0077cc;
+    margin-top: 30px;
+    font-size: 24px;
+    font-family: 'Great Vibes', cursive;
+}
+
+.abf hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+/* === Footer Section === */
+.footer {
+    background-color: #ffffff;
+    padding: 20px 20px 20px;
+    border-top: 2px solid #9fdefe;
+    margin-top: 40px;
+    border-radius: 10px 10px 0 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding: 20px 0 30px;
+    justify-content: space-between;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    margin-bottom: 20px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.footer-logo i {
+    color: #0059ff;
+    font-size: 28px;
+    margin-right: 10px;
+}
+
+.faimedia {
+    font-size: 22px;
+    color: #0059ff;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+}
+
+.faimedia span {
+    color: #ffd000;
+}
+
+.footer-description {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.social-links {
+    display: flex;
+    gap: 12px;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f1f3f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.social-link:hover {
+    background-color: #0059ff;
+    color: yellow;
+    transform: translateY(-3px);
+}
+
+.footer-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.footer-links a:hover {
+    color: #0059ff;
+    text-decoration: underline;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.contact-item i {
+    color: #0059ff;
+    margin-top: 2px;
+    font-size: 16px;
+    width: 20px;
+}
+
+.contact-item span {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.5;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.footer-bottom {
+    border-top: 1px solid #e8eaed;
+    padding: 20px 0;
+    margin-top: 20px;
+}
+
+.footer-bottom-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-bottom p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.footer-bottom-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-bottom-links a {
+    font-size: 14px;
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.footer-bottom-links a:hover {
+    color: #0059ff;
+    text-decoration: underline;
+}
+
+/* === Responsive Design === */
+@media (max-width: 992px) {
+    .footer-content {
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Member Cards */
+    .Member > div {
+        width: 80%;
+        margin: 15px auto;
+    }
+    
+    /* About Section */
+    .abf {
+        padding: 20px 15px;
+        margin: 30px auto;
+    }
+
+    .abf h1 {
+        font-size: 24px;
+    }
+
+    .abf h2 {
+        font-size: 18px;
+    }
+
+    .abf p {
+        font-size: 16px;
+    }
+
+    .abf .signature {
+        font-size: 22px;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 30px 15px 15px;
+        margin-top: 30px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 40px;
+    }
+    
+    .footer-section {
+        min-width: 100%;
+    }
+    
+    .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .footer-bottom-links {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    /* About Section */
+    .abf {
+        padding: 15px 10px;
+        margin: 20px auto;
+    }
+
+    .abf h1 {
+        font-size: 20px;
+    }
+
+    .abf h2 {
+        font-size: 16px;
+    }
+
+    .abf p {
+        font-size: 14px;
+    }
+
+    .abf .signature {
+        font-size: 20px;
+    }
+    
+    /* Member Cards */
+    .Member > div {
+        width: 90%;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 25px 10px 10px;
+        margin-top: 25px;
+    }
+    
+    .footer-logo h2 {
+        font-size: 20px;
+    }
+    
+    .footer-description {
+        font-size: 14px;
+    }
+    
+    .social-link {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .footer-title {
+        font-size: 17px;
+    }
+    
+    .footer-links a,
+    .contact-item span {
+        font-size: 14px;
+    }
+    
+    .footer-bottom p,
+    .footer-bottom-links a {
+        font-size: 13px;
+    }
+}
