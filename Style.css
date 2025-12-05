@@ -11,6 +11,7 @@ body {
     text-align: center;
     padding: 35px;
     border-radius: 0 0 10px 10px;
+    border-bottom: 2px solid #9fdefe;
     margin: 0 0 0 0;
     text-transform: uppercase;
     color: rgb(0, 0, 0);
@@ -492,3 +493,4 @@ body {
         font-size: 13px;
     }
 }
+
