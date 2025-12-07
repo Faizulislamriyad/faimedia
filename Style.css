@@ -280,30 +280,6 @@ body {
     margin-bottom: 20px;
     font-family: Arial, Helvetica, sans-serif;
 }
-
-.footer-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.footer-links li {
-    margin-bottom: 12px;
-}
-
-.footer-links a {
-    color: #666;
-    text-decoration: none;
-    transition: color 0.3s;
-    font-size: 15px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.footer-links a:hover {
-    color: #0059ff;
-    text-decoration: underline;
-}
-
 .contact-info {
     display: flex;
     flex-direction: column;
@@ -350,26 +326,203 @@ body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
-
-.footer-bottom-links {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.footer-bottom-links a {
-    font-size: 14px;
-    color: #666;
-    text-decoration: none;
-    transition: color 0.3s;
+.footer-bottom b {
+    margin: 0;
+    font-size: 12px;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.71);
+    font-weight: normal;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.footer-bottom-links a:hover {
-    color: #0059ff;
-    text-decoration: underline;
+/* === Night Mode Toggle Button === */
+.night-mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
 }
 
+.night-mode-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.night-mode-toggle i {
+    font-size: 20px;
+    color: white;
+}
+
+/* === Night Mode Styles === */
+body.night-mode {
+    background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+    color: #e0e0e0;
+}
+
+body.night-mode .about {
+    background-color: #1a1a2e;
+    color: white;
+    border-bottom: 2px solid #3498db;
+}
+
+body.night-mode .about span {
+    color: #ffd900;
+}
+
+body.night-mode .about p {
+    color: white;
+}
+
+body.night-mode .about a {
+    color: #ffee00;
+}
+body.night-mode .about a:hover {
+    color: #f700ff;
+}
+body.night-mode .Member h1 {
+    color: #ffffff;
+}
+
+body.night-mode .Member > div {
+    background: #2c3e50;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+body.night-mode .Member h3 {
+    color: #ecf0f1;
+}
+
+body.night-mode .Member h4 {
+    color: #00ff6ee1;
+}
+
+body.night-mode .Member h5 {
+    color: #95a5a6;
+}
+
+body.night-mode #Socal .modal-content {
+    background-color: #2c3e50;
+    color: #f1eeec;
+}
+
+body.night-mode #Socal a {
+    background: #3498db;
+}
+
+body.night-mode #Socal a:hover {
+    background: #2980b9;
+}
+
+body.night-mode .abf h1 {
+    color: #ffffff;
+}
+
+body.night-mode .abf a {
+    color: #ffd900;
+    text-shadow: 1px 1px 5px rgba(50, 55, 58, 0.7);
+}
+
+body.night-mode .abf h2 {
+    color: #ecf0f1;
+}
+
+body.night-mode .abf p {
+    color: #d2dce2;
+}
+
+body.night-mode .abf strong {
+    color: #ecf0f1;
+}
+
+body.night-mode .abf .signature {
+    color: #ffd900;
+}
+
+body.night-mode .footer {
+    background-color: #1a1a2e;
+    border-top: 2px solid #3498db;
+}
+
+body.night-mode .faimedia {
+    color: #ffd900;
+}
+body.night-mode .faimedia span {
+    color: #0099ff;
+}
+body.night-mode .footer-description {
+    color: #b0b0b0;
+}
+body.night-mode .footer-logo i {
+    color: #ffffff;
+}
+body.night-mode .social-link {
+    background-color: #2c3e50;
+    color: hsl(0, 0%, 100%);
+}
+body.night-mode .social-link:hover {
+    background-color: #ffffff;
+    color: #ff0000;
+}
+
+body.night-mode .footer-title {
+    color: #ffffff;
+}
+body.night-mode .contact-item i {
+    color: #3498db;
+}
+body.night-mode .contact-item span {
+    color: #b0b0b0;
+}
+body.night-mode .footer-bottom {
+    border-top: 1px solid #2c3e50;
+}
+
+body.night-mode .footer-bottom p {
+    color: #b0b0b0;
+}
+body.night-mode .footer-bottom b {
+    color: rgba(255, 255, 255, 0.767);
+}
+
+/* ... rest of your existing CSS remains the same ... */
+
+/* === Responsive Design Updates === */
+@media (max-width: 768px) {
+    .night-mode-toggle {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .night-mode-toggle i {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .night-mode-toggle {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .night-mode-toggle i {
+        font-size: 16px;
+    }
+}
 /* === Responsive Design === */
 @media (max-width: 992px) {
     .footer-content {
@@ -493,4 +646,3 @@ body {
         font-size: 13px;
     }
 }
-
