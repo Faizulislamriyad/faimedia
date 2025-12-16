@@ -15,10 +15,16 @@
     <main>
         <!-- About Section -->
         <div class="about">
-            <h1>Welcome to <span> FAI Media</span></h1>
-            <p>We are <a href="https://youtube.com/@faimedia.24?si=pPu81S-D-M3uOfd1" target="_blank" rel="noopener noreferrer">FAI MEDIA</a> — your creative digital partner for videos, stories, and innovation.</p>
+            <div class="about-container">
+                <div class="about-left">
+                    <img src="faimedia.jpg" alt="FAI Media">
+                </div>
+                <div class="about-right">
+                    <h1>Welcome to <span> FAI Media</span></h1>
+                    <p>We are <a href="https://youtube.com/@faimedia.24?si=pPu81S-D-M3uOfd1" target="_blank" rel="noopener noreferrer">FAI MEDIA</a> — your creative digital partner for videos, stories, and innovation.</p>
+                </div>
+            </div>
         </div>
-
         <!-- Members Section -->
         <div class="Member">
             <h1>Meet Our Team</h1>
@@ -27,6 +33,7 @@
                 data-img="memb1.jpg"
                 data-fb="https://www.facebook.com/legend2019.o" 
                 data-insta="https://www.instagram.com/wv_riyad/?hl=en"
+                data-viewmore="riyad.html"
                 onclick="showSocial(this)">
                 <img src="memb1.jpg" alt="Team Member">
                 <h3>Faizul Islam Riyad</h3>
@@ -38,6 +45,7 @@
                 data-img="memb2.jpg"
                 data-fb="https://www.facebook.com/khairul.islam.955435" 
                 data-insta="https://www.instagram.com/khairulislam2154?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                data-viewmore="khairul.html"
                 onclick="showSocial(this)">
                 <img src="memb2.jpg" alt="Team Member">
                 <h3>Khairul Islam</h3>
@@ -49,6 +57,7 @@
                 data-img="memb3.jpg"
                 data-fb="https://www.facebook.com/khaled.mahmud.901430" 
                 data-insta="https://instagram.com/khaled"
+                data-viewmore="#"
                 onclick="showSocial(this)">
                 <img src="memb3.jpg" alt="Team Member">
                 <h3>Khaled Mahmud</h3>
@@ -60,6 +69,7 @@
                 data-img="memb4.jpg"
                 data-fb="https://www.facebook.com/share/1MeHLVMfoS/" 
                 data-insta="#"
+                data-viewmore="#"
                 onclick="showSocial(this)">
                 <img src="memb4.jpg" alt="Team Member">
                 <h3>Raihan Rohan</h3>
@@ -71,6 +81,7 @@
                 data-img="memb5.jpg"
                 data-fb="https://www.facebook.com/share/16WBfcBT8b/?mibextid=wwXIfr" 
                 data-insta="https://www.instagram.com/himadri_s_biswas?igsh=eDJqdTRleTh6azgx&utm_source=qr"
+                data-viewmore="#"
                 onclick="showSocial(this)">
                 <img src="memb5.jpg" alt="Team Member">
                 <h3>Himadri S Biswas</h3>
@@ -82,11 +93,24 @@
                 data-img="memb6.jpg"
                 data-fb="https://www.facebook.com/profile.php?id=100046175142282" 
                 data-insta="#"
+                data-viewmore="riyad.html"
                 onclick="showSocial(this)">
                 <img src="memb6.jpg" alt="Team Member">
                 <h3>Yasir Arafat Alif</h3>
                 <h4>Member</h4>
                 <h5>Role : Video Editor</h5>
+            </div>
+            <div class="mem7"
+                data-name="" 
+                data-img="memb7.jpg"
+                data-fb="#" 
+                data-insta="#"
+                data-viewmore="#"
+                onclick="showSocial(this)">
+                <img src="memb7.jpg" alt="Team Member">
+                <h3></h3>
+                <h4>Member</h4>
+                <h5>Role : Writer</h5>
             </div>
         </div>
         <!-- Social Modal -->
@@ -96,8 +120,11 @@
                 <img id="memberImg" src="" alt="Member" style="width:40%; aspect-ratio: 1/1; object-fit: cover; border-radius:20%; margin-bottom:5px;">
                 <h2 id="memberName"></h2>
                 <p>Follow me on:</p>
-                <a id="fbLink" href="#" target="_blank">Facebook</a><br>
-                <a id="instaLink" href="#" target="_blank">Instagram</a>
+                <a id="fbLink" href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a id="instaLink" href="#" target="_blank"><i class="fab fa-instagram"></i></a><br>
+                <a id="viewMoreLink" href="#" target="_blank" class="social-modal-btn view-more-btn">
+                    <i class="fas fa-external-link-alt"></i> View More
+                </a>
             </div>
         </div>
         <div class="abf">
@@ -187,7 +214,7 @@
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
                     <p>&copy; 2025 FAI Media <span data-i18n="rightsReserved">All rights reserved.</span></p>
-                    <b>Version 2.1.7</b>
+                    <b>Version 3.0.0</b>
                 </div>
             </div>
         </div>
