@@ -42,13 +42,24 @@ function showSocial(memberDiv) {
     let img = document.getElementById("memberImg");
     let fb = document.getElementById("fbLink");
     let insta = document.getElementById("instaLink");
+    let viewMore = document.getElementById("viewMoreLink");
 
+    // data-attribute থেকে member info নাও
     name.textContent = memberDiv.dataset.name;
     img.src = memberDiv.dataset.img;
     fb.href = memberDiv.dataset.fb;
     insta.href = memberDiv.dataset.insta;
+    viewMore.href = memberDiv.dataset.viewmore;
 
-    modal.style.display = "block";
+    // View More লিঙ্ক সেট করুন
+    if (memberDiv.dataset.viewmore && memberDiv.dataset.viewmore !== "#") {
+        viewMore.href = memberDiv.dataset.viewmore;
+        viewMore.style.display = "inline-block"; // দেখান
+    } else {
+        viewMore.style.display = "none"; // লিঙ্ক না থাকলে লুকান
+    }
+
+    modal.style.display = "block"; // modal দেখাও
 }
 
 function closeSocial() {
