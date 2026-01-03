@@ -1,13 +1,17 @@
+/* ========== ABOUT SECTION ========== */
 .about-container {
   display: flex;
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 15px;
 }
+
 .about-lmg {
   flex: 0 0 auto;
   margin-right: 30px;
 }
+
 .about-lmg img {
   width: 120px;
   height: 120px;
@@ -15,10 +19,93 @@
   object-fit: cover;
   border: 4px solid rgba(0, 255, 149, 0.864);
 }
+
 .about-right {
   flex: 1;
 }
-/*=========== Star Section ==========*/
+
+.about-right h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.about-right h1 span {
+  color: #007bff;
+}
+
+.about-right p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.about-right p a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.about-right p a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile responsive for about section */
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 15px;
+  }
+  
+  .about-lmg {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  
+  .about-lmg img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .about-right h1 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+  
+  .about-right p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-lmg img {
+    width: 80px;
+    height: 80px;
+    border-width: 3px;
+  }
+  
+  .about-right h1 {
+    font-size: 1.3rem;
+  }
+  
+  .about-right p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .about-right h1 {
+    font-size: 1.1rem;
+  }
+  
+  .about-lmg img {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* ========== STATS SECTION ========== */
 .stats-section {
   background: white;
   padding: 10px 10px;
@@ -55,12 +142,100 @@
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-/*========== Skill Section ==========*/
+
+/* Responsive stats section */
+/* MOBILE: 1 line (5 items in a row) */
+@media (max-width: 992px) {
+  .stats-container {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    overflow-x: auto;
+    display: flex;
+    padding: 10px 5px;
+  }
+  
+  .stat-item {
+    min-width: 120px;
+    padding: 15px 10px;
+    flex-shrink: 0;
+  }
+  
+  .stat-number {
+    font-size: 20px;
+  }
+  
+  .stat-label {
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-container {
+    gap: 8px;
+  }
+  
+  .stat-item {
+    min-width: 110px;
+    padding: 12px 8px;
+  }
+  
+  .stat-number {
+    font-size: 18px;
+  }
+  
+  .stats-section {
+    margin: 20px 15px 40px;
+    border-radius: 15px;
+    padding: 15px 5px;
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-container {
+    gap: 6px;
+  }
+  
+  .stat-item {
+    min-width: 100px;
+    padding: 10px 6px;
+  }
+  
+  .stat-number {
+    font-size: 16px;
+  }
+  
+  .stat-label {
+    font-size: 6.5px;
+    letter-spacing: 0.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-container {
+    gap: 5px;
+  }
+  
+  .stat-item {
+    min-width: 90px;
+    padding: 8px 5px;
+  }
+  
+  .stat-number {
+    font-size: 15px;
+  }
+  
+  .stat-label {
+    font-size: 6px;
+  }
+}
+
+/* ========== SKILL SECTION ========== */
 .skills-section {
   padding: 40px 15px;
   max-width: 1400px;
   margin: 0 auto;
 }
+
 .section-title {
   text-align: center;
   font-size: 32px;
@@ -71,6 +246,7 @@
   position: relative;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 .section-title:after {
   content: "";
   position: absolute;
@@ -81,12 +257,36 @@
   height: 3px;
   background: #0011ff;
 }
+
+/* Responsive section title */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 24px;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+  }
+  
+  .section-title:after {
+    width: 80px;
+    height: 2px;
+    bottom: -10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 20px;
+    margin-bottom: 25px;
+  }
+}
+
 .skills-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
   margin-bottom: 50px;
 }
+
 .skill-category {
   background: #f3ffc2;
   padding: 30px;
@@ -94,10 +294,12 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
 }
+
 .skill-category:hover {
   transform: translateY(-10px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
+
 .skill-category h3 {
   color: #000;
   margin-bottom: 50px;
@@ -106,9 +308,11 @@
   align-items: center;
   gap: 12px;
 }
+
 .skill-item {
   margin-bottom: 20px;
 }
+
 .skill-name {
   display: flex;
   justify-content: space-between;
@@ -117,12 +321,14 @@
   color: #00000080;
   font-size: 16px;
 }
+
 .skill-bar {
   height: 10px;
   background: #eef5ff;
   border-radius: 5px;
   overflow: hidden;
 }
+
 .skill-level {
   height: 100%;
   background: linear-gradient(90deg, #00a6ff, rgb(121, 255, 235), #c300ff);
@@ -130,48 +336,181 @@
   transition: width 1s ease-in-out;
 }
 
-/*========== Night Mood Style ==========*/
+/* Responsive skills container */
+@media (max-width: 1200px) {
+  .skills-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .skills-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 40px;
+  }
+  
+  .skill-category {
+    padding: 20px;
+  }
+  
+  .skill-category h3 {
+    font-size: 18px;
+    margin-bottom: 30px;
+    gap: 8px;
+  }
+  
+  .skill-item {
+    margin-bottom: 15px;
+  }
+  
+  .skill-name {
+    font-size: 14px;
+  }
+  
+  .skill-bar {
+    height: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .skills-container {
+    gap: 12px;
+  }
+  
+  .skill-category {
+    padding: 15px;
+    border-radius: 12px;
+  }
+  
+  .skill-category h3 {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .skill-name {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .skill-category {
+    padding: 12px;
+    border-radius: 10px;
+  }
+  
+  .skill-category h3 {
+    font-size: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .skill-item {
+    margin-bottom: 12px;
+  }
+  
+  .skill-name {
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  
+  .skill-bar {
+    height: 6px;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 360px) {
+  .skills-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .skill-category {
+    padding: 10px;
+  }
+  
+  .skill-category h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .skill-name {
+    font-size: 11px;
+  }
+}
+
+/* Tablet view */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .skills-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+/* ========== NIGHT MODE STYLES ========== */
 body.night-mode .skill-name {
   color: black;
 }
+
 body.night-mode .section-title {
   color: #fff;
 }
+
 body.night-mode .section-title:after {
   background: #ffe100;
 }
+
 body.night-mode .skill-category {
   background: #2c3e50;
 }
+
 body.night-mode .skill-category h3 {
   color: white;
 }
+
 body.night-mode .skill-name {
   color: rgba(255, 255, 255, 0.634);
 }
+
 body.night-mode .skill-level {
   background: linear-gradient(90deg, #00a6ff, #ffffff, #ffae00);
 }
+
 body.night-mode .stats-section {
   background: #2c3e50
 }
+
 body.night-mode .stat-number {
   color: white;
 }
+
 body.night-mode .stat-label {
   color: rgba(255, 255, 255, 0.634);
 }
+
 body.night-mode .audio-info-display {
   color: white;
 }
+
 body.night-mode .about-lmg img {
   border: 4px solid rgba(255, 230, 0, 0.988);
 }
 
+body.night-mode .about-right h1 {
+  color: white;
+}
 
+body.night-mode .about-right p {
+  color: rgba(255, 255, 255, 0.8);
+}
 
-
-
+/* ========== GALLERY SECTION ========== */
 .gallery-container {
   position: relative;
   overflow: hidden;
@@ -221,6 +560,41 @@ body.night-mode .about-lmg img {
   text-align: center;
   font-size: 14px;
 }
+
+/* Responsive gallery */
+@media (max-width: 768px) {
+  .gallery-container {
+    height: 150px;
+  }
+  
+  .image-item {
+    width: 150px;
+    margin: 0 8px;
+  }
+  
+  .image-caption {
+    font-size: 12px;
+    padding: 10px 8px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-container {
+    height: 120px;
+  }
+  
+  .image-item {
+    width: 120px;
+    margin: 0 5px;
+  }
+  
+  .image-caption {
+    font-size: 10px;
+    padding: 8px 5px 5px;
+  }
+}
+
+/* ========== INFO SECTIONS ========== */
 .info-section {
   background: rgba(255, 255, 255, 0.05);
   padding: 20px;
@@ -239,6 +613,7 @@ body.night-mode .about-lmg img {
   margin-bottom: 10px;
   font-size: 0.95rem;
 }
+
 .image-gallery-wrapper {
   max-width: 1400px;
   width: 100%;
@@ -246,38 +621,39 @@ body.night-mode .about-lmg img {
   padding: 0 15px; 
   box-sizing: border-box;
 }
+
 .audio-info-display {
-    background: rgba(255, 255, 255, 0.1);
-    color: black;
-    padding: 10px 15px;
-    border-radius: 8px;
-    margin: 15px 0;
-    text-align: center;
-    font-size: 14px;
-    backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  color: black;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  text-align: center;
+  font-size: 14px;
+  backdrop-filter: blur(10px);
 }
 
 .play-audio-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    transition: all 0.3s ease;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
 .play-audio-btn:hover {
-    background: rgba(255, 255, 255, 0.9);
-    color: #000;
-    transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+  transform: scale(1.1);
 }
