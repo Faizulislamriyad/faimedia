@@ -560,11 +560,6 @@ body.night-mode .footer-bottom b {
 }
 
 @media (max-width: 768px) {
-    /* Member Cards */
-    .Member > div {
-        width: 80%;
-        margin: 15px auto;
-    }
     
     /* About Section */
     .abf {
@@ -637,11 +632,6 @@ body.night-mode .footer-bottom b {
         font-size: 20px;
     }
     
-    /* Member Cards */
-    .Member > div {
-        width: 90%;
-    }
-    
     /* Footer */
     .footer {
         padding: 25px 10px 10px;
@@ -691,5 +681,34 @@ body.night-mode .footer-bottom b {
     .about-left img {
         width: 120px;
         height: 120px;
+    }
+}
+@media (max-width: 768px) {
+    .Member {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        padding: 30px 15px;
+    }
+
+    .Member > div {
+        width: calc(50% - 20px); /* 2 cards per row */
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .Member h1 {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    #Socal .modal-content {
+    width: 50%;
+}
+}
+@media (max-width: 480px) {
+    .Member > div {
+        width: calc(50% - 15px); /* Adjust for smaller screens */
+        padding: 15px;
     }
 }
