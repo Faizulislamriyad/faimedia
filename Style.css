@@ -4,7 +4,28 @@ body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
 }
-
+.Update-info {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgb(255, 255, 255);
+  padding: 8px 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  text-align: center;
+  font-size: 14px;
+  backdrop-filter: blur(10px);
+}
+.Update-footer {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.773);
+  padding: 6px 10px;
+  border-radius: 8px;
+  margin: 15px 0;
+  text-align: center;
+  font-size: 12px;
+  backdrop-filter: blur(10px);
+  text-transform: capitalize;
+  font-family:Arial, Helvetica, sans-serif
+}
 /* === About Section === */
 .about {
     background-color: rgb(255, 255, 255);
@@ -356,13 +377,7 @@ body {
     gap: 15px;
 }
 
-.footer-bottom p {
-    font-size: 14px;
-    color: #666;
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-}
-.footer-bottom b {
+.footer-bottom b { /*vrtn*/
     margin: 0;
     font-size: 12px;
     align-items: center;
