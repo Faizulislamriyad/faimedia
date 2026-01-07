@@ -457,7 +457,6 @@
 body.night-mode .skill-name {
   color: black;
 }
-
 body.night-mode .section-title {
   color: #fff;
 }
@@ -623,8 +622,8 @@ body.night-mode .about-right p {
 }
 
 .audio-info-display {
-  background: rgba(255, 255, 255, 0.1);
-  color: black;
+  background: linear-gradient(to right, #9f8dcd9d, #71d0ff);
+  color: white;
   padding: 10px 15px;
   border-radius: 8px;
   margin: 15px 0;
@@ -656,4 +655,9 @@ body.night-mode .about-right p {
   background: rgba(255, 255, 255, 0.9);
   color: #000;
   transform: scale(1.1);
+}
+
+body.night-mode .audio-info-display {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgb(255, 255, 255);
 }
