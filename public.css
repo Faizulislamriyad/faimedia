@@ -661,3 +661,185 @@ body.night-mode .audio-info-display {
     background: rgba(255, 255, 255, 0.1);
     color: rgb(255, 255, 255);
 }
+
+/* ========== MINI HEADER COUNTER ========== */
+.header-counter {
+  position: fixed;
+  top: 15px;
+  right: 80px; /* Night mode button এর বামে */
+  z-index: 1000;
+}
+
+.mini-counter {
+  display: flex;
+  gap: 2px;
+  background: transparent;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2px 6px;
+}
+
+.counter-item.mini {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 6px;
+  border-radius: 20px;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.counter-item.mini:hover {
+  transform: translateY(-1px);
+  background: #e3f2fd;
+}
+
+.counter-item.mini i {
+  font-size: 10px;
+  color: #007bff;
+}
+
+.counter-item.mini:nth-child(2) i {
+  color: red;
+}
+
+.count-number {
+  font-size: 10px;
+  font-weight: bold;
+  color: #000000;
+  min-width: 20px;
+  text-align: center;
+}
+
+.mini-like-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #ea6c8e, #ff4757);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-left: 3px;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.mini-like-btn:hover:not(:disabled) {
+  transform: scale(1.1);
+  box-shadow: 0 3px 8px white;
+}
+
+.mini-like-btn:disabled {
+  background: linear-gradient(135deg, #b9d7c5, #1dd1a1);
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.mini-like-btn.liked {
+  background: yellow;
+}
+
+/* Responsive for mini counter */
+@media (max-width: 768px) {
+  .header-counter {
+    top: 10px;
+    right: 65px; /* Mobile এ night mode button এর বামে */
+  }
+  
+  .mini-counter {
+    gap: 8px;
+    padding: 4px 8px;
+  }
+  
+  .counter-item.mini {
+    padding: 4px 6px;
+    gap: 4px;
+  }
+  
+  .count-number {
+    font-size: 12px;
+    min-width: 18px;
+  }
+  
+  .counter-item.mini i {
+    font-size: 12px;
+  }
+  
+  .mini-like-btn {
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-counter {
+    top: 8px;
+    right: 60px;
+  }
+  
+  .mini-counter {
+    gap: 6px;
+    padding: 3px 6px;
+    border-radius: 15px;
+  }
+  
+  .counter-item.mini {
+    padding: 3px 5px;
+  }
+  
+  .count-number {
+    font-size: 11px;
+    min-width: 16px;
+  }
+  
+  .mini-like-btn {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .header-counter {
+    right: 55px;
+  }
+  
+  .mini-counter {
+    gap: 5px;
+    padding: 3px 5px;
+  }
+  
+  .count-number {
+    font-size: 10px;
+  }
+}
+
+/* Night Mode Styles for Mini Counter */
+body.night-mode .mini-counter {
+  background: transparent;
+  border-color: transparent;
+}
+
+body.night-mode .counter-item.mini {
+  background: #34495e;
+}
+
+body.night-mode .counter-item.mini:hover {
+  background: #dddbdb;
+}
+
+body.night-mode .count-number {
+  color: rgb(255, 251, 0);
+}
+body.night-mode .counter-item.mini i {
+  color: #3498db;
+}
+
+body.night-mode .counter-item.mini:nth-child(2) i {
+  color: red;
+}
