@@ -1,502 +1,313 @@
-// Advanced View and Like Counter System with Device Fingerprinting
-class AdvancedViewLikeCounter {
+// Firebase Counter with Device Tracking
+class FirebaseCounter {
   constructor() {
-    this.viewKey = 'faimedia_views';
-    this.likeKey = 'faimedia_likes';
-    this.userLikeKey = 'faimedia_user_liked';
-    this.deviceIdKey = 'faimedia_device_id';
-    this.viewsTrackingKey = 'faimedia_viewed_devices';
+    this.config = {
+      apiKey: "AIzaSyAEhu5To-5_jd8qGQHvLkQXxcjxWsqRIu8",
+      authDomain: "fai-media.firebaseapp.com",
+      databaseURL: "https://fai-media-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "fai-media",
+      storageBucket: "fai-media.firebasestorage.app",
+      messagingSenderId: "946674905506",
+      appId: "1:946674905506:web:e229628996a19ac4b6c2fb"
+    };
     
-    this.viewCount = 0;
-    this.likeCount = 0;
-    this.hasLiked = false;
+    this.views = 0;
+    this.likes = 0;
     this.deviceId = null;
+    this.db = null;
     
-    this.initialize();
+    this.init();
   }
   
-  initialize() {
-    this.generateDeviceId();
-    this.loadCounts();
-    this.updateMiniDisplay();
-    this.setupEventListeners();
+  init() {
+    console.log('🚀 FAI Media Counter Initializing...');
     
-    // Check and increment view count for this device
-    this.checkAndIncrementView();
+    // Generate unique device ID
+    this.generateDeviceId();
+    
+    // Initialize Firebase
+    this.initFirebase();
   }
   
   generateDeviceId() {
-    // Generate a unique device ID using browser fingerprinting
-    try {
-      // Try to get existing device ID
-      this.deviceId = localStorage.getItem(this.deviceIdKey);
+    // Try to get existing device ID
+    this.deviceId = localStorage.getItem('fai_device_id');
+    
+    if (!this.deviceId) {
+      // Create new device ID (simple fingerprint)
+      const fingerprint = [
+        navigator.userAgent,
+        navigator.language,
+        screen.width + 'x' + screen.height,
+        new Date().getTimezoneOffset()
+      ].join('|');
       
-      if (!this.deviceId) {
-        // Generate new device ID
-        const fingerprint = this.generateFingerprint();
-        this.deviceId = 'device_' + fingerprint;
-        localStorage.setItem(this.deviceIdKey, this.deviceId);
-        
-        console.log('New device detected:', this.deviceId);
+      // Simple hash
+      let hash = 0;
+      for (let i = 0; i < fingerprint.length; i++) {
+        const char = fingerprint.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
       }
-    } catch (e) {
-      console.error('Error generating device ID:', e);
-      // Fallback to session ID if localStorage fails
-      this.deviceId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    }
-  }
-  
-  generateFingerprint() {
-    // Simple fingerprint generation
-    const components = [
-      navigator.userAgent,
-      navigator.language,
-      screen.width + 'x' + screen.height,
-      screen.colorDepth,
-      new Date().getTimezoneOffset(),
-      !!window.sessionStorage,
-      !!window.localStorage,
-      navigator.hardwareConcurrency || 'unknown'
-    ].join('|');
-    
-    // Simple hash function
-    let hash = 0;
-    for (let i = 0; i < components.length; i++) {
-      const char = components.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32-bit integer
+      
+      this.deviceId = 'device_' + Math.abs(hash).toString(36);
+      localStorage.setItem('fai_device_id', this.deviceId);
     }
     
-    return Math.abs(hash).toString(16);
+    console.log('📱 Device ID:', this.deviceId);
   }
   
-  loadCounts() {
+  initFirebase() {
+    if (typeof firebase === 'undefined') {
+      console.error('Firebase not loaded');
+      return;
+    }
+    
     try {
-      // Load counts from localStorage
-      this.viewCount = parseInt(localStorage.getItem(this.viewKey)) || 0;
-      this.likeCount = parseInt(localStorage.getItem(this.likeKey)) || 0;
-      this.hasLiked = localStorage.getItem(this.userLikeKey) === 'true';
+      // Initialize Firebase
+      firebase.initializeApp(this.config);
+      this.db = firebase.database();
       
-      console.log('Loaded - Views:', this.viewCount, 'Likes:', this.likeCount);
-    } catch (e) {
-      console.error('Error loading counts:', e);
+      console.log('✅ Firebase connected successfully');
+      
+      // Setup real-time listeners
+      this.setupListeners();
+      
+      // Check and update view count
+      this.handleView();
+      
+      // Setup like button
+      this.setupLikeButton();
+      
+    } catch (error) {
+      console.error('Firebase init error:', error);
     }
   }
   
-  saveCounts() {
-    try {
-      localStorage.setItem(this.viewKey, this.viewCount.toString());
-      localStorage.setItem(this.likeKey, this.likeCount.toString());
-    } catch (e) {
-      console.error('Error saving counts:', e);
-    }
+  setupListeners() {
+    // Listen for count updates
+    this.db.ref('counts').on('value', (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        this.views = data.views || 0;
+        this.likes = data.likes || 0;
+        this.updateDisplay();
+        console.log('📊 Counts updated:', data);
+      }
+    });
+    
+    // Listen for device tracking
+    this.db.ref('devices').child(this.deviceId).on('value', (snapshot) => {
+      const deviceData = snapshot.val();
+      if (deviceData) {
+        localStorage.setItem('fai_has_liked', deviceData.liked ? 'true' : 'false');
+        this.updateLikeButton();
+      }
+    });
   }
   
-  checkAndIncrementView() {
+  async handleView() {
     try {
-      // Get list of devices that have viewed
-      const viewedDevices = JSON.parse(localStorage.getItem(this.viewsTrackingKey)) || [];
+      // Check if this device has already viewed
+      const deviceRef = this.db.ref('devices').child(this.deviceId);
+      const snapshot = await deviceRef.once('value');
+      const deviceData = snapshot.val();
       
-      // Check if current device has already viewed
-      const hasViewed = viewedDevices.includes(this.deviceId);
-      
-      if (!hasViewed) {
+      if (!deviceData || !deviceData.viewed) {
         // First view from this device
-        this.viewCount++;
-        viewedDevices.push(this.deviceId);
+        await deviceRef.set({
+          viewed: true,
+          viewedAt: firebase.database.ServerValue.TIMESTAMP,
+          userAgent: navigator.userAgent.substring(0, 100),
+          liked: false
+        });
         
-        // Save updated counts and device list
-        this.saveCounts();
-        localStorage.setItem(this.viewsTrackingKey, JSON.stringify(viewedDevices));
+        // Increment view count
+        await this.incrementView();
         
-        // Update display with animation
-        this.updateMiniDisplay();
-        this.showPulseAnimation('miniViewCount');
-        
-        console.log('New view from device:', this.deviceId, 'Total views:', this.viewCount);
-        
-        // Optional: Send to server for cross-device tracking
-        // this.sendAnalytics('view', this.deviceId);
+        console.log('👁️ New view from device:', this.deviceId);
       } else {
-        console.log('Device already viewed:', this.deviceId);
+        console.log('📱 Device already viewed');
       }
-    } catch (e) {
-      console.error('Error tracking view:', e);
+      
+    } catch (error) {
+      console.error('View handling error:', error);
     }
   }
   
-  handleLike() {
+  async incrementView() {
+    return this.db.ref('counts/views').transaction((current) => {
+      return (current || 0) + 1;
+    });
+  }
+  
+  async handleLike() {
     try {
-      if (!this.hasLiked) {
-        this.likeCount++;
-        this.hasLiked = true;
-        
-        // Save like status and count
-        localStorage.setItem(this.userLikeKey, 'true');
-        this.saveCounts();
-        
-        // Update display with animation
-        this.updateMiniDisplay();
-        this.showPulseAnimation('miniLikeCount');
-        this.showLikeConfirmation();
-        
-        console.log('New like from device:', this.deviceId, 'Total likes:', this.likeCount);
-        
-        // Optional: Send to server
-        // this.sendAnalytics('like', this.deviceId);
-        
-        return true;
-      } else {
-        console.log('Device already liked:', this.deviceId);
-        this.showAlreadyLikedMessage();
+      // Check if already liked
+      const deviceRef = this.db.ref('devices').child(this.deviceId);
+      const snapshot = await deviceRef.once('value');
+      const deviceData = snapshot.val();
+      
+      if (deviceData && deviceData.liked) {
+        this.showToast('You already liked! ❤️');
         return false;
       }
-    } catch (e) {
-      console.error('Error handling like:', e);
-      return false;
-    }
-  }
-  
-  updateMiniDisplay() {
-    try {
-      // Update mini counter in header
-      const miniViewCount = document.getElementById('miniViewCount');
-      const miniLikeCount = document.getElementById('miniLikeCount');
-      const miniLikeBtn = document.getElementById('miniLikeBtn');
       
-      if (miniViewCount) {
-        miniViewCount.textContent = this.formatMiniNumber(this.viewCount);
-      }
-      
-      if (miniLikeCount) {
-        miniLikeCount.textContent = this.formatMiniNumber(this.likeCount);
-      }
-      
-      if (miniLikeBtn) {
-        if (this.hasLiked) {
-          miniLikeBtn.innerHTML = '<i class="fas fa-heart"></i>';
-          miniLikeBtn.classList.add('liked');
-          miniLikeBtn.disabled = true;
-          miniLikeBtn.title = 'আপনি ইতিমধ্যে লাইক দিয়েছেন';
-          miniLikeBtn.style.cursor = 'not-allowed';
-        } else {
-          miniLikeBtn.innerHTML = '<i class="far fa-heart"></i>';
-          miniLikeBtn.classList.remove('liked');
-          miniLikeBtn.disabled = false;
-          miniLikeBtn.title = 'লাইক দিতে ক্লিক করুন';
-          miniLikeBtn.style.cursor = 'pointer';
-        }
-      }
-    } catch (e) {
-      console.error('Error updating display:', e);
-    }
-  }
-  
-  formatMiniNumber(num) {
-    try {
-      if (num >= 1000000) {
-        return (num / 1000000).toFixed(1) + 'M';
-      }
-      if (num >= 1000) {
-        return (num / 1000).toFixed(1) + 'K';
-      }
-      return num.toString();
-    } catch (e) {
-      return num.toString();
-    }
-  }
-  
-  showPulseAnimation(elementId) {
-    try {
-      const element = document.getElementById(elementId);
-      if (element) {
-        element.style.transition = 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-        element.style.transform = 'scale(1.4)';
-        element.style.color = elementId === 'miniViewCount' ? '#007bff' : '#ff4757';
-        
-        setTimeout(() => {
-          element.style.transform = 'scale(1)';
-          element.style.color = '';
-        }, 300);
-      }
-    } catch (e) {
-      console.error('Error in animation:', e);
-    }
-  }
-  
-  showLikeConfirmation() {
-    try {
-      // Create floating heart animation
-      const heart = document.createElement('div');
-      heart.innerHTML = '<i class="fas fa-heart"></i>';
-      heart.style.cssText = `
-        position: fixed;
-        top: 60px;
-        right: 120px;
-        color: #ff4757;
-        font-size: 18px;
-        z-index: 9999;
-        animation: floatUpFade 1.2s ease forwards;
-        pointer-events: none;
-        filter: drop-shadow(0 2px 4px rgba(255, 71, 87, 0.4));
-      `;
-      
-      // Add animation keyframes
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes floatUpFade {
-          0% {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-          }
-          50% {
-            transform: translateY(-20px) scale(1.3);
-            opacity: 0.9;
-          }
-          100% {
-            transform: translateY(-40px) scale(0.8);
-            opacity: 0;
-          }
-        }
-      `;
-      
-      document.head.appendChild(style);
-      document.body.appendChild(heart);
-      
-      // Clean up after animation
-      setTimeout(() => {
-        try {
-          heart.remove();
-          style.remove();
-        } catch (e) {}
-      }, 1200);
-      
-      // Show message in console
-      console.log('❤️ ধন্যবাদ! আপনার লাইকটি সংরক্ষণ করা হয়েছে।');
-    } catch (e) {
-      console.error('Error showing confirmation:', e);
-    }
-  }
-  
-  showAlreadyLikedMessage() {
-    try {
-      // Show a small tooltip-style message
-      const message = document.createElement('div');
-      message.textContent = 'আপনি ইতিমধ্যে লাইক দিয়েছেন!';
-      message.style.cssText = `
-        position: fixed;
-        top: 60px;
-        right: 120px;
-        background: #2ed573;
-        color: white;
-        padding: 8px 12px;
-        border-radius: 6px;
-        font-size: 12px;
-        z-index: 9999;
-        animation: slideDownFade 2s ease forwards;
-        pointer-events: none;
-        font-weight: bold;
-        box-shadow: 0 3px 10px rgba(46, 213, 115, 0.3);
-      `;
-      
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes slideDownFade {
-          0% {
-            transform: translateY(-10px);
-            opacity: 0;
-          }
-          20% {
-            transform: translateY(0);
-            opacity: 1;
-          }
-          80% {
-            transform: translateY(0);
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(10px);
-            opacity: 0;
-          }
-        }
-      `;
-      
-      document.head.appendChild(style);
-      document.body.appendChild(message);
-      
-      setTimeout(() => {
-        try {
-          message.remove();
-          style.remove();
-        } catch (e) {}
-      }, 2000);
-    } catch (e) {
-      console.error('Error showing message:', e);
-    }
-  }
-  
-  setupEventListeners() {
-    try {
-      const miniLikeBtn = document.getElementById('miniLikeBtn');
-      
-      if (miniLikeBtn) {
-        // Click event for like button
-        miniLikeBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          this.handleLike();
-        });
-        
-        // Hover effects
-        miniLikeBtn.addEventListener('mouseenter', () => {
-          if (!miniLikeBtn.disabled) {
-            miniLikeBtn.style.transform = 'scale(1.2) rotate(5deg)';
-            miniLikeBtn.style.transition = 'all 0.3s ease';
-          }
-        });
-        
-        miniLikeBtn.addEventListener('mouseleave', () => {
-          miniLikeBtn.style.transform = 'scale(1) rotate(0deg)';
-        });
-        
-        // Touch devices support
-        miniLikeBtn.addEventListener('touchstart', () => {
-          if (!miniLikeBtn.disabled) {
-            miniLikeBtn.style.transform = 'scale(1.1)';
-          }
-        });
-        
-        miniLikeBtn.addEventListener('touchend', () => {
-          miniLikeBtn.style.transform = 'scale(1)';
-        });
-      }
-      
-      // Prevent accidental double-clicks from counting multiple views
-      let lastClickTime = 0;
-      document.addEventListener('click', (e) => {
-        const currentTime = Date.now();
-        if (currentTime - lastClickTime < 1000) { // 1 second cooldown
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        lastClickTime = currentTime;
+      // Update device data
+      await deviceRef.update({
+        liked: true,
+        likedAt: firebase.database.ServerValue.TIMESTAMP
       });
       
-    } catch (e) {
-      console.error('Error setting up event listeners:', e);
-    }
-  }
-  
-  // Optional: Reset function for testing
-  resetForTesting() {
-    try {
-      localStorage.removeItem(this.viewKey);
-      localStorage.removeItem(this.likeKey);
-      localStorage.removeItem(this.userLikeKey);
-      localStorage.removeItem(this.viewsTrackingKey);
-      localStorage.removeItem(this.deviceIdKey);
+      // Increment like count
+      await this.incrementLike();
       
-      this.viewCount = 0;
-      this.likeCount = 0;
-      this.hasLiked = false;
-      this.deviceId = null;
+      // Update local storage
+      localStorage.setItem('fai_has_liked', 'true');
       
-      this.generateDeviceId();
-      this.updateMiniDisplay();
+      // Update UI
+      this.updateLikeButton();
+      this.showLikeAnimation();
+      this.showToast('Thanks for your like! ✅');
       
-      console.log('✅ Counter reset for testing');
+      console.log('❤️ New like from device:', this.deviceId);
       return true;
-    } catch (e) {
-      console.error('Error resetting:', e);
+      
+    } catch (error) {
+      console.error('Like error:', error);
       return false;
     }
   }
   
-  // Get current statistics
-  getStats() {
-    return {
-      views: this.viewCount,
-      likes: this.likeCount,
-      hasLiked: this.hasLiked,
-      deviceId: this.deviceId,
-      uniqueDevices: JSON.parse(localStorage.getItem(this.viewsTrackingKey))?.length || 0
-    };
+  async incrementLike() {
+    return this.db.ref('counts/likes').transaction((current) => {
+      return (current || 0) + 1;
+    });
   }
   
-  // Optional: Debug function
-  debugInfo() {
-    const stats = this.getStats();
-    console.log('🔍 Counter Debug Info:');
-    console.log('Device ID:', stats.deviceId);
-    console.log('Total Views:', stats.views);
-    console.log('Total Likes:', stats.likes);
-    console.log('Has Liked:', stats.hasLiked);
-    console.log('Unique Devices:', stats.uniqueDevices);
-    console.log('All tracked devices:', JSON.parse(localStorage.getItem(this.viewsTrackingKey)) || []);
+  updateDisplay() {
+    const viewEl = document.getElementById('miniViewCount');
+    const likeEl = document.getElementById('miniLikeCount');
+    
+    if (viewEl) viewEl.textContent = this.formatNumber(this.views);
+    if (likeEl) likeEl.textContent = this.formatNumber(this.likes);
+  }
+  
+  updateLikeButton() {
+    const likeBtn = document.getElementById('miniLikeBtn');
+    if (!likeBtn) return;
+    
+    const hasLiked = localStorage.getItem('fai_has_liked') === 'true';
+    
+    if (hasLiked) {
+      likeBtn.innerHTML = '<i class="fas fa-heart"></i>';
+      likeBtn.classList.add('liked');
+      likeBtn.disabled = true;
+      likeBtn.title = 'Already liked ❤️';
+    } else {
+      likeBtn.innerHTML = '<i class="far fa-heart"></i>';
+      likeBtn.classList.remove('liked');
+      likeBtn.disabled = false;
+      likeBtn.title = 'Click to like 👍';
+    }
+  }
+  
+  setupLikeButton() {
+    const likeBtn = document.getElementById('miniLikeBtn');
+    if (!likeBtn) return;
+    
+    // Initial update
+    this.updateLikeButton();
+    
+    // Add click handler
+    likeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.handleLike();
+    });
+  }
+  
+  formatNumber(num) {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return num.toString();
+  }
+  
+  showLikeAnimation() {
+    const heart = document.createElement('div');
+    heart.innerHTML = '❤️';
+    heart.style.cssText = `
+      position: fixed;
+      top: 50px;
+      right: 100px;
+      font-size: 24px;
+      z-index: 10000;
+      animation: floatHeart 1s ease forwards;
+      pointer-events: none;
+    `;
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes floatHeart {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
+      }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(heart);
+    
+    setTimeout(() => {
+      heart.remove();
+      style.remove();
+    }, 1000);
+  }
+  
+  showToast(message) {
+    const existing = document.querySelector('.fai-toast');
+    if (existing) existing.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = 'fai-toast';
+    toast.textContent = message;
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      z-index: 10000;
+      animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+      font-size: 14px;
+    `;
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.remove();
+      style.remove();
+    }, 3000);
   }
 }
 
-// Initialize the counter
-let faimediaCounter = null;
+// Initialize
+let faiCounter = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-  try {
-    // Small delay to ensure everything is loaded
-    setTimeout(() => {
-      faimediaCounter = new AdvancedViewLikeCounter();
-      window.faimediaCounter = faimediaCounter;
-      
-      console.log('🚀 FAI Media Counter initialized successfully');
-      console.log('Device:', faimediaCounter.getStats().deviceId);
-      
-      // Add debug panel for testing (remove in production)
-      if (window.location.hash === '#debug') {
-        faimediaCounter.debugInfo();
-        this.addDebugPanel();
-      }
-    }, 500);
-  } catch (error) {
-    console.error('Failed to initialize counter:', error);
-  }
-});
-
-// Optional: Debug panel function (remove in production)
-function addDebugPanel() {
-  const debugPanel = document.createElement('div');
-  debugPanel.style.cssText = `
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    background: rgba(0,0,0,0.8);
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    z-index: 10000;
-    font-family: monospace;
-    max-width: 300px;
-  `;
-  
-  debugPanel.innerHTML = `
-    <strong>Counter Debug</strong><br>
-    <button onclick="faimediaCounter.debugInfo()">Show Info</button>
-    <button onclick="faimediaCounter.resetForTesting()">Reset</button>
-    <button onclick="this.parentNode.remove()">Close</button>
-  `;
-  
-  document.body.appendChild(debugPanel);
-}
-
-// Handle page visibility changes
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && faimediaCounter) {
-    // Update display when page becomes visible again
-    faimediaCounter.updateMiniDisplay();
-  }
-});
-
-// Clear session storage on page unload to prevent multi-tab issues
-window.addEventListener('beforeunload', () => {
-  // Keep localStorage data but clear any temporary session data
-  sessionStorage.clear();
+  faiCounter = new FirebaseCounter();
+  window.faiCounter = faiCounter;
 });
