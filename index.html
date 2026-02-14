@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAI MEDIA</title>
+    <title>Fai Media</title>
     <link rel="stylesheet" href="Style.css">
     <link rel="stylesheet" href="public.css">
+    <link rel="stylesheet" href="night-mood.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script> -->
     <button id="nightModeToggle" class="night-mode-toggle" onclick="toggleNightMode()" title="Switch to Night Mode">
         <i class="fas fa-moon"></i>
     </button>
@@ -29,8 +30,28 @@
                 </div>
             </div>
         </div>
-        <div class="Update-info">
-            <marquee>A new update is coming in February's frist week. This update will bring the biggest changes so far. Current Version: 3.1.1</marquee>
+        <!-- Navigation Menu -->
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link active"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="studio.html" class="nav-link"><i class="fa-solid fa-pen-nib"></i></a></li>
+                <li><a href="me.html" class="nav-link"><i class="fa-solid fa-user-circle"></i></a></li>
+            </ul>
+        </nav>
+        <div class="app-download">
+            <div class="app-download-container">
+                <div class="app-download-left">
+                    <img src="rsz_fai.png" alt="FAI Media App Icon">
+                </div>
+                <div class="app-download-right">
+                    <h2>Download Our App</h2>
+                    <p>Get the FAI Media's Official app, Click & download </p>
+                    <a href="faiapp.apk" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download Now
+                    </a>
+                    <p class="file-info">File size: 968 KB | Version: 4.0.0</p>
+                </div>
+            </div>
         </div>
         <!-- Members Section -->
         <div class="Member">
@@ -95,26 +116,26 @@
                 <h4>Member</h4>
                 <h5>Role : Voice Artist</h5>
             </div>
-            <div class="mem7"
+            <div class="mem6"
                 data-name="" 
-                data-img="memb7.jpg"
+                data-img="memb6.jpg"
                 data-fb="#" 
                 data-insta="#"
                 data-viewmore="#"
                 onclick="showSocial(this)">
-                <img src="memb7.jpg" alt="Team Member">
+                <img src="memb6.jpg" alt="Team Member">
                 <h3></h3>
                 <h4>Member</h4>
                 <h5>Role : Writer</h5>
             </div>
-            <div class="mem6"
+            <div class="mem7"
                 data-name="Yasir Arafat Alif" 
-                data-img="memb6.jpg"
+                data-img="memb7.jpg"
                 data-fb="https://www.facebook.com/profile.php?id=100046175142282" 
                 data-insta="#"
                 data-viewmore="#"
                 onclick="showSocial(this)">
-                <img src="memb6.jpg" alt="Team Member">
+                <img src="memb7.jpg" alt="Team Member">
                 <h3>Yasir Arafat Alif</h3>
                 <h4>Member</h4>
                 <h5>Role : Video Editor</h5>
@@ -202,9 +223,7 @@
             </p>
             <p class="signature">— Fai media</p>
         </div>
-
         <!-- long Videos Content part -->
-
         <section>
             <div class="audio-info-display">
                 <span>Long Video Content</span>
@@ -218,7 +237,6 @@
             </div>
         </section>
         <!-- Why we make videos part -->
-
         <section class="abf">
             <h1>More information</h1>
             <h2>Why We Make Videos</h2>
@@ -252,7 +270,6 @@
                 Our upcoming content will continue to evolve, bridging knowledge, context, and relevance for a broader audience.
             </p>
         </section>
-
         <!-- Achivment Gallery Part -->
         <section>
             <div class="audio-info-display">
@@ -314,7 +331,7 @@
             
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
-                    <b>Version 3.1.1</b>
+                    <b>Version 4.0.0</b>
                 </div>
                 <div class="Update-footer">
                     <marquee>&copy; 2026 FAI Media. All rights reserved. Unauthorized copying, distribution, or modification of any content is strictly prohibited.</marquee>
@@ -324,7 +341,7 @@
     </footer>
     <script src="script.js"></script>
     <script src="index-scroll.js"></script>
-    <script src="index-counter.js"></script>
+    <script src="view-count.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // WhatsApp Number List
@@ -345,6 +362,4 @@
     });
     </script>
 </body>
-
 </html>
-

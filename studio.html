@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fai Studio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bangla Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
+    <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
+    
+    <!-- Other Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Raleway:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Oswald:wght@400;500;600&family=Lato:wght@400;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="studio.css">
+    <link rel="stylesheet" href="Style.css">
+    <Link rel="stylesheet" href="public.css">
+    <link rel="stylesheet" href="night-mood.css">
+</head>
+<body>
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script> -->
+    <button id="nightModeToggle" class="night-mode-toggle" onclick="toggleNightMode()" title="Switch to Night Mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    <!-- Like,view count -->
+    <section class="counter-section">
+        <div class="header-counter">
+            <div class="mini-counter">
+                <div class="counter-item mini">
+                    <i class="fas fa-eye"></i>
+                    <span class="count-number" id="miniViewCount">0</span>
+                </div>
+                <div class="counter-item mini">
+                    <i class="fas fa-heart"></i>
+                    <span class="count-number" id="miniLikeCount">0</span>
+                    <button class="mini-like-btn" id="miniLikeBtn" title="Click to like">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- hero Sectio -->
+    <section>
+        <div class="about">
+            <div class="about-container">
+                <div class="about-left">
+                    <img src="faimedia2.jpg" alt="FAI Media">
+                </div>
+                <div class="about-right">
+                    <h1>Welcome to <span> FAI Studio</span></h1>
+                    <p>Create beautiful notices, posters easily. Professional designs in just a few clicks. Responsive and mobile-friendly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Navigation Menu -->
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i></a></li>
+            <li><a href="studio.html" class="nav-link active"><i class="fa-solid fa-pen-nib"></i>Studio</a></li>
+            <li><a href="me.html" class="nav-link"><i class="fa-solid fa-user-circle"></i></a></li>
+        </ul>
+    </nav>
+    <!-- Notice Generator Section -->
+    <section class="poster-generator-section">
+        <div class="generator-container">
+            <!-- Preview Area -->
+            <div class="preview-area">
+                <div class="preview-header">
+                    <h3><i class="fas fa-eye"></i> Preview</h3>
+                    <div class="size-controls">
+                        <div class="size-presets">
+                            <select id="sizePreset">
+                                <option value="1080x1080">Instagram (1080×1080) 1:1</option>
+                                <option value="1280x720">YouTube (1280×720) 16:9</option>
+                                <option value="1080x1920">Story (1080×1920) 9:16</option>
+                                <option value="1000x600">Landscape (1000×600) 10:6</option>
+                                <option value="600x1000">Portrait (600×1000) 6:10</option>
+                                <option value="800x1000">Portrait (800×1000) 4:5</option>
+                                <option value="1000x800">Landscape (1000×800) 5:4</option>
+                                <option value="custom">Custom Size</option>
+                            </select>
+                            
+                            <div class="aspect-ratio-buttons">
+                                <button class="aspect-btn" data-ratio="16:9">16:9</button>
+                                <button class="aspect-btn" data-ratio="9:16">9:16</button>
+                                <button class="aspect-btn active" data-ratio="1:1">1:1</button>
+                                <button class="aspect-btn" data-ratio="10:6">10:6</button>
+                                <button class="aspect-btn" data-ratio="6:10">6:10</button>
+                                <button class="aspect-btn" data-ratio="4:5">4:5</button>
+                                <button class="aspect-btn" data-ratio="5:4">5:4</button>
+                            </div>
+                        </div>
+                        
+                        <div id="customSizeInput" style="display:none; width:100%;">
+                            <input type="number" id="customWidth" placeholder="Width" min="100" max="3000" value="800">
+                            <input type="number" id="customHeight" placeholder="Height" min="100" max="3000" value="600">
+                            <p class="info-text">Enter custom dimensions (100-3000px)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="canvas-container" id="canvasContainer">
+                    <canvas id="posterCanvas" width="800" height="800"></canvas>
+                    <div class="dimension-display" id="dimensionDisplay">800 × 800 px (1:1)</div>
+                </div>
+                
+                <div class="preview-actions">
+                    <button class="btn-clear" onclick="clearCanvas()">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                </div>
+            </div>
+
+            <!-- Download Section (Top Right) -->
+            <div class="download-section">
+                <h3><i class="fas fa-download"></i> Download Options</h3>
+                <div class="download-options">
+                    <button class="download-btn btn-png" onclick="downloadImage('png')">
+                        <i class="fas fa-file-image"></i> Save as PNG
+                    </button>
+                    <button class="download-btn btn-jpg" onclick="downloadImage('jpg')">
+                        <i class="fas fa-file-image"></i> Save as JPG
+                    </button>
+                    <button class="download-btn btn-pdf" onclick="downloadImage('pdf')">
+                        <i class="fas fa-file-pdf"></i> Save as PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Controls Panel -->
+            <div class="controls-panel">
+                <!-- Text Controls -->
+                <div class="control-section">
+                    <h3><i class="fas fa-font"></i> Text Settings</h3>
+                    <div class="control-group">
+                        <label for="textInput">Main Text:</label>
+                        <textarea id="textInput" placeholder="Enter your notice text...">Welcome to FAI Media! The best platform for creative content.</textarea>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="secondaryText">Secondary Text:</label>
+                        <textarea id="secondaryText" placeholder="Enter description or date...">faimedia</textarea>
+                    </div>
+                    
+                    <div class="control-row">
+                        <div class="control-item">
+                            <label for="fontSize">Font Size: <span id="fontSizeValue">48px</span></label>
+                            <input type="range" id="fontSize" min="20" max="100" value="48">
+                        </div>
+                        <div class="control-item">
+                            <label for="fontSelect">Font Family:</label>
+                            <select id="fontSelect">
+                                <option value="Hind Siliguri, sans-serif" selected>Hind Siliguri (English)</option>
+                                <option value="Noto Sans Bengali, sans-serif">Noto Sans Bengali</option>
+                                <option value="Kalpurush, sans-serif">Kalpurush</option>
+                                <option value="SolaimanLipi, sans-serif">SolaimanLipi</option>
+                                <option value="Poppins, sans-serif">Poppins</option>
+                                <option value="Montserrat, sans-serif">Montserrat</option>
+                                <option value="Roboto, sans-serif">Roboto</option>
+                                <option value="Open Sans, sans-serif">Open Sans</option>
+                                <option value="Raleway, sans-serif">Raleway</option>
+                                <option value="Playfair Display, serif">Playfair Display</option>
+                                <option value="Oswald, sans-serif">Oswald</option>
+                                <option value="Lato, sans-serif">Lato</option>
+                                <option value="Source Sans Pro, sans-serif">Source Sans Pro</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Quick Font Selector:</label>
+                        <div class="font-selector">
+                            <div class="font-option active" data-font="Hind Siliguri, sans-serif" style="font-family: 'Hind Siliguri'">Hind (EN)</div>
+                            <div class="font-option" data-font="Noto Sans Bengali, sans-serif" style="font-family: 'Noto Sans Bengali'">Noto (BN)</div>
+                            <div class="font-option" data-font="Kalpurush, sans-serif" style="font-family: 'Kalpurush'">Kalpurush (BN)</div>
+                            <div class="font-option" data-font="SolaimanLipi, sans-serif" style="font-family: 'SolaimanLipi'">Solaiman (BN)</div>
+                            <div class="font-option" data-font="Poppins, sans-serif" style="font-family: 'Poppins'">Poppins</div>
+                            <div class="font-option" data-font="Montserrat, sans-serif" style="font-family: 'Montserrat'">Montserrat</div>
+                        </div>
+                    </div>
+                    
+                    <div class="control-row">
+                        <div class="control-item">
+                            <label for="textColor">Text Color: <span class="color-preview" id="textColorPreview" style="background:#ffffff"></span></label>
+                            <input type="color" id="textColor" value="#ffffff">
+                        </div>
+                        
+                        <div class="control-item">
+                            <label for="textAlign">Alignment:</label>
+                            <select id="textAlign">
+                                <option value="left">Left</option>
+                                <option value="center" selected>Center</option>
+                                <option value="right">Right</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Text Effects:</label>
+                        <div class="text-effects">
+                            <button class="effect-btn" data-effect="bold"><i class="fas fa-bold"></i> Bold</button>
+                            <button class="effect-btn" data-effect="italic"><i class="fas fa-italic"></i> Italic</button>
+                            <button class="effect-btn" data-effect="underline"><i class="fas fa-underline"></i> Underline</button>
+                            <button class="effect-btn" data-effect="shadow"><i class="fas fa-cloud"></i> Shadow</button>
+                            <button class="effect-btn" data-effect="outline"><i class="fas fa-vector-square"></i> Outline</button>
+                            <button class="effect-btn" data-effect="glow"><i class="fas fa-sun"></i> Glow</button>
+                        </div>
+                    </div>
+                    
+                    <!-- New Glow Effect Controls -->
+                    <div class="effect-control-group" id="glowControls" style="display: none;">
+                        <label>
+                            Glow Intensity: <span id="glowIntensityValue">10</span>px
+                        </label>
+                        <div class="range-with-value">
+                            <input type="range" id="glowIntensity" min="1" max="30" value="10">
+                        </div>
+                        
+                        <label for="glowColor">Glow Color:</label>
+                        <div class="color-picker-enhanced">
+                            <input type="color" id="glowColor" value="#ffffff">
+                            <input type="text" id="glowColorHex" class="color-hex-input" value="#ffffff" maxlength="7">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Background Controls -->
+                <div class="control-section" id="backgroundControls">
+                    <h3><i class="fas fa-image"></i> Background</h3>
+                    
+                    <div class="control-group">
+                        <label>Background Type :</label>
+                        <div class="text-effects">
+                            <button class="effect-btn active" data-bg-type="color">Color</button>
+                            <button class="effect-btn" data-bg-type="gradient">Gradient</button>
+                            <button class="effect-btn" data-bg-type="image">Image</button>
+                            <button class="effect-btn" data-bg-type="blur">Blur Image</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Blur Effect Controls -->
+                    <div class="effect-control-group" id="blurControls" style="display: none;">
+                        <label>
+                            Blur Intensity : <span id="blurIntensityValue">5</span>px
+                        </label>
+                        <div class="range-with-value">
+                            <input type="range" id="blurIntensity" min="1" max="20" value="5">
+                        </div>
+                    </div>
+                    
+                    <!-- Color Controls Section -->
+                    <div id="colorControlsSection">
+                        <div class="control-row">
+                            <div class="control-item">
+                                <label for="bgColor">Background Color : <span class="color-preview" id="bgColorPreview" style="background:#667eea"></span></label>
+                                <input type="color" id="bgColor" value="#667eea">
+                            </div>
+                            
+                            <div class="control-item" id="bgColor2Container">
+                                <label for="bgColor2">Gradient Color : <span class="color-preview" id="bgColor2Preview" style="background:#764ba2"></span></label>
+                                <input type="color" id="bgColor2" value="#764ba2" style="display:none;">
+                            </div>
+                        </div>
+                        
+                        <!-- Updated Color Selection Grid -->
+                        <div class="control-group">
+                            <label>Quick Colors:</label>
+                            <div class="color-grid">
+                                <div class="color-group">
+                                    <div class="color-option" style="background:#667eea;" data-color="#667eea" title="Purple Blue"></div>
+                                    <div class="color-label">Purple</div>
+                                </div>
+                                <div class="color-group">
+                                    <div class="color-option" style="background:#2ecc71;" data-color="#2ecc71" title="Emerald Green"></div>
+                                    <div class="color-label">Green</div>
+                                </div>
+                                <div class="color-group">
+                                    <div class="color-option" style="background:#e74c3c;" data-color="#e74c3c" title="Alizarin Red"></div>
+                                    <div class="color-label">Red</div>
+                                </div>
+                                <div class="color-group">
+                                    <div class="color-option" style="background:#f39c12;" data-color="#f39c12" title="Orange"></div>
+                                    <div class="color-label">Orange</div>
+                                </div>
+                                <div class="color-group">
+                                    <div class="color-option" style="background:#34495e;" data-color="#34495e" title="Midnight Blue"></div>
+                                    <div class="color-label">Dark Blue</div>
+                                </div>
+                                <div class="color-group">
+                                    <div class="color-option" style="background:#1abc9c;" data-color="#1abc9c" title="Turquoise"></div>
+                                    <div class="color-label">Teal</div>
+                                </div>
+                                <div class="color-group">
+                                    <div class="color-option" style="background:#9b59b6;" data-color="#9b59b6" title="Amethyst"></div>
+                                    <div class="color-label">Purple</div>
+                                </div>
+                                <div class="color-group">
+                                    <div class="color-option" style="background:#e84393;" data-color="#e84393" title="Pink"></div>
+                                    <div class="color-label">Pink</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="section-disabled-text">
+                            <i class="fas fa-info-circle"></i> Color options disabled when image is selected
+                        </div>
+                    </div>
+                    
+                    <div class="control-group" id="imageUploadSection" style="display:none;">
+                        <label for="bgImageUpload">Upload Background Image:</label>
+                        <input type="file" id="bgImageUpload" accept="image/*">
+                        <p class="info-text">Upload your own image (JPG, PNG, GIF, WebP)</p>
+                    </div>
+                </div>
+                
+                <!-- Templates -->
+                <div class="control-section">
+                    <h3><i class="fas fa-palette"></i> Templates</h3>
+                    
+                    <!-- Template Categories -->
+                    <div class="template-categories">
+                        <button class="category-btn active" data-category="all">All</button>
+                        <button class="category-btn" data-category="festive">Notice</button>
+                        <button class="category-btn" data-category="gradient">Gradient</button>
+                        <button class="category-btn" data-category="solid">Solid</button>
+                        <button class="category-btn" data-category="business">Business</button>
+                        <button class="category-btn" data-category="festive">Festive</button>
+                    </div>
+                    
+                    <!-- Template File Upload -->
+                    <div class="template-file-upload">
+                        <label>Load Template from File:</label>
+                        <input type="file" id="templateFileUpload" accept=".json,.template">
+                        <p class="info-text">Upload saved template files (.json or .template)</p>
+                    </div>
+                    
+                    <div class="templates-grid" id="templatesGrid">
+                        <!-- Template 1: Purple Gradient -->
+                        <div class="template-item active" data-template="gradient1" 
+                             data-category="gradient"
+                             data-background='{"type":"gradient","color1":"#667eea","color2":"#764ba2"}'
+                             data-text='{"color":"#ffffff","font":"Hind Siliguri, sans-serif","size":48}'
+                             style="background:linear-gradient(45deg, #667eea, #764ba2);">
+                            <div class="template-label">Purple Gradient</div>
+                        </div>
+                        
+                        <!-- Template 2: Green Gradient -->
+                        <div class="template-item" data-template="gradient2"
+                             data-category="gradient"
+                             data-background='{"type":"gradient","color1":"#2ecc71","color2":"#1abc9c"}'
+                             data-text='{"color":"#ffffff","font":"Poppins, sans-serif","size":42}'
+                             style="background:linear-gradient(45deg, #2ecc71, #1abc9c);">
+                            <div class="template-label">Green Gradient</div>
+                        </div>
+                        
+                        <!-- Template 3: Red-Pink Gradient -->
+                        <div class="template-item" data-template="gradient3"
+                             data-category="gradient"
+                             data-background='{"type":"gradient","color1":"#e74c3c","color2":"#e84393"}'
+                             data-text='{"color":"#ffffff","font":"Montserrat, sans-serif","size":45}'
+                             style="background:linear-gradient(45deg, #e74c3c, #e84393);">
+                            <div class="template-label">Red-Pink</div>
+                        </div>
+                        
+                        <!-- Template 4: Dark Professional -->
+                        <div class="template-item" data-template="dark"
+                             data-category="business"
+                             data-background='{"type":"color","color":"#2c3e50"}'
+                             data-text='{"color":"#ffffff","font":"Roboto, sans-serif","size":40}'
+                             style="background:#2c3e50;">
+                            <div class="template-label">Dark Blue</div>
+                        </div>
+                        
+                        <!-- Template 5: Light Professional -->
+                        <div class="template-item" data-template="light"
+                             data-category="business"
+                             data-background='{"type":"color","color":"#ecf0f1"}'
+                             data-text='{"color":"#2c3e50","font":"Open Sans, sans-serif","size":38}'
+                             style="background:#ecf0f1;">
+                            <div class="template-label">Light Gray</div>
+                        </div>
+                        
+                        <!-- Template 6: Warm Orange -->
+                        <div class="template-item" data-template="warm"
+                             data-category="solid"
+                             data-background='{"type":"color","color":"#f39c12"}'
+                             data-text='{"color":"#ffffff","font":"Raleway, sans-serif","size":44}'
+                             style="background:#f39c12;">
+                            <div class="template-label">Orange</div>
+                        </div>
+                        
+                        <!-- Template 7: Teal Modern -->
+                        <div class="template-item" data-template="teal"
+                             data-category="gradient"
+                             data-background='{"type":"gradient","color1":"#1abc9c","color2":"#16a085"}'
+                             data-text='{"color":"#ffffff","font":"Lato, sans-serif","size":46}'
+                             style="background:linear-gradient(45deg, #1abc9c, #16a085);">
+                            <div class="template-label">Teal Modern</div>
+                        </div>
+                        
+                        <!-- Template 8: Festive Red -->
+                        <div class="template-item" data-template="festive"
+                             data-category="festive"
+                             data-background='{"type":"gradient","color1":"#e74c3c","color2":"#c0392b"}'
+                             data-text='{"color":"#ffffff","font":"Oswald, sans-serif","size":50}'
+                             style="background:linear-gradient(45deg, #e74c3c, #c0392b);">
+                            <div class="template-label">Festive Red</div>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <button class="btn-generate" onclick="saveCurrentTemplate()" style="width:100%; margin-top:10px;">
+                            <i class="fas fa-save"></i> Save Current as Template
+                        </button>
+                    </div>
+                    
+                    <p class="info-text">Click to apply a template. Templates include background, text color, and font settings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Template Preview Modal -->
+    <div class="template-preview-modal" id="templatePreviewModal">
+        <div class="template-preview-content">
+            <button class="close-preview" onclick="closeTemplatePreview()">&times;</button>
+            <h3 id="previewTemplateName">Template Preview</h3>
+            <div id="templatePreviewCanvasContainer" style="margin:20px 0;">
+                <canvas id="templatePreviewCanvas" width="600" height="400"></canvas>
+            </div>
+            <button class="btn-generate" onclick="applyPreviewedTemplate()" style="width:100%;">
+                <i class="fas fa-check"></i> Apply This Template
+            </button>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fa-solid fa-globe"></i>
+                        <a href="https://youtube.com/@faimedia.24?si=pPu81S-D-M3uOfd1" target="_blank" rel="noopener noreferrer" class="faimedia">FAI <span>Media</span></a>
+                    </div>
+                    <p class="footer-description">
+                        Only a unique idea can make the world Unique!
+                    </p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61558124884005" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@Faimedia.24" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://www.instagram.com/?hl=en" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title" data-i18n="contactInfo">Contact Info</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Barishal, Bangladesh</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <span id="whatsapp-number">+880 1304375487</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contactwithfaimedia@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <b>Version 3.1.0</b>
+                </div>
+                <div class="Update-footer">
+                    <marquee>&copy; 2026 FAI Media. All rights reserved. Unauthorized copying, distribution, or modification of any content is strictly prohibited.</marquee>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Include jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="view-count.js"></script>
+    <script src="studio.js"></script>
+    <script src="public.js"></script>
+</body>
+</html>

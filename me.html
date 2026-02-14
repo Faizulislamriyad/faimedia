@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Me - FAI Media</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="public.css">
+    <link rel="stylesheet" href="night-mood.css">
+    <link rel="stylesheet" href="me.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <button id="nightModeToggle" class="night-mode-toggle" onclick="toggleNightMode()" title="Switch to Night Mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <main>
+        <!-- About Section -->
+        <div class="about">
+            <div class="about-container">
+                <div class="about-left">
+                    <img src="faimedia2.jpg" alt="FAI Media">
+                </div>
+                <div class="about-right">
+                    <h1>Welcome to <span> FAI Media</span></h1>
+                    <p>We are <a href="https://youtube.com/@faimedia.24?si=pPu81S-D-M3uOfd1" target="_blank" rel="noopener noreferrer">FAI MEDIA</a> — your creative digital partner for videos, stories, and innovation.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Menu -->
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i></a></li>
+                <li><a href="studio.html" class="nav-link"><i class="fa-solid fa-pen-nib"></i></a></li>
+                <li><a href="studio.html" class="nav-link active"><i class="fa-solid fa-user-circle"></i>Me</a></li>
+            </ul>
+        </nav>
+        <!-- Login Section -->
+        <section class="login-section">
+            <!-- Login Reminder -->
+            <div class="login-reminder">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>For more features, please login first</span>
+            </div>
+            
+            <div class="me-c">
+                <!-- Form Selection Tabs -->
+                <div class="form-selector">
+                    <div class="form-tab active" id="loginTab">Login</div>
+                    <div class="form-tab" id="signupTab">Sign Up</div>
+                </div>
+                
+                <!-- Form Container -->
+                <div class="form-container">
+                    <!-- Login Form -->
+                    <form id="loginForm">
+                        <h2>Welcome Back!</h2>
+                        <p class="form-subtitle">Sign in to your account to continue</p>
+                        
+                        <div class="form-group">
+                            <label for="loginUsername">Username or Unique ID</label>
+                            <input type="text" id="loginUsername" placeholder="Enter username or unique ID" required>
+                            <i class="fas fa-user input-icon"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                            <span class="password-toggle" id="loginPasswordToggle">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="rememberMe">
+                            <label for="rememberMe">Remember me</label>
+                        </div>
+                        
+                        <button type="submit" class="btn">Login</button>
+                        
+                        <div class="form-divider">
+                            <span>OR</span>
+                        </div>
+                        
+                        <div class="alternative-action">
+                            <p>Don't have an account? <a href="#" id="switchToSignup">Create one now</a></p>
+                        </div>
+                        
+                        <div id="loginError" class="error-message"></div>
+                        <div id="loginSuccess" class="success-message"></div>
+                    </form>
+                    
+                    <!-- Signup Form -->
+                    <form id="signupForm">
+                        <h2>Create Account</h2>
+                        <p class="form-subtitle">Fill in your details to get started</p>
+                        
+                        <div class="form-group">
+                            <label for="name">Full Name <span class="optional">(Required)</span></label>
+                            <input type="text" id="name" placeholder="Enter your full name" required>
+                            <i class="fas fa-user input-icon"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="optional">(Required)</span></label>
+                            <input type="email" id="email" placeholder="Enter your email address" required>
+                            <i class="fas fa-envelope input-icon"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="uniqueId">Unique ID <span class="optional">(Optional)</span></label>
+                            <input type="text" id="uniqueId" placeholder="Enter a unique ID (optional)">
+                            <i class="fas fa-id-card input-icon"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="username">Username <span class="optional">(Required)</span></label>
+                            <input type="text" id="username" placeholder="Choose a username" required>
+                            <i class="fas fa-at input-icon"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="birthDate">Birth Date <span class="optional">(Required)</span></label>
+                            <input type="date" id="birthDate" required>
+                            <i class="fas fa-calendar input-icon"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password <span class="optional">(Required)</span></label>
+                            <input type="password" id="password" placeholder="Create a strong password" required>
+                            <span class="password-toggle" id="passwordToggle">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                            <div class="password-strength">
+                                <div class="strength-meter" id="passwordStrength"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password <span class="optional">(Required)</span></label>
+                            <input type="password" id="confirmPassword" placeholder="Re-enter your password" required>
+                            <span class="password-toggle" id="confirmPasswordToggle">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                            <div id="passwordMatch" class="error-message"></div>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <label for="agreeTerms">I agree to the terms and conditions</label>
+                        </div>
+                        
+                        <button type="submit" class="btn">Sign Up</button>
+                        
+                        <div class="form-divider">
+                            <span>OR</span>
+                        </div>
+                        
+                        <div class="alternative-action">
+                            <p>Already have an account? <a href="#" id="switchToLogin">Login here</a></p>
+                        </div>
+                        
+                        <div id="signupError" class="error-message"></div>
+                        <div id="signupSuccess" class="success-message"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+                <!-- Dashboard Section (Initially Hidden) -->
+        <section class="dashboard-section" id="dashboardSection" style="display: none;">
+            <div class="user-dashboard">
+                <div class="dashboard-header">
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="user-info">
+                            <h2 id="dashboardUsername">Welcome!</h2>
+                            <div id="userBadge" class="user-badge"></div>
+                        </div>
+                    </div>
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+                
+                <div class="dashboard-content">
+                    <div class="content-section">
+                        <h3><i class="fas fa-user-cog"></i> Account Details</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Full Name:</span>
+                                <span class="detail-value" id="detailName">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Email:</span>
+                                <span class="detail-value" id="detailEmail">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Username:</span>
+                                <span class="detail-value" id="detailUsername">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Unique ID:</span>
+                                <span class="detail-value" id="detailUniqueId">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Birth Date:</span>
+                                <span class="detail-value" id="detailBirthDate">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Joined Date:</span>
+                                <span class="detail-value" id="detailJoined">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Account Type:</span>
+                                <span class="detail-value" id="detailType">Regular User</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Last Login:</span>
+                                <span class="detail-value" id="detailLastLogin">-</span>
+                            </div>
+                        </div>
+                    </div>      
+                    <div class="content-section">
+                        <button class="action-btn" id="supportBtn">
+                            <i class="fas fa-headset"></i> Support
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fa-solid fa-globe"></i>
+                        <a href="https://youtube.com/@faimedia.24?si=pPu81S-D-M3uOfd1" target="_blank" rel="noopener noreferrer" class="faimedia">FAI <span>Media</span></a>
+                    </div>
+                    <p class="footer-description">
+                        Only a unique idea can make the world Unique!
+                    </p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61558124884005" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@Faimedia.24" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://www.instagram.com/?hl=en" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title" data-i18n="contactInfo">Contact Info</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Barishal, Bangladesh</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <span id="whatsapp-number">+880 1304375487</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contactwithfaimedia@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <b>Version 1.0.0</b>
+                </div>
+                <div class="Update-footer">
+                    <marquee>&copy; 2026 FAI Media. All rights reserved. Unauthorized copying, distribution, or modification of any content is strictly prohibited.</marquee>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="me.js"></script>
+    <script src="public.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // WhatsApp Number List
+        const phoneNumbers = [
+            "+880 1304375487",
+            "+880 1907389153",
+            "+880 1991215339"
+        ];
+    
+        let currentIndex = 0;
+        const numberElement = document.getElementById('whatsapp-number');
+    
+        // Number Change in Every 5 Sec
+        setInterval(function() {
+            currentIndex = (currentIndex + 1) % phoneNumbers.length;
+            numberElement.textContent = phoneNumbers[currentIndex];
+        }, 5000); // 5000ms = 5 seconds
+    });
+    </script>
+</body>
+</html>

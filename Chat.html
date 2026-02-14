@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - FAI Media</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="public.css">
+    <link rel="stylesheet" href="Chat.css">
+    <link rel="stylesheet" href="night-mood.css">
+    <link rel="stylesheet" href="me.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <button id="nightModeToggle" class="night-mode-toggle" onclick="toggleNightMode()" title="Switch to Night Mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <main>
+        <!-- About Section -->
+        <div class="about">
+            <div class="about-container">
+                <div class="about-left">
+                    <img src="faimedia2.jpg" alt="FAI Media">
+                </div>
+                <div class="about-right">
+                    <h1>Welcome to <span> FAI Media</span></h1>
+                    <p>We are <a href="https://youtube.com/@faimedia.24?si=pPu81S-D-M3uOfd1" target="_blank" rel="noopener noreferrer">FAI MEDIA</a> — your creative digital partner for videos, stories, and innovation.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Navigation Menu -->
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i></a></li>
+                <li><a href="studio.html" class="nav-link"><i class="fa-solid fa-pen-nib"></i></a></li>
+                <li><a href="me.html" class="nav-link "><i class="fa-solid fa-user-circle"></i>Me</a></li>
+                <li><a href="chat.html" class="nav-link active"><i class="fa-solid fa-comments"></i></a></li>
+            </ul>
+        </nav>
+        <!-- Chat Section -->
+        <section class="chat-section">
+            <div class="chat-container" id="chatContainer">
+                <!-- Sidebar -->
+                <div class="chat-sidebar" id="chatSidebar">
+                    <div class="sidebar-tabs">
+                        <button class="sidebar-tab active" data-tab="users">
+                            Chats
+                        </button>
+                        <button class="sidebar-tab" data-tab="groups">
+                            Groups
+                        </button>
+                    </div>
+            
+                    <div class="sidebar-content">
+                        <button class="create-group-btn" id="createGroupBtnMain">
+                            <i class="fas fa-plus-circle"></i> Create Group
+                        </button>
+                
+                        <div class="tab-content" id="usersList" style="display: block;">
+                            <div class="vip-users-list" id="vipUsersList">
+                                <div class="loading-message">
+                                    <p>Loading VIP members...</p>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="tab-content" id="groupsList" style="display: none;">
+                            <div class="groups-list" id="groupsListContent">
+                                <div class="loading-message">
+                                    <p>Loading groups...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Main Chat Area -->
+                <div class="chat-main mobile-hidden" id="chatMain">
+                    <!-- Back Button for Mobile-->
+                    <button class="mobile-back-btn" id="mobileBackBtn" style="display: none;">
+                        <i class="fas fa-arrow-left"></i> 
+                    </button> <!--Back button-->
+            
+                    <div class="chat-header">
+                        <div class="chat-header-left">
+                            <div class="chat-header-avatar">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="chat-header-info">
+                                <h3>FAI CHAT</h3>
+                                <p class="status">Select a chat to start messaging</p>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="messages-container" id="messagesContainer">
+                        <div class="no-chat-selected">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <p>Select a Contact or group to start chatting</p>
+                            <small>You can send text & images.</small>
+                        </div>
+                    </div>
+            
+                    <div class="message-input-area">
+                        <div class="input-tools">
+                            <button class="upload-btn" id="uploadBtn" title="Upload Image">
+                                <i class="fas fa-image"></i>
+                            </button>
+                        </div>
+                
+                        <div class="message-input-wrapper">
+                            <textarea 
+                                class="message-input" 
+                                id="messageInput" 
+                                placeholder="Select a chat to start messaging..."
+                                disabled
+                            ></textarea>
+                            <button class="send-btn" id="sendBtn" disabled>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                
+                        <!-- Mention Dropdown -->
+                        <div class="mention-dropdown" id="mentionDropdown"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fa-solid fa-globe"></i>
+                        <a href="https://youtube.com/@faimedia.24?si=pPu81S-D-M3uOfd1" target="_blank" rel="noopener noreferrer" class="faimedia">FAI <span>Media</span></a>
+                    </div>
+                    <p class="footer-description">
+                        Only a unique idea can make the world Unique!
+                    </p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61558124884005" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@Faimedia.24" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://www.instagram.com/?hl=en" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title" data-i18n="contactInfo">Contact Info</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Barishal, Bangladesh</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <span id="whatsapp-number">+880 1304375487</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contactwithfaimedia@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <b>Version 1.0.0</b>
+                </div>
+                <div class="Update-footer">
+                    <marquee>&copy; 2026 FAI Media. All rights reserved. Unauthorized copying, distribution, or modification of any content is strictly prohibited.</marquee>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="me.js"></script>
+    <script src="public.js"></script>
+    <script src="Chat.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // WhatsApp Number List
+        const phoneNumbers = [
+            "+880 1304375487",
+            "+880 1907389153",
+            "+880 1991215339"
+        ];
+    
+        let currentIndex = 0;
+        const numberElement = document.getElementById('whatsapp-number');
+    
+        // Number Change in Every 5 Sec
+        setInterval(function() {
+            currentIndex = (currentIndex + 1) % phoneNumbers.length;
+            numberElement.textContent = phoneNumbers[currentIndex];
+        }, 5000); // 5000ms = 5 seconds
+    });
+    </script>
+</body>
+</html>

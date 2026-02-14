@@ -453,62 +453,6 @@
   }
 }
 
-/* ========== NIGHT MODE STYLES ========== */
-body.night-mode .skill-name {
-  color: black;
-}
-body.night-mode .section-title {
-  color: #fff;
-}
-
-body.night-mode .section-title:after {
-  background: #ffe100;
-}
-
-body.night-mode .skill-category {
-  background: #2c3e50;
-}
-
-body.night-mode .skill-category h3 {
-  color: white;
-}
-
-body.night-mode .skill-name {
-  color: rgba(255, 255, 255, 0.634);
-}
-
-body.night-mode .skill-level {
-  background: linear-gradient(90deg, #00a6ff, #ffffff, #ffae00);
-}
-
-body.night-mode .stats-section {
-  background: #2c3e50
-}
-
-body.night-mode .stat-number {
-  color: white;
-}
-
-body.night-mode .stat-label {
-  color: rgba(255, 255, 255, 0.634);
-}
-
-body.night-mode .audio-info-display {
-  color: white;
-}
-
-body.night-mode .about-lmg img {
-  border: 4px solid rgba(255, 230, 0, 0.988);
-}
-
-body.night-mode .about-right h1 {
-  color: white;
-}
-
-body.night-mode .about-right p {
-  color: rgba(255, 255, 255, 0.8);
-}
-
 /* ========== GALLERY SECTION ========== */
 .gallery-container {
   position: relative;
@@ -687,6 +631,7 @@ body.night-mode .audio-info-display {
   border-radius: 20px;
   background: transparent;
   transition: all 0.3s ease;
+  background-color: #fbfbfb;
 }
 
 .counter-item.mini:hover {
@@ -700,7 +645,7 @@ body.night-mode .audio-info-display {
 }
 
 .counter-item.mini:nth-child(2) i {
-  color: red;
+  color: rgb(255, 0, 132);
 }
 
 .count-number {
@@ -817,29 +762,4 @@ body.night-mode .audio-info-display {
   .count-number {
     font-size: 10px;
   }
-}
-
-/* Night Mode Styles for Mini Counter */
-body.night-mode .mini-counter {
-  background: transparent;
-  border-color: transparent;
-}
-
-body.night-mode .counter-item.mini {
-  background: #34495e;
-}
-
-body.night-mode .counter-item.mini:hover {
-  background: #dddbdb;
-}
-
-body.night-mode .count-number {
-  color: rgb(255, 251, 0);
-}
-body.night-mode .counter-item.mini i {
-  color: #3498db;
-}
-
-body.night-mode .counter-item.mini:nth-child(2) i {
-  color: red;
 }

@@ -3,17 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khaled Mahmud</title>
+    <title>Khairul Islam</title>
     <link rel="stylesheet" href="public.css">
+    <link rel="stylesheet" href="night-mood.css">
     <link rel="stylesheet" href="Style.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script> -->
     <button id="nightModeToggle" class="night-mode-toggle" onclick="toggleNightMode()" title="Switch to Night Mode">
         <i class="fas fa-moon"></i>
     </button>
     <main>
+        <!-- Like , View count section -->
+        <section class="counter-section">
+            <div class="header-counter">
+                <div class="mini-counter">
+                    <div class="counter-item mini">
+                        <i class="fas fa-eye"></i>
+                        <span class="count-number" id="miniViewCount">0</span>
+                    </div>
+                    <div class="counter-item mini">
+                        <i class="fas fa-heart"></i>
+                        <span class="count-number" id="miniLikeCount">0</span>
+                        <button class="mini-like-btn" id="miniLikeBtn" title="Click to like">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section>
             <div class="about">
                 <div class="about-container">
@@ -310,6 +331,6 @@
     </footer>
     <script src="public.js"></script>
     <script src="khaled-scroll.js"></script>
+    <script src="view-count.js"></script>
 </body>
-
 </html>
