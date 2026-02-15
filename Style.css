@@ -93,13 +93,13 @@ body {
 /* ======= download App ======= */
 /* === App Download Section === */
 .app-download {
-    background: linear-gradient(to right, #667eea, #764ba2);
+    background: linear-gradient(to right, #667eeaa0, #764ba299);
     color: white;
     padding: 40px 20px;
     border-radius: 15px;
     margin: 40px auto;
     max-width: 900px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
 }
 
 .app-download-container {
@@ -118,10 +118,9 @@ body {
 .app-download-left img {
     width: 120px;
     height: 120px;
-    border-radius: 20px;
+    border-radius: 80px;
     object-fit: cover;
-    border: 4px solid white;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 0 10px rgb(255, 255, 255);
 }
 
 .app-download-right {
@@ -136,29 +135,37 @@ body {
 
 .app-download p {
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.2;
+    color: #ffffff;
     margin-bottom: 20px;
     opacity: 0.9;
 }
-
+.app-download h3 {
+    font-size: 14px;
+    text-transform: lowercase;
+    margin-bottom: 20px;
+    opacity: 0.9;
+    font-weight: normal;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 .download-btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: #00ff88;
-    color: #000;
+    background: transparent;
+    color: #ffee00;
+    border: 3px solid transparent;
     padding: 12px 25px;
     border-radius: 50px;
     text-decoration: none;
     font-weight: bold;
     font-size: 16px;
     transition: all 0.3s ease;
-    border: 3px solid transparent;
 }
 
 .download-btn:hover {
     background: transparent;
-    color: #00ff88;
+    color: #ffffff;
     border-color: #00ff88;
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0,255,136,0.3);
