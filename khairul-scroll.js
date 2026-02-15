@@ -16,9 +16,9 @@ const images = [
     link: "#"
   },
   {
-    url: "#",
-    title: "#",
-    link: "#"
+    url: "4.jpg",
+    title: "Fai Media : Content",
+    link: "https://youtu.be/QqMQR1kfiyE?si=jDuqHehhlAJ9UZbm"
   },
   {
     url: "#",
