@@ -37,16 +37,16 @@ try {
 
 // Unique IDs with badges (8-digit numbers) - ALL VIP
 const SPECIAL_IDS = {   
-  "00191520": { type: "vip", name: "Shawon" },
-  "20202020": { type: "vip", name: "Rifat" },      
-  "00192621": { type: "vip", name: "Md. Al-Mamun Sarkar" },    
-  "00193722": { type: "vip", name: "Tanvir" },  
-  "59200311": { type: "vip", name: "Jewel" },       
-  "60059500": { type: "vip", name: "Shakil" },    
-  "52044379": { type: "vip", name: "Nayeem" },   
-  "20529519": { type: "vip", name: "Arif" },
-  "20202020": { type: "vip", name: "Demo" },
-  "50522654": { type: "vip", name: "Anika" }
+  "20202020": { type: "vip", name: "DEMO Acc" },
+  "00191520": { type: "vip", name: "Faizul Islam Riyad" },      
+  "00192621": { type: "vip", name: "Khairul Islam" },    
+  "00193722": { type: "vip", name: "Khaled Mahmud" },  
+  "59200311": { type: "vip", name: "Sourov" },       
+  "60059500": { type: "vip", name: "Himadri S Biswas" },    
+  "52044379": { type: "vip", name: "Yasir Arafat Alif" },   
+  "20529519": { type: "vip", name: "Saharier Sakib" },
+  "20202020": { type: "vip", name: "X" },
+  "50522654": { type: "vip", name: "X" }
 };
 
 const BADGE_CONFIG = {
