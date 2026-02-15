@@ -716,8 +716,8 @@ body.night-mode .template-item.active {
 .night-mode .received-tasks-container::-webkit-scrollbar-thumb:hover {
   background: #666;
 }
-/* Chat.css page */
-/* ========== NIGHT MODE VERSION ========== */
+
+/* ===== Chat.css page ====== */
 body.night-mode .chat-section {
   background: transparent;
 }
@@ -818,7 +818,42 @@ body.night-mode .vip-user-info h4,
 body.night-mode .group-info h4 {
   color: #f3f4f6;
 }
+/* Night Mode Support */
+body.night-mode .reply-preview-container {
+  background: #2d3748;
+  border-color: #4a5568;
+}
 
+body.night-mode .reply-preview-text {
+  background: #1a202c;
+  color: #e2e8f0;
+}
+
+body.night-mode .reply-preview {
+  background: rgba(66, 153, 225, 0.1);
+}
+
+body.night-mode .message-actions {
+  background: rgba(45, 55, 72, 0.9);
+}
+
+body.night-mode .message-action-btn {
+  color: #cbd5e0;
+}
+
+body.night-mode .message-action-btn:hover {
+  background: #4a5568;
+  color: #fff;
+}
+
+body.night-mode .delete-options {
+  background: #2d3748;
+}
+
+body.night-mode .delete-warning {
+  background: #742a2a;
+  border-color: #c53030;
+}
 body.night-mode .vip-user-info p,
 body.night-mode .group-info p {
   color: #9ca3af;
@@ -1223,7 +1258,30 @@ body.night-mode .fa-spinner {
 body.night-mode .chat-container {
   position: relative;
 }
+/* Night mode support for new elements */
+body.night-mode .members-management-list,
+body.night-mode .available-members-list {
+  background: #2d2d2d;
+  border-color: #444;
+}
 
+body.night-mode .member-management-item,
+body.night-mode .available-member-item {
+  border-color: #444;
+}
+
+body.night-mode .member-management-item:hover,
+body.night-mode .available-member-item label:hover {
+  background-color: #3d3d3d;
+}
+
+body.night-mode .btn-remove-member {
+  background: #dc3545;
+}
+
+body.night-mode .btn-remove-member:hover {
+  background: #c82333;
+}
 body.night-mode .chat-container::before {
   content: '';
   position: absolute;
