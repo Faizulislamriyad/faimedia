@@ -686,22 +686,16 @@ async function sendTaskToVIP(senderId) {
   }
 }
 
-// FIXED: Added null check for tasksContainer
 async function loadAndDisplayReceivedTasks(receiverId) {
   if (!database) return;
-  
-  // First check if container exists
-  const tasksContainer = document.getElementById('receivedTasksContainer');
-  if (!tasksContainer) {
-    console.log("No received tasks container found for user", receiverId);
-    return; // Exit if container doesn't exist
-  }
   
   try {
     const snapshot = await database.ref('vipTasks')
       .orderByChild('receiverId')
       .equalTo(receiverId)
       .once('value');
+    
+    const tasksContainer = document.getElementById('receivedTasksContainer');
     
     if (!snapshot.exists()) {
       tasksContainer.innerHTML = '<p style="text-align: center; color: #888; padding: 20px;">No tasks received yet</p>';
@@ -733,7 +727,10 @@ async function loadAndDisplayReceivedTasks(receiverId) {
     
   } catch (error) {
     console.error("Error loading received tasks:", error);
-    tasksContainer.innerHTML = '<p style="text-align: center; color: #888; padding: 20px;">Error loading tasks</p>';
+    const tasksContainer = document.getElementById('receivedTasksContainer');
+    if (tasksContainer) {
+      tasksContainer.innerHTML = '<p style="text-align: center; color: #888; padding: 20px;">Error loading tasks</p>';
+    }
   }
 }
 
@@ -907,7 +904,7 @@ async function checkAndDeleteExpiredTasks(tasks) {
   }
 }
 
-// FIXED: Added container check before loading tasks
+// Start checking for expired tasks every minute
 function startDeadlineChecker() {
   if (checkDeadlineInterval) {
     clearInterval(checkDeadlineInterval);
@@ -915,11 +912,7 @@ function startDeadlineChecker() {
   
   checkDeadlineInterval = setInterval(() => {
     if (currentUser && currentUser.uniqueId) {
-      const tasksContainer = document.getElementById('receivedTasksContainer');
-      if (tasksContainer) {
-        // Only load tasks if container exists
-        loadAndDisplayReceivedTasks(currentUser.uniqueId);
-      }
+      loadAndDisplayReceivedTasks(currentUser.uniqueId);
     }
   }, 60000); // Check every minute
 }
@@ -962,9 +955,10 @@ function showDashboard(userData) {
       } else {
         // For VIP users who can only receive tasks
         setupVIPTaskSystemForReceivers(userData);
-        // Start deadline checker only for receivers
-        startDeadlineChecker();
       }
+      
+      // Start deadline checker
+      startDeadlineChecker();
     }
   }
 }
@@ -1091,7 +1085,6 @@ function logoutUser() {
   // Clear interval
   if (checkDeadlineInterval) {
     clearInterval(checkDeadlineInterval);
-    checkDeadlineInterval = null;
   }
   
   // Hide dashboard section
