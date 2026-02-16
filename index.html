@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fai Media</title>
     <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="yt.css">
     <link rel="stylesheet" href="public.css">
     <link rel="stylesheet" href="night-mood.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
@@ -12,11 +13,14 @@
 </head>
 <body>
     <!-- Firebase SDKs -->
-    <!-- <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
     <button id="nightModeToggle" class="night-mode-toggle" onclick="toggleNightMode()" title="Switch to Night Mode">
         <i class="fas fa-moon"></i>
     </button>
+    
     <main>
         <!-- About Section -->
         <div class="about">
@@ -30,6 +34,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- Navigation Menu -->
         <nav class="main-nav">
             <ul class="nav-list">
@@ -38,6 +43,7 @@
                 <li><a href="me.html" class="nav-link"><i class="fa-solid fa-user-circle"></i></a></li>
             </ul>
         </nav>
+        
         <div class="app-download">
             <div class="app-download-container">
                 <div class="app-download-left">
@@ -53,94 +59,61 @@
                 </div>
             </div>
         </div>
+        
         <!-- Members Section -->
         <div class="Member">
             <h1>Meet Our Team</h1>
-            <div class="mem1" 
-                data-name="Faizul Islam Riyad" 
-                data-img="memb1.jpg"
-                data-fb="https://www.facebook.com/legend2019.o" 
-                data-insta="https://www.instagram.com/wv_riyad/?hl=en"
-                data-viewmore="riyad.html"
-                onclick="showSocial(this)">
+            
+            <div class="mem1" data-name="Faizul Islam Riyad" data-img="memb1.jpg" data-fb="https://www.facebook.com/legend2019.o" data-insta="https://www.instagram.com/wv_riyad/?hl=en" data-viewmore="riyad.html" onclick="showSocial(this)">
                 <img src="memb1.jpg" alt="Team Member">
                 <h3>Faizul Islam Riyad</h3>
                 <h4>Founder</h4>
                 <h5>Role : Video Editor</h5>
             </div>
-            <div class="mem2"
-                data-name="Khairul Islam" 
-                data-img="memb2.jpg"
-                data-fb="https://www.facebook.com/khairul.islam.955435" 
-                data-insta="https://www.instagram.com/khairulislam2154?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-                data-viewmore="khairul.html"
-                onclick="showSocial(this)">
+            
+            <div class="mem2" data-name="Khairul Islam" data-img="memb2.jpg" data-fb="https://www.facebook.com/khairul.islam.955435" data-insta="https://www.instagram.com/khairulislam2154?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" data-viewmore="khairul.html" onclick="showSocial(this)">
                 <img src="memb2.jpg" alt="Team Member">
                 <h3>Khairul Islam</h3>
                 <h4>CEO</h4>
                 <h5>Role : Voice Artist</h5>
             </div>
-            <div class="mem3"
-                data-name="Khaled Mahmud" 
-                data-img="memb3.jpg"
-                data-fb="https://www.facebook.com/khaled.mahmud.901430" 
-                data-insta="https://instagram.com/khaled"
-                data-viewmore="khaled.html"
-                onclick="showSocial(this)">
+            
+            <div class="mem3" data-name="Khaled Mahmud" data-img="memb3.jpg" data-fb="https://www.facebook.com/khaled.mahmud.901430" data-insta="https://instagram.com/khaled" data-viewmore="khaled.html" onclick="showSocial(this)">
                 <img src="memb3.jpg" alt="Team Member">
                 <h3>Khaled Mahmud</h3>
                 <h4>CMO</h4>
                 <h5>Role : Content Management</h5>
             </div>
-            <div class="mem4"
-                data-name="Raihan Rohan" 
-                data-img="memb4.jpg"
-                data-fb="https://www.facebook.com/share/1MeHLVMfoS/" 
-                data-insta="#"
-                data-viewmore="#"
-                onclick="showSocial(this)">
+            
+            <div class="mem4" data-name="Raihan Rohan" data-img="memb4.jpg" data-fb="https://www.facebook.com/share/1MeHLVMfoS/" data-insta="#" data-viewmore="#" onclick="showSocial(this)">
                 <img src="memb4.jpg" alt="Team Member">
                 <h3>Raihan Rohan</h3>
                 <h4>Member</h4>
                 <h5>Role : Voice Artist</h5>
             </div>
-            <div class="mem5"
-                data-name="Himadri S Biswas" 
-                data-img="memb5.jpg"
-                data-fb="https://www.facebook.com/share/16WBfcBT8b/?mibextid=wwXIfr" 
-                data-insta="https://www.instagram.com/himadri_s_biswas?igsh=eDJqdTRleTh6azgx&utm_source=qr"
-                data-viewmore="#"
-                onclick="showSocial(this)">
+            
+            <div class="mem5" data-name="Himadri S Biswas" data-img="memb5.jpg" data-fb="https://www.facebook.com/share/16WBfcBT8b/?mibextid=wwXIfr" data-insta="https://www.instagram.com/himadri_s_biswas?igsh=eDJqdTRleTh6azgx&utm_source=qr" data-viewmore="#" onclick="showSocial(this)">
                 <img src="memb5.jpg" alt="Team Member">
                 <h3>Himadri S Biswas</h3>
                 <h4>Member</h4>
                 <h5>Role : Voice Artist</h5>
             </div>
-            <div class="mem"
-                data-name="Yasir Arafat Alif" 
-                data-img="memb6.jpg"
-                data-fb="https://www.facebook.com/profile.php?id=100046175142282" 
-                data-insta="#"
-                data-viewmore="#"
-                onclick="showSocial(this)">
+            
+            <div class="mem" data-name="Yasir Arafat Alif" data-img="memb6.jpg" data-fb="https://www.facebook.com/profile.php?id=100046175142282" data-insta="#" data-viewmore="#" onclick="showSocial(this)">
                 <img src="memb6.jpg" alt="Team Member">
                 <h3>Yasir Arafat Alif</h3>
                 <h4>Member</h4>
                 <h5>Role : Video Editor</h5>
             </div>
-            <div class="mem7"
-                data-name="Saharier Sakib" 
-                data-img="memb7.jpg"
-                data-fb="#" 
-                data-insta="#"
-                data-viewmore="#"
-                onclick="showSocial(this)">
+            
+            <div class="mem7" data-name="Saharier Sakib" data-img="memb7.jpg" data-fb="#" data-insta="#" data-viewmore="#" onclick="showSocial(this)">
                 <img src="memb7.jpg" alt="Team Member">
                 <h3>Saharier Sakib</h3>
                 <h4>Member</h4>
                 <h5>Role : Voice Artist</h5>
             </div>
         </div>
+        
         <!-- Social Modal -->
         <div id="Socal" class="SocalM">
             <div class="modal-content">
@@ -155,6 +128,7 @@
                 </a>
             </div>
         </div>
+        
         <!-- Like , View count section -->
         <section class="counter-section">
             <div class="header-counter">
@@ -173,15 +147,44 @@
                 </div>
             </div>
         </section>
+        
         <!-- Popular Content -->
         <section>
             <div class="audio-info-display">
-                <span>Shorts Content</span>
+                <span>Youtube Status</span>
             </div>
-            <div class="image-gallery-wrapper">
-                <div class="gallery-container">
-                    <div class="scrolling-wrapper" id="scrollingWrapper">
-                        <!-- Images added by JavaScript -->
+        </section>
+        
+        <section class="youtube">
+            <div class="dashboard-yt">
+                <!-- stats row – all values now come directly from API / last‑10 aggregation -->
+                <div class="stats-grid">
+                    <div class="stat-card"><span>Subscribers</span><h2 id="subs">—</h2></div>
+                    <div class="stat-card"><span>Total views</span><h2 id="views">—</h2></div>
+                    <div class="stat-card"><span>Videos</span><h2 id="videos">—</h2></div>
+                    <div class="stat-card"><span>Last 10V views</span><h2 id="dailyViews">—</h2><div class="small-badge">sum of 10</div></div>
+                    <div class="stat-card"><span>Last 10V likes</span><h2 id="hourlyViews">—</h2><div class="small-badge">sum of 10</div></div>
+                    <div class="stat-card"><span>Latest video views</span><h2 id="totalLikes">—</h2><div class="small-badge">most recent</div></div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>📈 Actual views – last 7 uploads (real data)</h3>
+                    <canvas id="growthChart"></canvas>
+                    <div class="note">* all numbers from YouTube Data API · updates every 60 seconds</div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="audio-info-display">
+                <span>Recent Uploads (10)</span>
+            </div>
+        </section>
+        <section class="youtube"></section>
+            <div class="dashboard-yt">
+                <!-- recent uploads list (exactly 10 videos) -->
+                <div class="video-list">
+                    <div id="recentVideosContainer" class="video-grid">
+                        <div class="loading">Fetching videos from API...</div>
                     </div>
                 </div>
             </div>
@@ -211,6 +214,7 @@
             </p>
             <p class="signature">— Fai media</p>
         </div>
+        
         <!-- long Videos Content part -->
         <section>
             <div class="audio-info-display">
@@ -219,11 +223,12 @@
             <div class="image-gallery-wrapper">
                 <div class="gallery-container">
                     <div class="scrolling-wrapper" id="educationalGallery">
-                    <!-- Images added by JavaScript -->
+                        <!-- Images added by JavaScript -->
                     </div>
                 </div>
             </div>
         </section>
+        
         <!-- Why we make videos part -->
         <section class="abf">
             <h1>More information</h1>
@@ -239,6 +244,7 @@
                 More <strong>science-focused content</strong>: clear explanations, practical examples, and approachable deep-dives.
                 We’ll keep the respectful tone that defined our earlier Islamic content while building a bridge to modern topics.
             </p>
+            
             <h2>About Our Website</h2>
             <p>
                 FAI Media is continuously evolving. This website will be regularly updated with new features, tools, and content to better serve our growing community.<br>
@@ -248,6 +254,7 @@
                 Additional features, improvements, and interactive sections will be rolled out over time. 
                 Our goal is to build a platform that goes beyond publishing—creating a complete ecosystem for learning, creativity, and meaningful engagement.
             </p>
+            
             <h2>Upcoming Content</h2>
             <p>
                 FAI Media began its journey with <strong>Islamic-focused</strong> content, aiming to present meaningful ideas with respect, clarity, and responsibility. 
@@ -258,6 +265,7 @@
                 Our upcoming content will continue to evolve, bridging knowledge, context, and relevance for a broader audience.
             </p>
         </section>
+        
         <!-- Achivment Gallery Part -->
         <section>
             <div class="audio-info-display">
@@ -266,12 +274,13 @@
             <div class="image-gallery-wrapper">
                 <div class="gallery-container">
                     <div class="scrolling-wrapper" id="islamicGallery">
-                    <!-- Images added by JavaScript -->
+                        <!-- Images added by JavaScript -->
                     </div>
                 </div>
             </div>
         </section>
     </main>
+    
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -304,6 +313,7 @@
                         </a>
                     </div>
                 </div>
+                
                 <div class="footer-section">
                     <h3 class="footer-title" data-i18n="contactInfo">Contact Info</h3>
                     <div class="contact-info">
@@ -325,7 +335,7 @@
             
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
-                    <b>Version 4.0.0</b>
+                    <b>Version 4.1.0</b>
                 </div>
                 <div class="Update-footer">
                     <marquee>&copy; 2026 FAI Media. All rights reserved. Unauthorized copying, distribution, or modification of any content is strictly prohibited.</marquee>
@@ -333,27 +343,30 @@
             </div>
         </div>
     </footer>
+    
     <script src="script.js"></script>
+    <script src="yt.js"></script>
     <script src="index-scroll.js"></script>
     <script src="view-count.js"></script>
+    
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // WhatsApp Number List
-        const phoneNumbers = [
-            "+880 1304375487",
-            "+880 1907389153",
-            "+880 1991215339"
-        ];
-    
-        let currentIndex = 0;
-        const numberElement = document.getElementById('whatsapp-number');
-    
-        // Number Change in Every 5 Sec
-        setInterval(function() {
-            currentIndex = (currentIndex + 1) % phoneNumbers.length;
-            numberElement.textContent = phoneNumbers[currentIndex];
-        }, 5000); // 5000ms = 5 seconds
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            // WhatsApp Number List
+            const phoneNumbers = [
+                "+880 1304375487",
+                "+880 1907389153",
+                "+880 1991215339"
+            ];
+        
+            let currentIndex = 0;
+            const numberElement = document.getElementById('whatsapp-number');
+        
+            // Number Change in Every 5 Sec
+            setInterval(function() {
+                currentIndex = (currentIndex + 1) % phoneNumbers.length;
+                numberElement.textContent = phoneNumbers[currentIndex];
+            }, 5000); // 5000ms = 5 seconds
+        });
     </script>
 </body>
 </html>

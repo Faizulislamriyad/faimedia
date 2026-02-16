@@ -1,0 +1,419 @@
+/* === YouTube Dashboard Styles (yt.css) === */
+.dashboard-yt {
+  max-width: 1300px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  color: #1e293b;
+}
+
+/* Stats Grid – 6 cards with real data */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  border-radius: 24px;
+  padding: 20px 12px;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-color: #cbd5e1;
+}
+
+.stat-card span {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: #64748b;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.stat-card h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.small-badge {
+  font-size: 0.6rem;
+  background: #dbeafe;
+  color: #1e40af;
+  padding: 2px 8px;
+  border-radius: 30px;
+  display: inline-block;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* Chart Container */
+.chart-container {
+  background: #ffffff;
+  border-radius: 30px;
+  padding: 24px 20px;
+  margin: 30px 0 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container h3 {
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #334155;
+  font-size: 1.4rem;
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 250px;
+}
+
+/* Video List Section */
+.video-list {
+  margin: 30px 0 20px;
+}
+
+.video-list h2 {
+  font-weight: 500;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.video-card {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.video-card:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.video-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 16px;
+  object-fit: cover;
+  background: #f1f5f9;
+  margin-bottom: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.video-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  max-height: calc(1rem * 1.4 * 2); /* line-height * font-size * lines */
+  color: #0f172a;
+  
+  /* Fallback for other browsers */
+  display: block;
+  display: -webkit-box;
+}
+
+.video-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: #475569;
+  margin: 8px 0 12px;
+}
+
+.video-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.watch-btn {
+  display: inline-block;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 40px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: all 0.2s ease;
+  border: 1px solid #2563eb;
+  margin-top: 8px;
+  letter-spacing: 0.3px;
+}
+
+.watch-btn:hover {
+  background: #1d4ed8;
+  transform: scale(1.02);
+  border-color: #1e40af;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+/* Loading & Error States */
+.loading,
+.error-msg {
+  padding: 30px;
+  text-align: center;
+  opacity: 0.8;
+  background: #ffffff;
+  border-radius: 30px;
+  color: #475569;
+  grid-column: 1 / -1;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.note {
+  font-size: 0.7rem;
+  text-align: right;
+  opacity: 0.6;
+  margin-top: 15px;
+  color: #64748b;
+}
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .dashboard-yt h1 {
+    font-size: 1.4rem;
+  }
+
+  .stat-card h2 {
+    font-size: 1.4rem;
+  }
+
+  .stat-card {
+    padding: 15px 8px;
+  }
+
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-container h3 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* ====== Night Mode ====== */
+body.night-mode .dashboard-yt {
+  color: #e2e8f0;
+}
+body.night-mode .stat-card {
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+  border: 1px solid #334155;
+}
+
+body.night-mode .stat-card:hover {
+  border-color: #475569;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+body.night-mode .stat-card span {
+  color: #94a3b8;
+}
+
+body.night-mode .stat-card h2 {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+body.night-mode .small-badge {
+  font-size: 0.6rem;
+  background: #1e293b;
+  color: #93c5fd;
+  padding: 2px 8px;
+  border-radius: 30px;
+  display: inline-block;
+  margin-top: 6px;
+  border: 1px solid #334155;
+}
+
+body.night-mode .chart-container {
+  background: #1e293b;
+  border-radius: 30px;
+  padding: 24px 20px;
+  margin: 30px 0 20px;
+  border: 1px solid #334155;
+  box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+}
+
+body.night-mode .chart-container h3 {
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #e2e8f0;
+  font-size: 1.4rem;
+}
+
+body.night-mode .video-list {
+  margin: 30px 0 20px;
+}
+
+body.night-mode .video-list h2 {
+  font-weight: 500;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #e2e8f0;
+}
+
+body.night-mode .video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+body.night-mode .video-card {
+  background: #1e293b;
+  border-radius: 22px;
+  padding: 16px;
+  border: 1px solid #334155;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+}
+
+body.night-mode .video-card:hover {
+  border-color: #475569;
+  background: #2d3748;
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+body.night-mode .video-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 16px;
+  object-fit: cover;
+  background: #2d3748;
+  margin-bottom: 12px;
+  border: 1px solid #334155;
+}
+
+body.night-mode .video-title {
+  color: #f1f5f9;
+}
+
+body.night-mode .video-meta {
+  color: #94a3b8;
+}
+
+body.night-mode .video-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+body.night-mode .watch-btn {
+  display: inline-block;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 40px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: all 0.2s ease;
+  border: 1px solid #3b82f6;
+  margin-top: 8px;
+  letter-spacing: 0.3px;
+}
+
+body.night-mode .watch-btn:hover {
+  background: #3b82f6;
+  transform: scale(1.02);
+  border-color: #60a5fa;
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+}
+
+body.night-mode .loading,
+body.night-mode .error-msg {
+  padding: 30px;
+  text-align: center;
+  opacity: 0.8;
+  background: #1e293b;
+  border-radius: 30px;
+  color: #e2e8f0;
+  grid-column: 1 / -1;
+  border: 1px solid #334155;
+  box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+}
+
+body.night-mode .note {
+  font-size: 0.7rem;
+  text-align: right;
+  opacity: 0.5;
+  margin-top: 15px;
+  color: #94a3b8;
+}
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  body.night-mode .dashboard-yt h1 {
+    font-size: 1.4rem;
+  }
+
+  body.night-mode .stat-card h2 {
+    font-size: 1.4rem;
+  }
+
+  body.night-mode .stat-card {
+    padding: 15px 8px;
+  }
+
+  body.night-mode .video-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.night-mode .chart-container h3 {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 400px) {
+  body.night-mode .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
