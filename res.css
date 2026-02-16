@@ -202,13 +202,14 @@ body.night-mode .file-info {
   color: var(--btn-download-text);
   padding: 0.7rem 1.5rem;
   border-radius: 40px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.9rem;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border: none;
   cursor: pointer;
   transition: 0.2s;
@@ -216,35 +217,39 @@ body.night-mode .file-info {
   flex: 1;
   white-space: nowrap;
 }
-body.night-mode .buttonDownload {
-  color: rgb(255, 255, 255);
-  background: rgb(10, 12, 92);
-}
 .buttonDownload:hover {
   background: var(--accent-hover);
   transform: scale(0.98);
 }
-body.night-mode .buttonDownload:hover {
-  background: rgb(3, 5, 174);
-}
 .btn-preview {
-  background: var(--btn-preview-bg);
-  color: var(--btn-preview-text);
-  padding: 0.7rem 1rem;
+  background: var(--btn-download-bg);
+  color: var(--btn-download-text);
+  padding: 0.7rem 1.5rem;
   border-radius: 40px;
   font-weight: 500;
   font-size: 0.9rem;
-  border: 1px solid var(--border-light);
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: none;
   cursor: pointer;
   transition: 0.2s;
-  flex: 0 1 auto;
+  box-shadow: var(--shadow-sm);
+  flex: 1;
   white-space: nowrap;
 }
 .btn-preview:hover {
   background: var(--border-light);
+}
+body.night-mode .buttonDownload {
+  color: rgb(255, 255, 255);
+  background: rgb(10, 12, 92);
+}
+body.night-mode .buttonDownload:hover {
+  background: rgb(3, 5, 174);
 }
 body.night-mode .btn-preview {
   color: rgb(255, 255, 255);
