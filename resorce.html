@@ -3,813 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Manager - Download Links</title>
+    <title>Resources | faimedia</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="public.css">
+    <link rel="stylesheet" href="res.css">
+    <link rel="stylesheet" href="night-mood.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #0f1525;
-            color: #e0e7ff;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
-
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, #1b233d 0%, #0f172a 100%);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.8rem;
-            font-weight: 800;
-        }
-
-        .logo i {
-            font-size: 2rem;
-            background: linear-gradient(45deg, #049fbb 0%, #50f6ff 100%);
-            color: #1b233d;
-            padding: 8px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(4, 159, 187, 0.3);
-        }
-
-        .tagline {
-            font-size: 1rem;
-            opacity: 0.8;
-            margin-top: 6px;
-            max-width: 600px;
-            color: #a0aec0;
-        }
-
-        .stats {
-            display: flex;
-            gap: 20px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 12px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            font-size: 0.9rem;
-            color: #cbd5e1;
-        }
-
-        /* Category Navigation */
-        .categories {
-            background-color: #1b233d;
-            padding: 1rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .category-nav {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .category-btn {
-            padding: 8px 18px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            color: #cbd5e1;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.95rem;
-            white-space: nowrap;
-        }
-
-        .category-btn:hover {
-            background-color: rgba(4, 159, 187, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(4, 159, 187, 0.2);
-        }
-
-        .category-btn.active {
-            background: linear-gradient(45deg, #049fbb 0%, #50f6ff 100%);
-            color: #1b233d;
-            box-shadow: 0 5px 15px rgba(4, 159, 187, 0.4);
-        }
-
-        .category-btn i {
-            font-size: 1rem;
-        }
-
-        /* Main Content */
-        .main-content {
-            padding: 2rem 0 3rem;
-        }
-
-        .section-title {
-            margin-bottom: 1.5rem;
-            color: #e0e7ff;
-            font-size: 1.7rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title i {
-            color: #50f6ff;
-            background: rgba(4, 159, 187, 0.2);
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 1.2rem;
-        }
-
-        /* Cards Grid - Updated Style */
-        .cards-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        /* Card Style (Your Design) */
-        .card {
-            width: 100%;
-            border-radius: 20px;
-            background: #1b233d;
-            padding: 5px;
-            overflow: hidden;
-            box-shadow: rgba(0, 0, 0, 0.3) 0px 7px 20px 0px;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: rgba(4, 159, 187, 0.3) 0px 7px 30px 0px;
-        }
-
-        .card .top-section {
-            height: 150px;
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            background: linear-gradient(45deg, rgb(4, 159, 187) 0%, rgb(80, 246, 255) 100%);
-            position: relative;
-        }
-
-        .card .top-section .border {
-            border-bottom-right-radius: 10px;
-            height: 30px;
-            width: 130px;
-            background: #1b233d;
-            position: relative;
-            transform: skew(-40deg);
-            box-shadow: -10px -10px 0 0 #1b233d;
-        }
-
-        .card .top-section .border::before {
-            content: "";
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            top: 0;
-            right: -15px;
-            background: rgba(255, 255, 255, 0);
-            border-top-left-radius: 10px;
-            box-shadow: -5px -5px 0 2px #1b233d;
-        }
-
-        .card .top-section::before {
-            content: "";
-            position: absolute;
-            top: 30px;
-            left: 0;
-            background: rgba(255, 255, 255, 0);
-            height: 15px;
-            width: 15px;
-            border-top-left-radius: 15px;
-            box-shadow: -5px -5px 0 2px #1b233d;
-        }
-
-        .card .top-section .icons {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 30px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .card .top-section .icons .logo {
-            height: 100%;
-            aspect-ratio: 1;
-            padding: 7px 0 7px 15px;
-        }
-
-        .card .top-section .icons .logo .svg {
-            height: 100%;
-            fill: #1b233d;
-        }
-
-        .card .top-section .icons .social-media {
-            height: 100%;
-            padding: 8px 15px;
-            display: flex;
-            gap: 7px;
-        }
-
-        .card .top-section .icons .social-media .svg {
-            height: 100%;
-            fill: #1b233d;
-            transition: all 0.3s;
-        }
-
-        .card .top-section .icons .social-media .svg:hover {
-            fill: white;
-            transform: scale(1.1);
-        }
-
-        .card .middle-section {
-            padding: 15px 15px 10px;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-
-        .card-description {
-            color: rgba(170, 222, 243, 0.721);
-            margin-bottom: 12px;
-            line-height: 1.6;
-            font-size: 0.9rem;
-        }
-
-        .card .file-info {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-            padding: 10px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .card .file-info .item {
-            flex: 1;
-            text-align: center;
-            color: rgba(170, 222, 243, 0.721);
-        }
-
-        .card .file-info .item .big-text {
-            font-size: 14px;
-            display: block;
-            font-weight: 600;
-            color: #50f6ff;
-        }
-
-        .card .file-info .item .regular-text {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .card .file-info .item:nth-child(2) {
-            border-left: 1px solid rgba(255, 255, 255, 0.126);
-            border-right: 1px solid rgba(255, 255, 255, 0.126);
-        }
-
-        .card .bottom-section {
-            margin-top: 5px;
-            padding: 15px 15px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        /* Your Download Button Style - Updated for dark theme */
-        .buttonDownload {
-            display: inline-block;
-            position: relative;
-            padding: 12px 25px;
-            background-color: #4CC713;
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-            text-decoration: none;
-            font-size: 0.9em;
-            text-align: center;
-            text-indent: 15px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 140px;
-            box-shadow: 0 4px 15px rgba(76, 199, 19, 0.2);
-        }
-
-        .buttonDownload:hover {
-            background-color: #45a21a;
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(76, 199, 19, 0.4);
-        }
-
-        .buttonDownload:before, .buttonDownload:after {
-            content: ' ';
-            display: block;
-            position: absolute;
-            left: 15px;
-            top: 52%;
-        }
-
-        .buttonDownload:before {
-            width: 10px;
-            height: 2px;
-            border-style: solid;
-            border-width: 0 2px 2px;
-            border-color: white;
-        }
-
-        .buttonDownload:after {
-            width: 0;
-            height: 0;
-            margin-left: 3px;
-            margin-top: -7px;
-            border-style: solid;
-            border-width: 4px 4px 0 4px;
-            border-color: transparent;
-            border-top-color: white;
-            animation: downloadArrow 1s linear infinite;
-            animation-play-state: paused;
-        }
-
-        .buttonDownload:hover:before {
-            border-color: #cdefbd;
-        }
-
-        .buttonDownload:hover:after {
-            border-top-color: #cdefbd;
-            animation-play-state: running;
-        }
-
-        @keyframes downloadArrow {
-            0% {
-                margin-top: -7px;
-                opacity: 1;
-            }
-            0.001% {
-                margin-top: -15px;
-                opacity: 0.4;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                margin-top: 0;
-                opacity: 0.4;
-            }
-        }
-
-        /* Preview Button - Updated for dark theme */
-        .btn-preview {
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-            border: none;
-            font-size: 0.9rem;
-            text-decoration: none;
-            background: linear-gradient(45deg, #049fbb 0%, #50f6ff 100%);
-            color: #1b233d;
-            min-width: 140px;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(4, 159, 187, 0.2);
-        }
-
-        .btn-preview:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(4, 159, 187, 0.4);
-        }
-
-        .btn-preview i {
-            font-size: 0.9rem;
-        }
-
-        .card-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        /* Action buttons (like/save) */
-        .card-actions {
-            display: flex;
-            gap: 8px;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 2;
-        }
-
-        .action-btn {
-            background: rgba(27, 35, 61, 0.8);
-            border: none;
-            color: rgba(170, 222, 243, 0.721);
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            padding: 6px;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .action-btn:hover {
-            background: rgba(4, 159, 187, 0.8);
-            color: white;
-        }
-
-        /* Manual CSS-only toggle for like/save */
-        .like-checkbox, .save-checkbox {
-            display: none;
-        }
-
-        .like-label, .save-label {
-            cursor: pointer;
-        }
-
-        .like-checkbox:checked + .like-label i {
-            color: #ef4444;
-            animation: pulse 0.5s;
-        }
-
-        .save-checkbox:checked + .save-label i {
-            color: #10b981;
-            animation: pulse 0.5s;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        /* Footer */
-        footer {
-            background: #1b233d;
-            color: #cbd5e1;
-            padding: 2.5rem 0 1.5rem;
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            color: #50f6ff;
-            margin-bottom: 1.2rem;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .footer-section h3 i {
-            color: #50f6ff;
-            font-size: 1.1rem;
-        }
-
-        .footer-section p {
-            line-height: 1.7;
-            color: rgba(170, 222, 243, 0.721);
-            font-size: 0.95rem;
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(170, 222, 243, 0.5);
-            font-size: 0.9rem;
-        }
-
-        /* Category-specific colors for top-section */
-        .work-card .top-section { background: linear-gradient(45deg, #4f46e5 0%, #7c3aed 100%); }
-        .study-card .top-section { background: linear-gradient(45deg, #059669 0%, #10b981 100%); }
-        .entertainment-card .top-section { background: linear-gradient(45deg, #dc2626 0%, #ef4444 100%); }
-        .software-card .top-section { background: linear-gradient(45deg, #ea580c 0%, #f97316 100%); }
-        .design-card .top-section { background: linear-gradient(45deg, #db2777 0%, #ec4899 100%); }
-        .personal-card .top-section { background: linear-gradient(45deg, #7c3aed 0%, #a855f7 100%); }
-
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .cards-container {
-                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-                gap: 20px;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .cards-container {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            }
-            
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            
-            .logo {
-                font-size: 1.7rem;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 12px;
-            }
-            
-            .cards-container {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            }
-            
-            .category-nav {
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 8px;
-                scrollbar-width: thin;
-            }
-            
-            .category-nav::-webkit-scrollbar {
-                height: 4px;
-            }
-            
-            .category-nav::-webkit-scrollbar-thumb {
-                background: rgba(4, 159, 187, 0.5);
-                border-radius: 2px;
-            }
-            
-            .card {
-                max-width: 100%;
-            }
-            
-            .bottom-section {
-                padding: 10px;
-            }
-            
-            .card-buttons {
-                width: 100%;
-                flex-direction: column;
-            }
-            
-            .buttonDownload, .btn-preview {
-                width: 100%;
-                justify-content: center;
-                padding: 12px;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .cards-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .logo {
-                font-size: 1.5rem;
-            }
-            
-            .logo i {
-                font-size: 1.8rem;
-                padding: 6px;
-            }
-            
-            .tagline {
-                font-size: 0.95rem;
-            }
-            
-            .stats {
-                gap: 12px;
-                justify-content: center;
-            }
-            
-            .stat-item {
-                font-size: 0.85rem;
-                padding: 5px 10px;
-            }
-            
-            .category-btn {
-                padding: 7px 15px;
-                font-size: 0.9rem;
-            }
-            
-            .section-title {
-                font-size: 1.4rem;
-            }
-            
-            .card-title {
-                font-size: 1.2rem;
-            }
-            
-            .card-description {
-                font-size: 0.85rem;
-            }
-            
-            .buttonDownload, .btn-preview {
-                min-width: auto;
-            }
-        }
-
-        /* Print styles */
-        @media print {
-            .categories, .card-actions, .btn-preview {
-                display: none !important;
-            }
-            
-            .card {
-                break-inside: avoid;
-                box-shadow: none;
-                border: 1px solid #ddd;
-            }
-            
-            .buttonDownload {
-                background: none;
-                color: #000;
-                border: 1px solid #000;
-            }
-            
-            .buttonDownload:before, .buttonDownload:after {
-                display: none;
-            }
-        }
-    </style>
 </head>
 <body>
+    <button id="nightModeToggle" class="night-mode-toggle" onclick="toggleNightMode()" title="Switch to Night Mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    
     <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div>
-                    <div class="logo">
-                        <i class="fas fa-cloud-download-alt"></i>
-                        <span>File Universe</span>
-                    </div>
-                    <div class="tagline">Organize, download, and manage your files from Google Drive and other sources</div>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <i class="fas fa-folder"></i>
-                            <span>6 Categories</span>
-                        </div>
-                        <div class="stat-item">
-                            <i class="fas fa-file-alt"></i>
-                            <span>18 Files Available</span>
-                        </div>
-                        <div class="stat-item">
-                            <i class="fas fa-download"></i>
-                            <span>Direct Download</span>
-                        </div>
-                    </div>
-                </div>
+    <div class="about">
+        <div class="about-container">
+            <div class="about-left">
+                <img src="faimedia2.jpg" alt="FAI Media">
+            </div>
+            <div class="about-right">
+                <h1>COLLECT<br><span> FAI Resources </span></h1>
+                <p>We are <a href="https://youtube.com/@faimedia.24?si=pPu81S-D-M3uOfd1" target="_blank" rel="noopener noreferrer">FAI MEDIA</a> — your creative digital partner for videos, stories, and innovation.</p>
             </div>
         </div>
-    </header>
-
-    <!-- Category Navigation -->
-    <nav class="categories">
-        <div class="container">
-            <div class="category-nav">
-                <button class="category-btn active" onclick="filterCategory('all')">
-                    <i class="fas fa-th-large"></i> All Files
-                </button>
-                <button class="category-btn" onclick="filterCategory('work')">
-                    <i class="fas fa-briefcase"></i> Work
-                </button>
-                <button class="category-btn" onclick="filterCategory('study')">
-                    <i class="fas fa-graduation-cap"></i> Study
-                </button>
-                <button class="category-btn" onclick="filterCategory('entertainment')">
-                    <i class="fas fa-film"></i> Entertainment
-                </button>
-                <button class="category-btn" onclick="filterCategory('software')">
-                    <i class="fas fa-code"></i> Software
-                </button>
-                <button class="category-btn" onclick="filterCategory('design')">
-                    <i class="fas fa-palette"></i> Design
-                </button>
-            </div>
-        </div>
-    </nav>
+    </div>
+    <!-- Navigation Menu -->
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i></a></li>
+                <li><a href="studio.html" class="nav-link"><i class="fa-solid fa-pen-nib"></i></a></li>
+                <li><a href="resorce.html" class="nav-link active"><i class="fa-solid fa-folder-open"></i>File</a></li>
+                <li><a href="me.html" class="nav-link "><i class="fa-solid fa-user-circle"></i></a></li>
+            </ul>
+        </nav>
 
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
             <h2 class="section-title">
-                <i class="fas fa-th-large"></i>
-                <span id="currentCategory">All Files</span>
+                <span id="currentCategory"> Resources</span>
             </h2>
-            
             <div class="cards-container">
                 <!-- Card 1 - Work -->
                 <div class="card work-card">
-                    <div class="top-section">
-                        <div class="border"></div>
-                        <div class="icons">
-                            <div class="logo">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 94 94" class="svg">
-                                    <path fill="white" d="M38.0481 4.82927C38.0481 2.16214 40.018 0 42.4481 0H51.2391C53.6692 0 55.6391 2.16214 55.6391 4.82927V40.1401C55.6391 48.8912 53.2343 55.6657 48.4248 60.4636C43.6153 65.2277 36.7304 67.6098 27.7701 67.6098C18.8099 67.6098 11.925 65.2953 7.11548 60.6663C2.37183 56.0036 3.8147e-06 49.2967 3.8147e-06 40.5456V4.82927C3.8147e-06 2.16213 1.96995 0 4.4 0H13.2405C15.6705 0 17.6405 2.16214 17.6405 4.82927V39.1265C17.6405 43.7892 18.4805 47.2018 20.1605 49.3642C21.8735 51.5267 24.4759 52.6079 27.9678 52.6079C31.4596 52.6079 34.0127 51.5436 35.6268 49.4149C37.241 47.2863 38.0481 43.8399 38.0481 39.0758V4.82927Z"></path>
-                                    <path fill="white" d="M86.9 61.8682C86.9 64.5353 84.9301 66.6975 82.5 66.6975H73.6595C71.2295 66.6975 69.2595 64.5353 69.2595 61.8682V4.82927C69.2595 2.16214 71.2295 0 73.6595 0H82.5C84.9301 0 86.9 2.16214 86.9 4.82927V61.8682Z"></path>
-                                    <path fill="white" d="M2.86102e-06 83.2195C2.86102e-06 80.5524 1.96995 78.3902 4.4 78.3902H83.6C86.0301 78.3902 88 80.5524 88 83.2195V89.1707C88 91.8379 86.0301 94 83.6 94H4.4C1.96995 94 0 91.8379 0 89.1707L2.86102e-06 83.2195Z"></path>
-                                </svg>
-                            </div>
-                            <div class="social-media">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" class="svg">
-                                    <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
-                                </svg>
-                                <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                    <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
-                                </svg>
-                                <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
-                                    <path d="M524.531,69.836a1.5,1.5,0,0,0-.764-.7A485.065,485.065,0,0,0,404.081,32.03a1.816,1.816,0,0,0-1.923.91,337.461,337.461,0,0,0-14.9,30.6,447.848,447.848,0,0,0-134.426,0,309.541,309.541,0,0,0-15.135-30.6,1.89,1.89,0,0,0-1.924-.91A483.689,483.689,0,0,0,116.085,69.137a1.712,1.712,0,0,0-.788.676C39.068,183.651,18.186,294.69,28.43,404.354a2.016,2.016,0,0,0,.765,1.375A487.666,487.666,0,0,0,176.02,479.918a1.9,1.9,0,0,0,2.063-.676A348.2,348.2,0,0,0,208.12,430.4a1.86,1.86,0,0,0-1.019-2.588,321.173,321.173,0,0,1-45.868-21.853,1.885,1.885,0,0,1-.185-3.126c3.082-2.309,6.166-4.711,9.109-7.137a1.819,1.819,0,0,1,1.9-.256c96.229,43.917,200.41,43.917,295.5,0a1.812,1.812,0,0,1,1.924.233c2.944,2.426,6.027,4.851,9.132,7.16a1.884,1.884,0,0,1-.162,3.126,301.407,301.407,0,0,1-45.89,21.83,1.875,1.875,0,0,0-1,2.611,391.055,391.055,0,0,0,30.014,48.815,1.864,1.864,0,0,0,2.063.7A486.048,486.048,0,0,0,610.7,405.729a1.882,1.882,0,0,0,.765-1.352C623.729,277.594,590.933,167.465,524.531,69.836ZM222.491,337.58c-28.972,0-52.844-26.587-52.844-59.239S193.056,219.1,222.491,219.1c29.665,0,53.306,26.82,52.843,59.239C275.334,310.993,251.924,337.58,222.491,337.58Zm195.38,0c-28.971,0-52.843-26.587-52.843-59.239S388.437,219.1,417.871,219.1c29.667,0,53.307,26.82,52.844,59.239C470.715,310.993,447.538,337.58,417.871,337.58Z"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card-actions">
-                        <input type="checkbox" id="like1" class="like-checkbox">
-                        <label for="like1" class="action-btn like-label">
-                            <i class="fas fa-heart"></i>
-                        </label>
-                        
-                        <input type="checkbox" id="save1" class="save-checkbox">
-                        <label for="save1" class="action-btn save-label">
-                            <i class="fas fa-bookmark"></i>
-                        </label>
-                    </div>
-                    
                     <div class="middle-section">
                         <h3 class="card-title">Quarterly Report 2023</h3>
                         <p class="card-description">Complete financial analysis and performance report for Q1-Q4 2023 with detailed charts and projections.</p>
@@ -844,42 +81,6 @@
                 
                 <!-- Card 2 - Study -->
                 <div class="card study-card">
-                    <div class="top-section">
-                        <div class="border"></div>
-                        <div class="icons">
-                            <div class="logo">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 94 94" class="svg">
-                                    <path fill="white" d="M38.0481 4.82927C38.0481 2.16214 40.018 0 42.4481 0H51.2391C53.6692 0 55.6391 2.16214 55.6391 4.82927V40.1401C55.6391 48.8912 53.2343 55.6657 48.4248 60.4636C43.6153 65.2277 36.7304 67.6098 27.7701 67.6098C18.8099 67.6098 11.925 65.2953 7.11548 60.6663C2.37183 56.0036 3.8147e-06 49.2967 3.8147e-06 40.5456V4.82927C3.8147e-06 2.16213 1.96995 0 4.4 0H13.2405C15.6705 0 17.6405 2.16214 17.6405 4.82927V39.1265C17.6405 43.7892 18.4805 47.2018 20.1605 49.3642C21.8735 51.5267 24.4759 52.6079 27.9678 52.6079C31.4596 52.6079 34.0127 51.5436 35.6268 49.4149C37.241 47.2863 38.0481 43.8399 38.0481 39.0758V4.82927Z"></path>
-                                    <path fill="white" d="M86.9 61.8682C86.9 64.5353 84.9301 66.6975 82.5 66.6975H73.6595C71.2295 66.6975 69.2595 64.5353 69.2595 61.8682V4.82927C69.2595 2.16214 71.2295 0 73.6595 0H82.5C84.9301 0 86.9 2.16214 86.9 4.82927V61.8682Z"></path>
-                                    <path fill="white" d="M2.86102e-06 83.2195C2.86102e-06 80.5524 1.96995 78.3902 4.4 78.3902H83.6C86.0301 78.3902 88 80.5524 88 83.2195V89.1707C88 91.8379 86.0301 94 83.6 94H4.4C1.96995 94 0 91.8379 0 89.1707L2.86102e-06 83.2195Z"></path>
-                                </svg>
-                            </div>
-                            <div class="social-media">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" class="svg">
-                                    <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
-                                </svg>
-                                <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                    <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
-                                </svg>
-                                <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
-                                    <path d="M524.531,69.836a1.5,1.5,0,0,0-.764-.7A485.065,485.065,0,0,0,404.081,32.03a1.816,1.816,0,0,0-1.923.91,337.461,337.461,0,0,0-14.9,30.6,447.848,447.848,0,0,0-134.426,0,309.541,309.541,0,0,0-15.135-30.6,1.89,1.89,0,0,0-1.924-.91A483.689,483.689,0,0,0,116.085,69.137a1.712,1.712,0,0,0-.788.676C39.068,183.651,18.186,294.69,28.43,404.354a2.016,2.016,0,0,0,.765,1.375A487.666,487.666,0,0,0,176.02,479.918a1.9,1.9,0,0,0,2.063-.676A348.2,348.2,0,0,0,208.12,430.4a1.86,1.86,0,0,0-1.019-2.588,321.173,321.173,0,0,1-45.868-21.853,1.885,1.885,0,0,1-.185-3.126c3.082-2.309,6.166-4.711,9.109-7.137a1.819,1.819,0,0,1,1.9-.256c96.229,43.917,200.41,43.917,295.5,0a1.812,1.812,0,0,1,1.924.233c2.944,2.426,6.027,4.851,9.132,7.16a1.884,1.884,0,0,1-.162,3.126,301.407,301.407,0,0,1-45.89,21.83,1.875,1.875,0,0,0-1,2.611,391.055,391.055,0,0,0,30.014,48.815,1.864,1.864,0,0,0,2.063.7A486.048,486.048,0,0,0,610.7,405.729a1.882,1.882,0,0,0,.765-1.352C623.729,277.594,590.933,167.465,524.531,69.836ZM222.491,337.58c-28.972,0-52.844-26.587-52.844-59.239S193.056,219.1,222.491,219.1c29.665,0,53.306,26.82,52.843,59.239C275.334,310.993,251.924,337.58,222.491,337.58Zm195.38,0c-28.971,0-52.843-26.587-52.843-59.239S388.437,219.1,417.871,219.1c29.667,0,53.307,26.82,52.844,59.239C470.715,310.993,447.538,337.58,417.871,337.58Z"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card-actions">
-                        <input type="checkbox" id="like2" class="like-checkbox">
-                        <label for="like2" class="action-btn like-label">
-                            <i class="fas fa-heart"></i>
-                        </label>
-                        
-                        <input type="checkbox" id="save2" class="save-checkbox">
-                        <label for="save2" class="action-btn save-label">
-                            <i class="fas fa-bookmark"></i>
-                        </label>
-                    </div>
-                    
                     <div class="middle-section">
                         <h3 class="card-title">Web Development Notes</h3>
                         <p class="card-description">Comprehensive notes on HTML, CSS, JavaScript, and frameworks. Includes code examples and best practices.</p>
@@ -918,38 +119,70 @@
     </main>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>
-                        <i class="fas fa-download"></i>
-                        File Universe
-                    </h3>
-                    <p>Organize and access your important files and links from Google Drive and other sources. Download directly with one click.</p>
+                    <div class="footer-logo">
+                        <i class="fa-solid fa-globe"></i>
+                        <a href="https://youtube.com/@faimedia.24?si=pPu81S-D-M3uOfd1" target="_blank" rel="noopener noreferrer" class="faimedia">FAI <span>Media</span></a>
+                    </div>
+                    <p class="footer-description">
+                        Only a unique idea can make the world Unique!
+                    </p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61558124884005" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@Faimedia.24" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://www.instagram.com/?hl=en" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@fai_media24?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                        <a href="https://devinfo-roan.vercel.app/" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </a>
+                    </div>
                 </div>
                 <div class="footer-section">
-                    <h3>
-                        <i class="fas fa-info-circle"></i>
-                        How to Use
-                    </h3>
-                    <p>Click the Download button to get files directly. Use the heart icon to like items and bookmark to save for later.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>
-                        <i class="fas fa-link"></i>
-                        Direct Downloads
-                    </h3>
-                    <p>All download links are direct Google Drive download URLs. Files will download automatically when you click.</p>
+                    <h3 class="footer-title" data-i18n="contactInfo">Contact Info</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Barishal, Bangladesh</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <span id="whatsapp-number">+880 1304375487</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contactwithfaimedia@gmail.com</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="copyright">
-                &copy; 2023 File Universe. All file links are for demonstration purposes.
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <b>Version 4.0.0</b>
+                </div>
+                <div class="Update-footer">
+                    <marquee>&copy; 2026 FAI Media. All rights reserved. Unauthorized copying, distribution, or modification of any content is strictly prohibited.</marquee>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- Minimal JavaScript for category filtering only -->
+
     <script>
         // Simple category filtering function
         function filterCategory(category) {
@@ -996,5 +229,6 @@
             console.log("File Universe loaded successfully!");
         });
     </script>
+    <script src="public.js"></script>
 </body>
 </html>
