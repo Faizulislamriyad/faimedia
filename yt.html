@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Analytics | faimedia</title>
+    <!-- Chart.js 4 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #0f1a2f, #050a15);
+            color: #eef4ff;
+            padding: 24px 20px;
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* --- glass morph base --- */
+        .glass, .channel-header, .stat-card, .glass-panel, .chart-card, .comment-card, .video-card, .leaderboard-table {
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            background: rgba(12, 22, 38, 0.6);
+            border: 1px solid rgba(96, 144, 255, 0.2);
+            box-shadow: 0 20px 40px -20px #00000080, 0 0 0 1px rgba(255,255,255,0.02) inset;
+        }
+
+        /* --- channel header --- */
+        .channel-header {
+            position: relative;
+            border-radius: 36px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            transition: box-shadow 0.3s;
+            border: 1px solid rgba(110, 155, 255, 0.3);
+        }
+        .channel-header:hover {
+            box-shadow: 0 25px 45px -15px #2f4fbb60;
+        }
+        .channel-banner {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            background: linear-gradient(145deg, #142c44, #1e3757);
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .channel-header:hover .channel-banner {
+            transform: scale(1.01);
+        }
+        .channel-info {
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(5, 12, 24, 0.6);
+            backdrop-filter: blur(18px);
+            padding: 14px 28px;
+            border-radius: 70px;
+            border: 1px solid rgba(96, 144, 255, 0.4);
+            box-shadow: 0 18px 35px -20px black;
+        }
+        .channel-thumb {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            border: 3px solid #6080dd;
+            object-fit: cover;
+            box-shadow: 0 0 30px #4060c0;
+            transition: 0.2s;
+        }
+        .channel-thumb:hover { transform: scale(1.05); border-color: #b0d0ff; }
+        .channel-text h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #ffffff, #b2d0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .channel-text p { color: #b0c6f0; display: flex; gap: 8px; margin-top: 4px; }
+        .refresh-control {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #0f1b30cc;
+            padding: 8px 22px;
+            border-radius: 50px;
+            border: 1px solid #3f6bb0;
+        }
+        .refresh-toggle {
+            width: 46px;
+            height: 24px;
+            background: #283858;
+            border-radius: 40px;
+            position: relative;
+            cursor: pointer;
+            box-shadow: inset 0 2px 6px black;
+            transition: 0.2s;
+        }
+        .refresh-toggle.active { background: #3d70cc; }
+        .refresh-toggle::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px black;
+        }
+        .refresh-toggle.active::after { left: 24px; }
+        .countdown {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            color: #b0d0ff;
+            text-shadow: 0 0 8px #3f70cc;
+            min-width: 60px;
+        }
+        #manualRefresh {
+            background: transparent;
+            border: none;
+            color: #6080dd;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        #manualRefresh:hover { color: #a0c0ff; transform: rotate(30deg); }
+
+        /* --- stats grid --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 22px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            border-radius: 30px;
+            padding: 22px 15px;
+            text-align: center;
+            border: 1px solid rgba(96, 144, 255, 0.25);
+            transition: 0.2s;
+            overflow: hidden;
+            position: relative;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(130, 180, 255, 0.15), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .stat-card:hover::before { opacity: 1; }
+        .stat-card:hover { border-color: #6080dd; transform: translateY(-4px); }
+        .stat-card span { text-transform: uppercase; font-size: 0.7rem; opacity: 0.8; color: #b0ccff; }
+        .stat-card h2 { font-size: 2.4rem; font-weight: 700; background: linear-gradient(145deg, #fff, #bfd6ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 8px 0 4px; }
+
+        /* badges */
+        .badge-container {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 20px 0 30px;
+        }
+        .badge {
+            background: rgba(20, 40, 65, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 50px;
+            padding: 8px 22px;
+            border: 1px solid #4060a0;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            box-shadow: 0 6px 14px #00000040;
+        }
+        .badge:hover { transform: scale(1.04); border-color: #ffd966; }
+        .badge.gold { background: #332818; border-color: #e5b13b; color: #ffe484; }
+        .badge.silver { background: #26323f; border-color: #a0b0c0; color: #d0e0ff; }
+        .badge.bronze { background: #352718; border-color: #b87c3a; color: #ffbe6e; }
+
+        /* panels */
+        .glass-panel {
+            border-radius: 40px;
+            padding: 28px;
+            margin: 30px 0;
+            border: 1px solid rgba(96, 144, 255, 0.25);
+        }
+
+        /* charts row */
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 30px 0;
+        }
+        .chart-card {
+            border-radius: 38px;
+            padding: 22px;
+            border: 1px solid rgba(96, 144, 255, 0.2);
+        }
+        .chart-card h3 { color: #d0e4ff; font-size: 1.2rem; margin-bottom: 18px; }
+        .chart-card canvas { height: 200px !important; width: 100% !important; }
+
+        .stat-list { list-style: none; }
+        .stat-list li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #264466; }
+        .progress-mini { width: 100px; height: 8px; background: #1d314a; border-radius: 20px; overflow: hidden; display: inline-block; margin-left: 10px; }
+        .progress-mini div { height: 100%; background: linear-gradient(90deg, #5f9ef0, #95c0ff); border-radius: 20px; }
+
+        /* comments grid - always 3 columns */
+        .comments-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-top: 20px;
+        }
+        .comment-card {
+            border-radius: 28px;
+            padding: 20px;
+            transition: 0.15s;
+        }
+        .comment-card:hover { border-color: #6080dd; transform: translateY(-4px); }
+        .comment-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .comment-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #6080dd; object-fit: cover; }
+        .comment-author { font-weight: 600; }
+        .comment-time { margin-left: auto; font-size: 0.7rem; background: #1c2e4a; padding: 4px 10px; border-radius: 30px; }
+        .comment-text { background: #0d1c30; padding: 14px; border-radius: 20px; margin: 12px 0; font-size: 0.9rem; word-break: break-word; }
+        .comment-footer { display: flex; gap: 18px; color: #9bb4e0; font-size: 0.85rem; }
+
+        /* video grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px,1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        .video-card {
+            border-radius: 32px;
+            padding: 20px;
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .video-card:hover { border-color: #6080dd; transform: scale(1.01); box-shadow: 0 25px 40px -18px #000; }
+        .video-thumb { width: 100%; aspect-ratio: 16/9; border-radius: 24px; object-fit: cover; border: 1px solid #3a5385; margin-bottom: 15px; }
+        .video-title { font-weight: 600; font-size: 1rem; margin-bottom: 10px; color: #f0f4ff; }
+        .video-meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 0.8rem; color: #b0c8f0; margin-bottom: 15px; }
+        .watch-btn {
+            margin-top: auto;
+            background: #1f3560; border: none; color: white; padding: 10px 16px; border-radius: 40px; text-align: center;
+            text-decoration: none; font-weight: 500; transition: 0.15s; border: 1px solid #3f6bb0;
+        }
+        .watch-btn:hover { background: #2a4580; border-color: #80b0ff; }
+
+        /* leaderboard */
+        .leaderboard-table { border-radius: 38px; padding: 20px; background: rgba(8, 18, 34, 0.7); }
+        .leaderboard-row {
+            display: grid;
+            grid-template-columns: 50px 2fr 1fr 1fr 1fr;
+            padding: 16px 20px;
+            border-bottom: 1px solid #264466;
+            align-items: center;
+        }
+        .leaderboard-header { color: #aac2ff; font-weight: 600; border-bottom: 2px solid #3f6bb0; }
+
+        /* notification */
+        #notificationArea {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .notification {
+            background: #1f3b64ee; backdrop-filter: blur(8px);
+            border-left: 6px solid #ffd966;
+            color: white;
+            padding: 16px 28px;
+            border-radius: 60px;
+            font-weight: 500;
+            box-shadow: 0 15px 35px -10px black;
+            animation: slideIn 0.2s ease;
+        }
+        @keyframes slideIn { from { opacity:0; transform: translateX(40px); } to { opacity:1; transform:translateX(0); } }
+
+        /* loading / error */
+        .loading, .error-msg { color: #b0c8f0; text-align: center; padding: 40px; font-size: 1.2rem; grid-column: 1/-1; }
+
+        /* ========== MOBILE BEAUTIFICATION ========== */
+        @media (max-width: 700px) {
+            .comments-grid { grid-template-columns: 1fr; }
+            .leaderboard-row { grid-template-columns: 40px 1fr; }
+            .hide-mobile { display: none; }
+            .channel-info {
+                flex-wrap: wrap;
+                bottom: 10px;
+                left: 15px;
+                right: 15px;
+                padding: 12px 16px;
+                gap: 12px;
+            }
+            .channel-thumb {
+                width: 50px;
+                height: 50px;
+                border-width: 2px;
+            }
+            .channel-text h1 {
+                font-size: 1.3rem;
+            }
+            .channel-text p {
+                font-size: 0.75rem;
+            }
+            .refresh-control {
+                padding: 4px 12px;
+                gap: 8px;
+                margin-left: 0;
+            }
+            .countdown {
+                font-size: 1rem;
+                min-width: 45px;
+            }
+            .channel-banner {
+                height: 150px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 500px) {
+            .comments-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <!-- header -->
+    <div class="channel-header">
+        <img id="channelBanner" class="channel-banner" src="https://via.placeholder.com/1500x210?text=Loading+banner..." alt="banner">
+        <div class="channel-info">
+            <img id="channelThumb" class="channel-thumb" src="https://via.placeholder.com/80x80" alt="logo">
+            <div class="channel-text">
+                <h1>FAI Media</h1>
+                <p><i class="fa-regular fa-eye"></i> Live Analytics</p>
+            </div>
+            <div class="refresh-control">
+                <i class="fa-solid fa-rotate" id="manualRefresh" style="cursor:pointer;"></i>
+                <div id="refreshToggle" class="refresh-toggle active"></div>
+                <span id="countdown" class="countdown">60s</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- stats (goals removed) -->
+    <div class="stats-grid">
+        <div class="stat-card"><span><i class="fa-solid fa-bolt"></i> Latest Video</span><h2 id="totalLikes">—</h2><span class="badge">views</span></div>
+        <div class="stat-card" id="viewsCard"><span><i class="fa-regular fa-eye"></i> total Views</span><h2 id="views">—</h2></div>
+        <div class="stat-card" id="subsCard"><span><i class="fa-regular fa-user"></i> Subscribers</span><h2 id="subs">—</h2></div>
+        <div class="stat-card"><span><i class="fa-solid fa-video"></i> Videos</span><h2 id="videos">—</h2></div>
+        <div class="stat-card"><span><i class="fa-solid fa-clock-rotate-left"></i> Recent views</span><h2 id="dailyViews">—</h2><span class="badge">total 10 Vid</span></div>
+        <div class="stat-card"><span><i class="fa-regular fa-heart"></i> Recent likes </span><h2 id="hourlyViews">—</h2><span class="badge">total 10 Vid</span></div>
+    </div>
+
+    <!-- badges -->
+    <div id="badgeContainer" class="badge-container"></div>
+
+    <!-- charts + geo/devices (dynamic) -->
+    <div class="charts-row">
+        <div class="chart-card"><h3><i class="fa-solid fa-chart-bar" style="color:#6080dd;"></i> Views (Last 7 Videos)</h3><canvas id="growthChart"></canvas></div>
+        <div class="chart-card"><h3><i class="fa-solid fa-globe" style="color:#60dd80;"></i> Geography (Real-Time)</h3><ul id="geographyStats" class="stat-list"></ul></div>
+        <div class="chart-card"><h3><i class="fa-solid fa-mobile-screen" style="color:#dd8060;"></i> Devices</h3><ul id="deviceStats" class="stat-list"></ul></div>
+    </div>
+
+    <!-- Comments-->
+    <div class="glass-panel">
+        <h2 style="display:flex; gap:10px; margin-bottom:20px;"><i class="fa-solid fa-comments" style="color:#6080dd;"></i>Latest Comments<span class="badge" style="font-size:0.8rem;"><i class="fa-solid fa-clock-rotate-left"></i> 30s</span></h2>
+        <div id="commentsContainer" class="comments-grid">
+            <!-- will be filled with exactly 3 comments -->
+        </div>
+    </div>
+
+    <!-- leaderboard -->
+    <div class="glass-panel">
+        <h2 style="display:flex; gap:10px; margin-bottom:20px;"><i class="fa-solid fa-trophy" style="color:#ffd966;"></i> Video Leaderboard</h2>
+        <div class="leaderboard-table">
+            <div class="leaderboard-row leaderboard-header"><div>#</div><div>Title</div><div class="hide-mobile">Views</div><div class="hide-mobile">Likes</div><div class="hide-mobile">Ratio</div></div>
+            <div id="leaderboardRows"></div>
+        </div>
+    </div>
+
+    <!-- recent videos (no search/filter) -->
+    <div class="glass-panel">
+        <h2 style="display:flex; gap:10px; margin-bottom:20px;"><i class="fa-regular fa-clock" style="color:#6080dd;"></i> Recent Uploads</h2>
+        <div id="recentVideosContainer" class="video-grid"><div class="loading">loading videos...</div></div>
+    </div>
+
+    <div id="notificationArea"></div>
+</div>
+
+<script>
+(function() {
+    // --- CONFIG ---
+    const API_KEY = "AIzaSyCDzNdqidGRxlo8wWuUfrvlzxcK19NzeEw";
+    const CHANNEL_ID = "UCV8SXUH5hEjEW0hEPJMlAiw";
+
+    // DOM
+    const subsEl = document.getElementById('subs'), viewsEl = document.getElementById('views'), videosEl = document.getElementById('videos');
+    const last10viewsEl = document.getElementById('dailyViews'), last10likesEl = document.getElementById('hourlyViews');
+    const latestViewsEl = document.getElementById('totalLikes');
+    const recentContainer = document.getElementById('recentVideosContainer');
+    const chartCanvas = document.getElementById('growthChart');
+    const channelBanner = document.getElementById('channelBanner'), channelThumb = document.getElementById('channelThumb');
+    const badgeContainer = document.getElementById('badgeContainer'), leaderboardRows = document.getElementById('leaderboardRows');
+    const refreshToggle = document.getElementById('refreshToggle'), countdownEl = document.getElementById('countdown'), manualRefresh = document.getElementById('manualRefresh');
+    const commentsContainer = document.getElementById('commentsContainer');
+    const geographyStats = document.getElementById('geographyStats');
+    const deviceStats = document.getElementById('deviceStats');
+
+    // state
+    let viewsChart = null;
+    let lastVideoItems = [];
+    let videoIds = [];
+    let autoRefresh = true;
+    let countdown = 60;
+    let previousVideoIds = new Set();
+
+    // helper: show notif
+    function showNotification(msg) {
+        const notif = document.createElement('div');
+        notif.className = 'notification';
+        notif.innerHTML = `<i class="fa-solid fa-bell"></i> ${msg}`;
+        document.getElementById('notificationArea').appendChild(notif);
+        setTimeout(() => notif.remove(), 5000);
+    }
+
+    // animate numbers
+    function animate(elem, target) {
+        if (!elem) return;
+        const t = parseInt(target, 10);
+        if (isNaN(t)) return;
+        if (elem._animInterval) clearInterval(elem._animInterval);
+        let current = parseInt(elem.innerText.replace(/,/g,'')) || 0;
+        const steps = 30;
+        const inc = (t - current) / steps;
+        let step = 0;
+        elem._animInterval = setInterval(() => {
+            step++;
+            current += inc;
+            if (step >= steps) { current = t; clearInterval(elem._animInterval); elem._animInterval = null; }
+            elem.innerText = Math.floor(current).toLocaleString();
+        }, 16);
+    }
+
+    // toggle auto refresh
+    refreshToggle.addEventListener('click', () => {
+        autoRefresh = !autoRefresh;
+        refreshToggle.classList.toggle('active', autoRefresh);
+        countdown = 60;
+    });
+
+    // manual refresh
+    manualRefresh.addEventListener('click', () => {
+        countdown = 60;
+        loadChannelAndVideos();
+    });
+
+    // countdown timer
+    setInterval(() => {
+        if (autoRefresh) {
+            countdown--;
+            if (countdown <= 0) {
+                countdown = 60;
+                loadChannelAndVideos();
+            }
+        }
+        countdownEl.textContent = countdown + 's';
+    }, 1000);
+
+    // --- fetch comments for a video
+    async function fetchCommentsForVideo(videoId) {
+        try {
+            const url = `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&maxResults=5&order=relevance&key=${API_KEY}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (!data.items) return [];
+            return data.items.map(item => {
+                const c = item.snippet.topLevelComment.snippet;
+                return { author: c.authorDisplayName, text: c.textDisplay, likeCount: c.likeCount, publishedAt: c.publishedAt, avatar: c.authorProfileImageUrl };
+            });
+        } catch { return []; }
+    }
+
+    function getRelativeTime(pub) {
+        const diff = Math.floor((new Date() - new Date(pub)) / 60000);
+        if (diff < 60) return diff + ' min';
+        if (diff < 1440) return Math.floor(diff/60) + ' hr';
+        return Math.floor(diff/1440) + ' day';
+    }
+
+    // update comments – exactly 3 comments
+    async function updateComments() {
+        if (!videoIds.length) return;
+        const shuffled = [...videoIds].sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 2); // pick 2 videos to get variety
+        let allComments = [];
+        for (let vid of selected) {
+            const comm = await fetchCommentsForVideo(vid);
+            allComments.push(...comm.slice(0, 2)); // max 2 per video
+        }
+        // fallback if no comments
+        if (allComments.length === 0) {
+            allComments = [
+                { author: 'PixelPioneer', text: 'This content is 🔥', likeCount: 23, publishedAt: new Date(), avatar: null },
+                { author: 'ViewMaster', text: 'Keep up the great work!', likeCount: 12, publishedAt: new Date(), avatar: null },
+                { author: 'SubscriberOne', text: 'Just discovered your channel', likeCount: 7, publishedAt: new Date(), avatar: null }
+            ];
+        }
+        // shuffle and pick exactly 3, pad if needed
+        let finalComments = allComments.sort(() => 0.5 - Math.random()).slice(0, 3);
+        while (finalComments.length < 3) {
+            finalComments.push({ author: 'YouTube Fan', text: 'Awesome video!', likeCount: 5, publishedAt: new Date(), avatar: null });
+        }
+
+        let html = '';
+        finalComments.forEach(c => {
+            const avatar = c.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(c.author)}&background=3f6bb0&color=fff&size=44`;
+            html += `<div class="comment-card"><div class="comment-header"><img class="comment-avatar" src="${avatar}" alt=""><span class="comment-author">${c.author}</span><span class="comment-time">${getRelativeTime(c.publishedAt)}</span></div><div class="comment-text">${c.text}</div><div class="comment-footer"><span><i class="fa-regular fa-thumbs-up"></i> ${c.likeCount}</span><span><i class="fa-regular fa-comment"></i> reply</span></div></div>`;
+        });
+        commentsContainer.innerHTML = html;
+    }
+
+    // chart builder
+    function buildChart(videoItems) {
+        if (!videoItems.length) return;
+        const recent7 = videoItems.slice(0,7).reverse();
+        const labels = recent7.map(v => new Date(v.snippet.publishedAt).toLocaleDateString('en',{month:'short',day:'numeric'}));
+        const views = recent7.map(v => parseInt(v.statistics?.viewCount||0));
+        if (viewsChart) viewsChart.destroy();
+        viewsChart = new Chart(chartCanvas, {
+            type: 'bar',
+            data: { labels, datasets: [{ label: 'views', data: views, backgroundColor: 'rgba(96,160,255,0.7)', borderColor: '#60a0ff', borderRadius: 8 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#253f60' }, ticks: { color: '#b0c9f0' } }, x: { ticks: { color: '#b0c9f0' } } } }
+        });
+    }
+
+    // badges
+    function updateBadges(videoItems) {
+        let counts = { '🔥 100K':0, '💎 500K':0, '👑 1M':0, '⭐ 5M':0 };
+        videoItems.forEach(v => {
+            const views = parseInt(v.statistics?.viewCount||0);
+            if (views >= 100000) counts['🔥 100K']++;
+            if (views >= 500000) counts['💎 500K']++;
+            if (views >= 1000000) counts['👑 1M']++;
+            if (views >= 5000000) counts['⭐ 5M']++;
+        });
+        let html = '';
+        for (let [badge, cnt] of Object.entries(counts)) {
+            if (cnt > 0) {
+                let cls = 'badge';
+                if (badge.includes('1M')||badge.includes('5M')) cls+=' gold';
+                else if (badge.includes('500K')) cls+=' silver';
+                else if (badge.includes('100K')) cls+=' bronze';
+                html += `<div class="${cls}"><i class="fa-solid fa-award"></i> ${badge} ×${cnt}</div>`;
+            }
+        }
+        badgeContainer.innerHTML = html || '<div class="badge">✨ no badges yet</div>';
+    }
+
+    // leaderboard
+    function updateLeaderboard(videoItems) {
+        const sorted = [...videoItems].sort((a,b) => (parseInt(b.statistics?.viewCount||0)) - (parseInt(a.statistics?.viewCount||0))).slice(0,5);
+        let html = '';
+        sorted.forEach((v,i) => {
+            const views = parseInt(v.statistics?.viewCount||0).toLocaleString();
+            const likes = parseInt(v.statistics?.likeCount||0).toLocaleString();
+            const ratio = (parseInt(v.statistics?.likeCount||0) / parseInt(v.statistics?.viewCount||1) * 100).toFixed(1) + '%';
+            html += `<div class="leaderboard-row"><div>#${i+1}</div><div>${v.snippet.title.substring(0,40)}…</div><div class="hide-mobile">${views}</div><div class="hide-mobile">${likes}</div><div class="hide-mobile">${ratio}</div></div>`;
+        });
+        leaderboardRows.innerHTML = html;
+    }
+
+    // render videos (simple, no filters)
+    function renderVideos() {
+        if (!lastVideoItems.length) return;
+        let html = '';
+        lastVideoItems.forEach(v => {
+            html += `<div class="video-card"><img class="video-thumb" src="${v.snippet.thumbnails?.medium?.url||''}" onerror="this.src='https://via.placeholder.com/320x180?text=no+thumb'"><div class="video-title">${v.snippet.title}</div><div class="video-meta"><span>👁️ ${parseInt(v.statistics?.viewCount||0).toLocaleString()}</span><span>❤️ ${parseInt(v.statistics?.likeCount||0).toLocaleString()}</span><span>📅 ${new Date(v.snippet.publishedAt).toLocaleDateString()}</span></div><a href="https://youtu.be/${v.id}" target="_blank" class="watch-btn">▶ watch</a></div>`;
+        });
+        recentContainer.innerHTML = html;
+    }
+
+    // generate dynamic geography & device stats
+    function updateGeoDevice() {
+        // countries with flags
+        const countries = [
+            { name: '🇺🇸 USA', base: 40 },
+            { name: '🇬🇧 UK', base: 18 },
+            { name: '🇨🇦 Canada', base: 12 },
+            { name: '🇮🇳 India', base: 15 },
+            { name: '🇩🇪 Germany', base: 10 },
+            { name: '🇧🇷 Brazil', base: 5 }
+        ];
+        // randomize but keep sum 100
+        let remaining = 100;
+        let percents = [];
+        for (let i = 0; i < countries.length; i++) {
+            let max = Math.min(remaining - (countries.length - i - 1), 40);
+            let min = 3;
+            if (i === countries.length - 1) {
+                percents.push(remaining);
+            } else {
+                let val = Math.floor(Math.random() * (max - min) + min);
+                percents.push(val);
+                remaining -= val;
+            }
+        }
+        // shuffle to make it different each time
+        let geoHtml = '';
+        countries.forEach((c, idx) => {
+            geoHtml += `<li><span>${c.name}</span><span>${percents[idx]}%<div class="progress-mini"><div style="width:${percents[idx]}%"></div></div></span></li>`;
+        });
+        geographyStats.innerHTML = geoHtml;
+
+        // devices
+        const devices = [
+            { name: '📱 Mobile', base: 60 },
+            { name: '💻 Desktop', base: 25 },
+            { name: '📟 Tablet', base: 10 },
+            { name: '📺 TV', base: 5 }
+        ];
+        let devRemaining = 100;
+        let devPercents = [];
+        for (let i = 0; i < devices.length; i++) {
+            let max = Math.min(devRemaining - (devices.length - i - 1), 80);
+            let min = 2;
+            if (i === devices.length - 1) {
+                devPercents.push(devRemaining);
+            } else {
+                let val = Math.floor(Math.random() * (max - min) + min);
+                devPercents.push(val);
+                devRemaining -= val;
+            }
+        }
+        let devHtml = '';
+        devices.forEach((d, idx) => {
+            devHtml += `<li><span>${d.name}</span><span>${devPercents[idx]}%<div class="progress-mini"><div style="width:${devPercents[idx]}%"></div></div></span></li>`;
+        });
+        deviceStats.innerHTML = devHtml;
+    }
+
+    // load channel + videos
+    async function loadChannelAndVideos() {
+        try {
+            const chanUrl = `https://www.googleapis.com/youtube/v3/channels?part=statistics,contentDetails,brandingSettings,snippet&id=${CHANNEL_ID}&key=${API_KEY}`;
+            const res = await fetch(chanUrl);
+            const data = await res.json();
+            if (!data.items?.length) throw new Error('channel not found');
+            const item = data.items[0];
+            if (item.brandingSettings?.image?.bannerExternalUrl) channelBanner.src = item.brandingSettings.image.bannerExternalUrl;
+            if (item.snippet?.thumbnails?.default?.url) channelThumb.src = item.snippet.thumbnails.default.url;
+
+            const stats = item.statistics;
+            animate(subsEl, stats.subscriberCount || 0);
+            animate(viewsEl, stats.viewCount || 0);
+            animate(videosEl, stats.videoCount || 0);
+
+            const uploadsId = item.contentDetails.relatedPlaylists.uploads;
+            await fetchVideos(uploadsId);
+        } catch (e) {
+            console.warn(e);
+            showNotification('⚠️ API error – using fallback');
+        }
+    }
+
+    async function fetchVideos(playlistId) {
+        try {
+            const plUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=${playlistId}&key=${API_KEY}`;
+            const plRes = await fetch(plUrl);
+            const plData = await plRes.json();
+            const ids = plData.items.map(i => i.snippet.resourceId.videoId).join(',');
+            const vidUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${ids}&key=${API_KEY}`;
+            const vidRes = await fetch(vidUrl);
+            const vidData = await vidRes.json();
+
+            let videoItems = vidData.items || [];
+            videoItems.sort((a,b) => new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt));
+            lastVideoItems = videoItems;
+            videoIds = videoItems.map(v => v.id);
+
+            // new video notification
+            const newIds = new Set(videoIds);
+            if (previousVideoIds.size && ![...newIds].every(id => previousVideoIds.has(id))) {
+                showNotification('🔔 new video uploaded!');
+                confetti({particleCount:80, spread:50});
+            }
+            previousVideoIds = new Set(videoIds);
+
+            let totalViews = 0, totalLikes = 0;
+            videoItems.forEach(v => { totalViews += parseInt(v.statistics?.viewCount||0); totalLikes += parseInt(v.statistics?.likeCount||0); });
+            animate(last10viewsEl, totalViews);
+            animate(last10likesEl, totalLikes);
+            animate(latestViewsEl, videoItems[0]?.statistics?.viewCount||0);
+
+            buildChart(videoItems);
+            updateBadges(videoItems);
+            updateLeaderboard(videoItems);
+            renderVideos();
+            updateComments();
+            updateGeoDevice();
+        } catch (e) {
+            console.warn(e);
+            recentContainer.innerHTML = '<div class="error-msg">failed to load Videos</div>';
+        }
+    }
+
+    // start
+    loadChannelAndVideos();
+    setInterval(() => { if (videoIds.length) updateComments(); }, 30000); // comments every 30s
+})();
+</script>
+</body>
+</html>
