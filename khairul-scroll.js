@@ -1,19 +1,19 @@
 // Image data - Edit these URLs
 const images = [
   {
-    url: "#",
-    title: "#",
-    link: "#"
+    url: "kh-1.jpg",
+    title: "নতুন প্রজন্মের বর্তমান অবস্থা",
+    link: "https://youtube.com/shorts/FHZFEqK_9XU?si=g1BMDJoz7F0bFPMF"
   },
   {
-    url: "#",
-    title: "#",
-    link: "#"
+    url: "kh-2.jpg",
+    title: "বাংলাদেশের এক রক্তাক্ত অধ্যায়",
+    link: "https://youtube.com/shorts/ozYFwFxZKPo?si=eGRvE1kTHLyPB2-Z"
   },
   {
-    url: "#",
-    title: "#",
-    link: "#"
+    url: "kh-3.jpg",
+    title: "১৯৭১-এর গোপন ষড়যন্ত্র ফাঁস!",
+    link: "https://youtube.com/shorts/4cFiJBr44A0?si=txFWIMX6yEykikT_"
   },
   {
     url: "4.jpg",
@@ -21,9 +21,10 @@ const images = [
     link: "https://youtu.be/QqMQR1kfiyE?si=jDuqHehhlAJ9UZbm"
   },
   {
-    url: "#",
-    title: "#",
-    audio: "#"
+    url: "kh-4.jpg",
+    title: "রমজান মাসের আমল",
+    link: "https://youtube.com/shorts/Kzqwx3H73w8?si=6DCE5R7VMpTji4oa",
+    audio: "kh-4.mp3"
   },
 ];
 
