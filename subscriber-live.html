@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Subscribers | faimedia</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #0f1a2f, #050a15);
+            color: #eef4ff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .glass-panel {
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            background: rgba(12, 22, 38, 0.6);
+            border: 1px solid rgba(96, 144, 255, 0.2);
+            box-shadow: 0 20px 40px -20px #00000080, 0 0 0 1px rgba(255,255,255,0.02) inset;
+            border-radius: 60px;
+            padding: 40px 60px;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 400;
+            color: #b0c6f0;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .subscriber-number {
+            font-size: 8rem;
+            font-weight: 800;
+            background: linear-gradient(145deg, #ffffff, #b2d0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            text-shadow: 0 0 30px #3f70cc;
+            margin: 20px 0;
+            word-break: break-word;
+        }
+
+        .subscriber-label {
+            font-size: 1.5rem;
+            color: #aac2ff;
+            margin-bottom: 40px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: rgba(20, 40, 70, 0.8);
+            border: 1px solid #3f6bb0;
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .back-link:hover {
+            background: #2a4580;
+            border-color: #80b0ff;
+            transform: scale(1.05);
+        }
+
+        .last-updated {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #7f9fd0;
+        }
+
+        @media (max-width: 600px) {
+            .glass-panel { padding: 30px 20px; }
+            .subscriber-number { font-size: 4rem; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-panel">
+        <h1><i class="fa-regular fa-user" style="color:#6080dd;"></i> LIVE SUBSCRIBERS</h1>
+        <div class="subscriber-number" id="subscriberCount">—</div>
+        <div class="subscriber-label">current subscribers</div>
+        <a href="yt.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> back to dashboard</a>
+        <div class="last-updated" id="lastUpdated">updating...</div>
+    </div>
+
+    <script>
+        (function() {
+            const API_KEY = "AIzaSyCDzNdqidGRxlo8wWuUfrvlzxcK19NzeEw";
+            const CHANNEL_ID = "UCV8SXUH5hEjEW0hEPJMlAiw";
+            const countEl = document.getElementById('subscriberCount');
+            const lastUpdatedEl = document.getElementById('lastUpdated');
+
+            async function fetchSubscriberCount() {
+                try {
+                    const url = `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if (data.items && data.items[0]) {
+                        const count = parseInt(data.items[0].statistics.subscriberCount) || 0;
+                        animateNumber(count);
+                    } else {
+                        countEl.textContent = '—';
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch subscriber count:', error);
+                    countEl.textContent = '⚠️ error';
+                } finally {
+                    lastUpdatedEl.textContent = `last updated: ${new Date().toLocaleTimeString()}`;
+                }
+            }
+
+            // Smooth animation from current to new value
+            function animateNumber(newValue) {
+                const current = parseInt(countEl.textContent.replace(/,/g, '')) || 0;
+                if (current === newValue) {
+                    countEl.textContent = newValue.toLocaleString();
+                    return;
+                }
+                const steps = 30;
+                const increment = (newValue - current) / steps;
+                let step = 0;
+                let animated = current;
+                const interval = setInterval(() => {
+                    step++;
+                    animated += increment;
+                    if (step >= steps) {
+                        animated = newValue;
+                        clearInterval(interval);
+                    }
+                    countEl.textContent = Math.floor(animated).toLocaleString();
+                }, 20);
+            }
+
+            // Initial fetch
+            fetchSubscriberCount();
+            // Refresh every 10 seconds
+            setInterval(fetchSubscriberCount, 10000);
+        })();
+    </script>
+</body>
+</html>

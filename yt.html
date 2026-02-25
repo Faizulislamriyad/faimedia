@@ -11,11 +11,18 @@
     <!-- confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
     <style>
+        #subsCard {
+            cursor: pointer;
+        }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -212,25 +219,25 @@
             border: 1px solid rgba(96, 144, 255, 0.25);
         }
 
-        /* charts row */
+        /* charts row - now only one card */
         .charts-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
             margin: 30px 0;
         }
         .chart-card {
             border-radius: 38px;
-            padding: 22px;
+            padding: 28px;
             border: 1px solid rgba(96, 144, 255, 0.2);
+            width: 100%;
         }
-        .chart-card h3 { color: #d0e4ff; font-size: 1.2rem; margin-bottom: 18px; }
-        .chart-card canvas { height: 200px !important; width: 100% !important; }
-
-        .stat-list { list-style: none; }
-        .stat-list li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #264466; }
-        .progress-mini { width: 100px; height: 8px; background: #1d314a; border-radius: 20px; overflow: hidden; display: inline-block; margin-left: 10px; }
-        .progress-mini div { height: 100%; background: linear-gradient(90deg, #5f9ef0, #95c0ff); border-radius: 20px; }
+        .chart-card h3 {
+            color: #d0e4ff;
+            font-size: 1.4rem;
+            margin-bottom: 24px;
+        }
+        .chart-card canvas {
+            height: 350px !important;  /* বড় হাইট */
+            width: 100% !important;
+        }
 
         /* comments grid - always 3 columns */
         .comments-grid {
@@ -269,7 +276,18 @@
         .video-card:hover { border-color: #6080dd; transform: scale(1.01); box-shadow: 0 25px 40px -18px #000; }
         .video-thumb { width: 100%; aspect-ratio: 16/9; border-radius: 24px; object-fit: cover; border: 1px solid #3a5385; margin-bottom: 15px; }
         .video-title { font-weight: 600; font-size: 1rem; margin-bottom: 10px; color: #f0f4ff; }
-        .video-meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 0.8rem; color: #b0c8f0; margin-bottom: 15px; }
+        .video-meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 0.8rem; color: #b0c8f0; margin-bottom: 8px; }
+        .video-credit {
+            font-size: 0.8rem;
+            color: #aac9ff;
+            background: rgba(0, 30, 70, 0.5);
+            padding: 6px 10px;
+            border-radius: 40px;
+            margin: 10px 0 12px;
+            border-left: 3px solid #6080dd;
+            word-break: break-word;
+            line-height: 1.3;
+        }
         .watch-btn {
             margin-top: auto;
             background: #1f3560; border: none; color: white; padding: 10px 16px; border-radius: 40px; text-align: center;
@@ -312,7 +330,7 @@
         /* loading / error */
         .loading, .error-msg { color: #b0c8f0; text-align: center; padding: 40px; font-size: 1.2rem; grid-column: 1/-1; }
 
-        /* ========== MOBILE BEAUTIFICATION ========== */
+        /* ========== MOBILE ========== */
         @media (max-width: 700px) {
             .comments-grid { grid-template-columns: 1fr; }
             .leaderboard-row { grid-template-columns: 40px 1fr; }
@@ -351,6 +369,9 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            .chart-card canvas {
+                height: 250px !important;
+            }
         }
         @media (max-width: 500px) {
             .comments-grid {
@@ -378,7 +399,7 @@
         </div>
     </div>
 
-    <!-- stats (goals removed) -->
+    <!-- stats -->
     <div class="stats-grid">
         <div class="stat-card"><span><i class="fa-solid fa-bolt"></i> Latest Video</span><h2 id="totalLikes">—</h2><span class="badge">views</span></div>
         <div class="stat-card" id="viewsCard"><span><i class="fa-regular fa-eye"></i> total Views</span><h2 id="views">—</h2></div>
@@ -391,19 +412,18 @@
     <!-- badges -->
     <div id="badgeContainer" class="badge-container"></div>
 
-    <!-- charts + geo/devices (dynamic) -->
+    <!-- শুধু views graph - বড় আকারে -->
     <div class="charts-row">
-        <div class="chart-card"><h3><i class="fa-solid fa-chart-bar" style="color:#6080dd;"></i> Views (Last 7 Videos)</h3><canvas id="growthChart"></canvas></div>
-        <div class="chart-card"><h3><i class="fa-solid fa-globe" style="color:#60dd80;"></i> Geography (Real-Time)</h3><ul id="geographyStats" class="stat-list"></ul></div>
-        <div class="chart-card"><h3><i class="fa-solid fa-mobile-screen" style="color:#dd8060;"></i> Devices</h3><ul id="deviceStats" class="stat-list"></ul></div>
+        <div class="chart-card">
+            <h3><i class="fa-solid fa-chart-bar" style="color:#6080dd;"></i> Views (Last 7 Videos)</h3>
+            <canvas id="growthChart"></canvas>
+        </div>
     </div>
 
-    <!-- Comments-->
+    <!-- Comments -->
     <div class="glass-panel">
         <h2 style="display:flex; gap:10px; margin-bottom:20px;"><i class="fa-solid fa-comments" style="color:#6080dd;"></i>Latest Comments<span class="badge" style="font-size:0.8rem;"><i class="fa-solid fa-clock-rotate-left"></i> 30s</span></h2>
-        <div id="commentsContainer" class="comments-grid">
-            <!-- will be filled with exactly 3 comments -->
-        </div>
+        <div id="commentsContainer" class="comments-grid"></div>
     </div>
 
     <!-- leaderboard -->
@@ -415,7 +435,7 @@
         </div>
     </div>
 
-    <!-- recent videos (no search/filter) -->
+    <!-- recent videos -->
     <div class="glass-panel">
         <h2 style="display:flex; gap:10px; margin-bottom:20px;"><i class="fa-regular fa-clock" style="color:#6080dd;"></i> Recent Uploads</h2>
         <div id="recentVideosContainer" class="video-grid"><div class="loading">loading videos...</div></div>
@@ -426,11 +446,9 @@
 
 <script>
 (function() {
-    // --- CONFIG ---
     const API_KEY = "AIzaSyCDzNdqidGRxlo8wWuUfrvlzxcK19NzeEw";
     const CHANNEL_ID = "UCV8SXUH5hEjEW0hEPJMlAiw";
 
-    // DOM
     const subsEl = document.getElementById('subs'), viewsEl = document.getElementById('views'), videosEl = document.getElementById('videos');
     const last10viewsEl = document.getElementById('dailyViews'), last10likesEl = document.getElementById('hourlyViews');
     const latestViewsEl = document.getElementById('totalLikes');
@@ -440,10 +458,7 @@
     const badgeContainer = document.getElementById('badgeContainer'), leaderboardRows = document.getElementById('leaderboardRows');
     const refreshToggle = document.getElementById('refreshToggle'), countdownEl = document.getElementById('countdown'), manualRefresh = document.getElementById('manualRefresh');
     const commentsContainer = document.getElementById('commentsContainer');
-    const geographyStats = document.getElementById('geographyStats');
-    const deviceStats = document.getElementById('deviceStats');
 
-    // state
     let viewsChart = null;
     let lastVideoItems = [];
     let videoIds = [];
@@ -451,7 +466,6 @@
     let countdown = 60;
     let previousVideoIds = new Set();
 
-    // helper: show notif
     function showNotification(msg) {
         const notif = document.createElement('div');
         notif.className = 'notification';
@@ -460,7 +474,6 @@
         setTimeout(() => notif.remove(), 5000);
     }
 
-    // animate numbers
     function animate(elem, target) {
         if (!elem) return;
         const t = parseInt(target, 10);
@@ -478,20 +491,17 @@
         }, 16);
     }
 
-    // toggle auto refresh
     refreshToggle.addEventListener('click', () => {
         autoRefresh = !autoRefresh;
         refreshToggle.classList.toggle('active', autoRefresh);
         countdown = 60;
     });
 
-    // manual refresh
     manualRefresh.addEventListener('click', () => {
         countdown = 60;
         loadChannelAndVideos();
     });
 
-    // countdown timer
     setInterval(() => {
         if (autoRefresh) {
             countdown--;
@@ -503,7 +513,6 @@
         countdownEl.textContent = countdown + 's';
     }, 1000);
 
-    // --- fetch comments for a video
     async function fetchCommentsForVideo(videoId) {
         try {
             const url = `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&maxResults=5&order=relevance&key=${API_KEY}`;
@@ -524,17 +533,15 @@
         return Math.floor(diff/1440) + ' day';
     }
 
-    // update comments – exactly 3 comments
     async function updateComments() {
         if (!videoIds.length) return;
         const shuffled = [...videoIds].sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 2); // pick 2 videos to get variety
+        const selected = shuffled.slice(0, 2);
         let allComments = [];
         for (let vid of selected) {
             const comm = await fetchCommentsForVideo(vid);
-            allComments.push(...comm.slice(0, 2)); // max 2 per video
+            allComments.push(...comm.slice(0, 2));
         }
-        // fallback if no comments
         if (allComments.length === 0) {
             allComments = [
                 { author: 'PixelPioneer', text: 'This content is 🔥', likeCount: 23, publishedAt: new Date(), avatar: null },
@@ -542,7 +549,6 @@
                 { author: 'SubscriberOne', text: 'Just discovered your channel', likeCount: 7, publishedAt: new Date(), avatar: null }
             ];
         }
-        // shuffle and pick exactly 3, pad if needed
         let finalComments = allComments.sort(() => 0.5 - Math.random()).slice(0, 3);
         while (finalComments.length < 3) {
             finalComments.push({ author: 'YouTube Fan', text: 'Awesome video!', likeCount: 5, publishedAt: new Date(), avatar: null });
@@ -556,7 +562,6 @@
         commentsContainer.innerHTML = html;
     }
 
-    // chart builder
     function buildChart(videoItems) {
         if (!videoItems.length) return;
         const recent7 = videoItems.slice(0,7).reverse();
@@ -570,7 +575,6 @@
         });
     }
 
-    // badges
     function updateBadges(videoItems) {
         let counts = { '🔥 100K':0, '💎 500K':0, '👑 1M':0, '⭐ 5M':0 };
         videoItems.forEach(v => {
@@ -593,7 +597,6 @@
         badgeContainer.innerHTML = html || '<div class="badge">✨ no badges yet</div>';
     }
 
-    // leaderboard
     function updateLeaderboard(videoItems) {
         const sorted = [...videoItems].sort((a,b) => (parseInt(b.statistics?.viewCount||0)) - (parseInt(a.statistics?.viewCount||0))).slice(0,5);
         let html = '';
@@ -606,76 +609,35 @@
         leaderboardRows.innerHTML = html;
     }
 
-    // render videos (simple, no filters)
     function renderVideos() {
         if (!lastVideoItems.length) return;
         let html = '';
         lastVideoItems.forEach(v => {
-            html += `<div class="video-card"><img class="video-thumb" src="${v.snippet.thumbnails?.medium?.url||''}" onerror="this.src='https://via.placeholder.com/320x180?text=no+thumb'"><div class="video-title">${v.snippet.title}</div><div class="video-meta"><span>👁️ ${parseInt(v.statistics?.viewCount||0).toLocaleString()}</span><span>❤️ ${parseInt(v.statistics?.likeCount||0).toLocaleString()}</span><span>📅 ${new Date(v.snippet.publishedAt).toLocaleDateString()}</span></div><a href="https://youtu.be/${v.id}" target="_blank" class="watch-btn">▶ watch</a></div>`;
+            let creditLine = '';
+            if (v.snippet.description) {
+                const lines = v.snippet.description.split('\n');
+                const credit = lines.find(line => /credit/i.test(line));
+                if (credit) {
+                    const shortCredit = credit.length > 60 ? credit.substring(0, 60) + '…' : credit;
+                    creditLine = `<div class="video-credit"><i class="fa-regular fa-circle-check"></i> ${shortCredit}</div>`;
+                }
+            }
+
+            html += `<div class="video-card">
+                <img class="video-thumb" src="${v.snippet.thumbnails?.medium?.url||''}" onerror="this.src='https://via.placeholder.com/320x180?text=no+thumb'">
+                <div class="video-title">${v.snippet.title}</div>
+                <div class="video-meta">
+                    <span>👁️ ${parseInt(v.statistics?.viewCount||0).toLocaleString()}</span>
+                    <span>❤️ ${parseInt(v.statistics?.likeCount||0).toLocaleString()}</span>
+                    <span>📅 ${new Date(v.snippet.publishedAt).toLocaleDateString()}</span>
+                </div>
+                ${creditLine}
+                <a href="https://youtu.be/${v.id}" target="_blank" class="watch-btn">▶ watch</a>
+            </div>`;
         });
         recentContainer.innerHTML = html;
     }
 
-    // generate dynamic geography & device stats
-    function updateGeoDevice() {
-        // countries with flags
-        const countries = [
-            { name: '🇺🇸 USA', base: 40 },
-            { name: '🇬🇧 UK', base: 18 },
-            { name: '🇨🇦 Canada', base: 12 },
-            { name: '🇮🇳 India', base: 15 },
-            { name: '🇩🇪 Germany', base: 10 },
-            { name: '🇧🇷 Brazil', base: 5 }
-        ];
-        // randomize but keep sum 100
-        let remaining = 100;
-        let percents = [];
-        for (let i = 0; i < countries.length; i++) {
-            let max = Math.min(remaining - (countries.length - i - 1), 40);
-            let min = 3;
-            if (i === countries.length - 1) {
-                percents.push(remaining);
-            } else {
-                let val = Math.floor(Math.random() * (max - min) + min);
-                percents.push(val);
-                remaining -= val;
-            }
-        }
-        // shuffle to make it different each time
-        let geoHtml = '';
-        countries.forEach((c, idx) => {
-            geoHtml += `<li><span>${c.name}</span><span>${percents[idx]}%<div class="progress-mini"><div style="width:${percents[idx]}%"></div></div></span></li>`;
-        });
-        geographyStats.innerHTML = geoHtml;
-
-        // devices
-        const devices = [
-            { name: '📱 Mobile', base: 60 },
-            { name: '💻 Desktop', base: 25 },
-            { name: '📟 Tablet', base: 10 },
-            { name: '📺 TV', base: 5 }
-        ];
-        let devRemaining = 100;
-        let devPercents = [];
-        for (let i = 0; i < devices.length; i++) {
-            let max = Math.min(devRemaining - (devices.length - i - 1), 80);
-            let min = 2;
-            if (i === devices.length - 1) {
-                devPercents.push(devRemaining);
-            } else {
-                let val = Math.floor(Math.random() * (max - min) + min);
-                devPercents.push(val);
-                devRemaining -= val;
-            }
-        }
-        let devHtml = '';
-        devices.forEach((d, idx) => {
-            devHtml += `<li><span>${d.name}</span><span>${devPercents[idx]}%<div class="progress-mini"><div style="width:${devPercents[idx]}%"></div></div></span></li>`;
-        });
-        deviceStats.innerHTML = devHtml;
-    }
-
-    // load channel + videos
     async function loadChannelAndVideos() {
         try {
             const chanUrl = `https://www.googleapis.com/youtube/v3/channels?part=statistics,contentDetails,brandingSettings,snippet&id=${CHANNEL_ID}&key=${API_KEY}`;
@@ -714,7 +676,6 @@
             lastVideoItems = videoItems;
             videoIds = videoItems.map(v => v.id);
 
-            // new video notification
             const newIds = new Set(videoIds);
             if (previousVideoIds.size && ![...newIds].every(id => previousVideoIds.has(id))) {
                 showNotification('🔔 new video uploaded!');
@@ -733,16 +694,17 @@
             updateLeaderboard(videoItems);
             renderVideos();
             updateComments();
-            updateGeoDevice();
         } catch (e) {
             console.warn(e);
             recentContainer.innerHTML = '<div class="error-msg">failed to load Videos</div>';
         }
     }
 
-    // start
     loadChannelAndVideos();
-    setInterval(() => { if (videoIds.length) updateComments(); }, 30000); // comments every 30s
+    setInterval(() => { if (videoIds.length) updateComments(); }, 30000);
+    document.getElementById('subsCard').addEventListener('click', function() {
+    window.location.href = 'subscriber-live.html';
+});
 })();
 </script>
 </body>
