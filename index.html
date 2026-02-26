@@ -167,7 +167,7 @@
             <div class="dashboard-yt">
                 <!-- stats row – all values now come directly from API / last‑10 aggregation -->
                 <div class="stats-grid">
-                    <div class="stat-card"><span>Subscribers</span><h2 id="subs">—</h2></div>
+                    <div class="stat-card" id="subsCard"><span><i class="fa-regular fa-user"></i> Subscribers</span><h2 id="subs">—</h2></div>
                     <div class="stat-card"><span>Total views</span><h2 id="views">—</h2></div>
                     <div class="stat-card"><span>Videos</span><h2 id="videos">—</h2></div>
                     <div class="stat-card"><span>Last 10V views</span><h2 id="dailyViews">—</h2><div class="small-badge">sum of 10</div></div>
@@ -374,6 +374,9 @@
                 currentIndex = (currentIndex + 1) % phoneNumbers.length;
                 numberElement.textContent = phoneNumbers[currentIndex];
             }, 5000); // 5000ms = 5 seconds
+            document.getElementById('subsCard').addEventListener('click', function() {
+            window.location.href = 'subscriber-live.html';
+            });
         });
     </script>
 </body>
