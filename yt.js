@@ -1,7 +1,4 @@
 (function () {
-  // ------------------------------------------------
-  //  CONFIG – REPLACE WITH YOUR OWN KEY IF NEEDED
-  // ------------------------------------------------
   const API_KEY = "AIzaSyCDzNdqidGRxlo8wWuUfrvlzxcK19NzeEw";
   const CHANNEL_ID = "UCV8SXUH5hEjEW0hEPJMlAiw";
 

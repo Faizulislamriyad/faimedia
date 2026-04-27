@@ -9,12 +9,191 @@
     <link rel="stylesheet" href="night-mood.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <style>
+        /* ========== WORK SECTION (BRANDS & COLLABORATIONS) ========== */
+        .work-showcase {
+            max-width: 1400px;
+            margin: 60px auto 40px;
+            padding: 0 20px;
+        }
+        .work-showcase .section-title {
+            color: #1f2a48;
+            margin-bottom: 45px;
+        }
+        body.night-mode .work-showcase .section-title {
+            color: #f0f3ff;
+        }
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+            justify-items: center;
+            align-items: stretch;
+        }
+        .work-card {
+            background: #ffffff;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            width: 100%;
+            backdrop-filter: blur(0px);
+            border: 1px solid rgba(0, 149, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        .work-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 28px 40px -14px rgba(0, 100, 255, 0.25);
+            border-color: #00a6ff;
+        }
+        .work-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .work-img-wrapper {
+            background: linear-gradient(145deg, #f8fcff, #eef2f9);
+            padding: 30px 20px 20px;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .work-logo {
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            margin: 0 auto;
+            display: block;
+            border-radius: 70px;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.08));
+            transition: transform 0.25s ease;
+        }
+        .work-card:hover .work-logo {
+            transform: scale(1.02);
+        }
+        .work-info {
+            padding: 22px 18px 26px;
+            text-align: center;
+            background: white;
+            flex: 1;
+            border-top: 1px solid rgba(0,0,0,0.03);
+        }
+        .work-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: #0a2540;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            letter-spacing: -0.3px;
+        }
+        .work-stats {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #eef5ff;
+            padding: 6px 16px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #0070e0;
+            margin-top: 10px;
+        }
+        .work-stats i {
+            font-size: 0.9rem;
+            color: #0088ff;
+        }
+        .work-stats span {
+            font-weight: 700;
+            margin-left: 4px;
+            color: #004e9e;
+        }
+        /* night mode support */
+        body.night-mode .work-card {
+            background: #1e2a3a;
+            border-color: #2d4a6e;
+            box-shadow: 0 15px 30px -12px rgba(0,0,0,0.4);
+        }
+        body.night-mode .work-info {
+            background: #1e2a3a;
+            border-top-color: #2e4158;
+        }
+        body.night-mode .work-brand {
+            color: #eef5ff;
+        }
+        body.night-mode .work-stats {
+            background: #0f2c3f;
+            color: #9acdff;
+        }
+        body.night-mode .work-stats i {
+            color: #5bb4ff;
+        }
+        body.night-mode .work-img-wrapper {
+            background: #142433;
+        }
+        /* Responsive touches */
+        @media (max-width: 768px) {
+            .work-showcase {
+                margin: 40px auto 30px;
+                padding: 0 15px;
+            }
+            .work-grid {
+                gap: 20px;
+                grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            }
+            .work-logo {
+                width: 90px;
+                height: 90px;
+            }
+            .work-brand {
+                font-size: 1.3rem;
+            }
+            .work-stats {
+                font-size: 0.75rem;
+                padding: 4px 12px;
+            }
+        }
+        @media (max-width: 480px) {
+            .work-grid {
+                gap: 16px;
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+            .work-logo {
+                width: 75px;
+                height: 75px;
+            }
+            .work-info {
+                padding: 16px 12px 20px;
+            }
+            .work-brand {
+                font-size: 1.1rem;
+            }
+            .work-stats {
+                font-size: 0.7rem;
+                margin-top: 6px;
+            }
+        }
+        /* Extra small devices */
+        @media (max-width: 380px) {
+            .work-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .work-logo {
+                width: 60px;
+                height: 60px;
+            }
+            .work-brand {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Firebase SDKs -->
-    <!-- <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <button id="nightModeToggle" class="night-mode-toggle" onclick="toggleNightMode()" title="Switch to Night Mode">
         <i class="fas fa-moon"></i>
     </button>
@@ -52,11 +231,11 @@
         <section class="stats-section">
             <div class="stats-container">
                 <div class="stat-item">
-                    <div class="stat-number">100+</div>
+                    <div class="stat-number">300+</div>
                     <div class="stat-label">Total Youtube Video Edited</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">25+</div>
+                    <div class="stat-number">150+</div>
                     <div class="stat-label">Reels Edits</div>
                 </div>
                 <div class="stat-item">
@@ -99,19 +278,19 @@
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Cinematography</span>
-                            <span>40%</span>
+                            <span>60%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="40"></div>
+                            <div class="skill-level" data-width="60"></div>
                         </div>
                     </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Sound Sync & Audio Cleanup</span>
-                            <span>80%</span>
+                            <span>90%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="80"></div>
+                            <div class="skill-level" data-width="90"></div>
                         </div>
                     </div>
                 </div>
@@ -120,19 +299,19 @@
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Music Production</span>
-                            <span>90%</span>
+                            <span>70%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="90"></div>
+                            <div class="skill-level" data-width="70"></div>
                         </div>
                     </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Audio Mixing</span>
-                            <span>40%</span>
+                            <span>50%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="40"></div>
+                            <div class="skill-level" data-width="50"></div>
                         </div>
                     </div>
                     <div class="skill-item">
@@ -147,10 +326,10 @@
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Sound Design</span>
-                            <span>70%</span>
+                            <span>80%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="70"></div>
+                            <div class="skill-level" data-width="80"></div>
                         </div>
                     </div>
                 </div>
@@ -159,37 +338,37 @@
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>HTML5</span>
-                            <span>86%</span>
+                            <span>87%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="86"></div>
+                            <div class="skill-level" data-width="87"></div>
                         </div>
                     </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>CSS3</span>
-                            <span>92%</span>
+                            <span>95%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="92"></div>
+                            <div class="skill-level" data-width="95"></div>
                         </div>
                     </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>JavaScript</span>
-                            <span>40%</span>
+                            <span>30%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="40"></div>
+                            <div class="skill-level" data-width="30"></div>
                         </div>
                     </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Responsive Design</span>
-                            <span>70%</span>
+                            <span>80%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="82"></div>
+                            <div class="skill-level" data-width="80"></div>
                         </div>
                     </div>
                 </div>
@@ -207,31 +386,124 @@
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Social Media Strategy</span>
-                            <span>65%</span>
+                            <span>50%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="65"></div>
+                            <div class="skill-level" data-width="50"></div>
                         </div>
                     </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Content Optimization</span>
-                            <span>89%</span>
+                            <span>90%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="89"></div>
+                            <div class="skill-level" data-width="90"></div>
                         </div>
                     </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Audience Analytics</span>
-                            <span>92%</span>
+                            <span>60%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="92"></div>
+                            <div class="skill-level" data-width="60"></div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+         <section class="work-showcase">
+            <h2 class="section-title">Collaborations</h2>
+            <div class="work-grid">
+                <!-- Work Card 1 -->
+                <div class="work-card">
+                    <a href="https://youtube.com/@faimedia.24?si=pPu81S-D-M3uOfd1" target="_blank" rel="noopener noreferrer" class="work-link">
+                        <div class="work-img-wrapper">
+                            <img class="work-logo" src="rsz_fai.png" alt="FAI Media brand logo">
+                        </div>
+                        <div class="work-info">
+                            <h3 class="work-brand">FAI Media</h3>
+                            <div class="work-stats">
+                                <i class="fa-brands fa-youtube"></i> Total Video <span>125+</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Work Card 2 -->
+                <div class="work-card">
+                    <a href="https://www.facebook.com/Fixup.promo" target="_blank" rel="noopener noreferrer" class="work-link">
+                        <div class="work-img-wrapper">
+                            <img class="work-logo" src="fixup.jpg" alt="RYD Music logo">
+                        </div>
+                        <div class="work-info">
+                            <h3 class="work-brand">Fixup</h3>
+                            <div class="work-stats">
+                                <i class="fa-brands fa-facebook"></i> Total Works <span>6+</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Work Card 3 : DreamLine Studio -->
+                <div class="work-card">
+                    <a href="https://www.facebook.com/AcademicMathClub" target="_blank" rel="noopener noreferrer" class="work-link">
+                        <div class="work-img-wrapper">
+                            <img class="work-logo" src="Mashiur's Math Care .png" alt="DreamLine Studio">
+                        </div>
+                        <div class="work-info">
+                            <h3 class="work-brand">Mashiur's Math Care</h3>
+                            <div class="work-stats">
+                                <i class="fas fa-video"></i> Promotional Video<span>2</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Work Card 4 : Vibe Digital Agency -->
+                <div class="work-card">
+                    <a href="https://www.facebook.com/suddhokotha" target="_blank" rel="noopener noreferrer" class="work-link">
+                        <div class="work-img-wrapper">
+                            <img class="work-logo" src="শুদ্ধকথা.jpg" alt="Vibe Digital Agency">
+                        </div>
+                        <div class="work-info">
+                            <h3 class="work-brand">Suddho Kotha</h3>
+                            <div class="work-stats">
+                                <i class="fas fa-video"></i> Promotional Video<span>1</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- <div class="work-card">
+                    <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="work-link">
+                        <div class="work-img-wrapper">
+                            <img class="work-logo" src="https://placehold.co/400x400/2c3e66/white?text=Melody+Hub&font=montserrat" alt="Melody Hub">
+                        </div>
+                        <div class="work-info">
+                            <h3 class="work-brand">Melody Hub</h3>
+                            <div class="work-stats">
+                                <i class="fas fa-headphones"></i> Audio Projects <span>27+</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="work-card">
+                    <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" class="work-link">
+                        <div class="work-img-wrapper">
+                            <img class="work-logo" src="rsz_fai.png" alt="Elevate Studios">
+                        </div>
+                        <div class="work-info">
+                            <h3 class="work-brand">Elevate Studios</h3>
+                            <div class="work-stats">
+                                <i class="fas fa-film"></i> Total Work <span>53+</span>
+                            </div>
+                        </div>
+                    </a>
+                </div> -->
+            </div>
+            <div style="text-align: center; margin-top: 20px; font-size: 13px; opacity: 0.7;">
+                <i class="fas fa-hand-point-right"></i> Click any card to explore collaboration
             </div>
         </section>
         <section>
