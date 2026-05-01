@@ -204,6 +204,72 @@
             background: rgba(90, 160, 255, 0.15);
             color: #bbd4ff;
         }
+        /* ========== HIRE ME BUTTON SECTION (NEW) ========== */
+        .hire-section {
+            max-width: 1200px;
+            margin: 30px auto 20px;
+            padding: 0 15px;
+            text-align: center;
+        }
+        .hire-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #0f2b3d, #1b4a6e);
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(2px);
+        }
+        .hire-btn i {
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+        .hire-btn:hover {
+            background: linear-gradient(135deg, #1b4a6e, #0f2b3d);
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 215, 0, 0.6);
+        }
+        .hire-btn:hover i {
+            transform: translateX(5px);
+        }
+        /* Night mode support for hire button */
+        body.night-mode .hire-btn {
+            background: linear-gradient(135deg, #2c3e66, #1e2f4b);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 200, 0, 0.3);
+        }
+        body.night-mode .hire-btn:hover {
+            background: linear-gradient(135deg, #1e2f4b, #2c3e66);
+            border-color: #ffcc00;
+        }
+        @media (max-width: 768px) {
+            .hire-btn {
+                font-size: 1.1rem;
+                padding: 12px 26px;
+                gap: 8px;
+            }
+            .hire-btn i {
+                font-size: 1rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .hire-section {
+                margin: 20px auto 15px;
+            }
+            .hire-btn {
+                font-size: 1rem;
+                padding: 10px 22px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -430,7 +496,7 @@
             </div>
         </section>
          <section class="work-showcase">
-            <h2 class="section-title">Collaborations</h2>
+            <h2 class="section-title" style="text-transform: capitalize; font-family: Arial, Helvetica, sans-serif;">Work With</h2>
             <div class="work-grid">
                 <!-- Work Card 1 -->
                 <div class="work-card">
@@ -576,6 +642,12 @@
             <p>For me, creativity is not just a skill—it’s a responsibility to deliver work that truly stands out.</p>
             <div class="signature">Riyad</div>
         </section>
+        <!-- NEW HIRE ME BUTTON SECTION -->
+        <section class="hire-section">
+            <a href="hire.html" class="hire-btn">
+                Hire Me <i class="fas fa-arrow-right"></i>
+            </a>
+        </section>
     </main>
     <footer class="footer">
         <div class="container">
@@ -625,7 +697,7 @@
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
                     <p>&copy; 2025 FAI Media <span data-i18n="rightsReserved">All rights reserved.</span></p>
-                    <b>Version 1.0.0</b>
+                    <b>Version 1.4.0</b>
                 </div>
             </div>
         </div>
