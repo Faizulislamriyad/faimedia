@@ -136,6 +136,7 @@ body.night-mode .work-img-wrapper {
   .work-showcase {
     margin: 40px auto 30px;
     padding: 0 15px;
+    position: relative;
   }
   .work-grid {
     flex-wrap: nowrap;          /* no wrapping */
@@ -145,6 +146,7 @@ body.night-mode .work-img-wrapper {
     padding-bottom: 15px;       /* space for scrollbar */
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    position: relative;
   }
   .work-card {
     width: 220px;               /* smaller card */
@@ -162,7 +164,62 @@ body.night-mode .work-img-wrapper {
     font-size: 0.7rem;
     padding: 4px 12px;
   }
-  /* optional: nice scrollbar */
+
+  /* ---- GLOWING ARROW + FADE INDICATOR (scroll hint) ---- */
+    .work-grid::after {
+    content: "→";
+    position: sticky;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-40%);
+    font-size: 8px;
+    font-weight: normal;
+    color: #ffffff;
+    text-shadow: 0 0 15px cyan, 0 0 25px #00aaff, 0 0 10px #0088ff;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 999;
+    margin-left: auto;
+    margin-right: 15px;
+    flex-shrink: 0;
+    animation: pulse-glow 1s infinite ease-in-out;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 1), 0 0 10px white;
+    opacity: 1;
+  }
+
+  /* Soft fade overlay on the right edge */
+  .work-grid {
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  /* Pulsing animation for the arrow */
+  @keyframes pulse-glow {
+    0% {
+      text-shadow: 0 0 8px cyan, 0 0 15px #00aaff;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+      transform: translateY(-50%) scale(1);
+    }
+    50% {
+      text-shadow: 0 0 25px cyan, 0 0 35px #00aaff, 0 0 15px white;
+      box-shadow: 0 0 35px rgba(0, 255, 255, 1);
+      transform: translateY(-50%) scale(1.1);
+    }
+    100% {
+      text-shadow: 0 0 8px cyan, 0 0 15px #00aaff;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+      transform: translateY(-50%) scale(1);
+    }
+  }
+
+  /* optional: nice scrollbar style */
   .work-grid::-webkit-scrollbar {
     height: 5px;
   }
@@ -208,6 +265,12 @@ body.night-mode .work-img-wrapper {
   .work-stats {
     font-size: 0.65rem;
     padding: 3px 10px;
+  }
+  .work-grid::after {
+    font-size: 1.6rem;
+    width: 40px;
+    height: 40px;
+    right: 5px;
   }
 }
 
